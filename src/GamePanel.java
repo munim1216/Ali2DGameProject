@@ -14,11 +14,13 @@ public class GamePanel extends JPanel implements Runnable{
 
     // GAME LOOP
     private Thread gameThread;
+    private final int FPS = 60;
     // player's input
     private KeyHandler keyH;
     // players default position;
     private int playerX = 100;
     private int playerY = 100;
+    private int playerSpeed = 3;
 
 
     GamePanel() {
@@ -31,7 +33,6 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
 
         startGameThread();
-        run();
         setUpWindow();
     }
 
@@ -41,9 +42,22 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void run() { // stupid code won't let me override it and reduce visibility
-        int delta = 0;
+        long currentTime = System.nanoTime();
+        long previousTime = currentTime;
+        double delta = 0.0;
+        double drawInterval = 1000000000.0 / FPS;
+
         while (gameThread != null) {
-            //long sysTime = System.nanoTime();
+            currentTime = System.nanoTime();
+
+            delta += (double) (currentTime - previousTime) / drawInterval;
+
+            previousTime = currentTime;
+            if (delta >= 1) {
+                update();
+                repaint();
+                delta = 0;
+            }
         }
     }
     public void paintComponent(Graphics g) {
@@ -58,7 +72,21 @@ public class GamePanel extends JPanel implements Runnable{
         g2D.dispose();
     }
 
-    private void
+    private void update() {
+        if (keyH.isWKeyPressed()) {
+            playerY -= playerSpeed;
+        }
+        if (keyH.isSKeyPressed()) {
+            playerY += playerSpeed;
+        }
+        if (keyH.isDKeyPressed()) {
+            playerX += playerSpeed;
+        }
+        if (keyH.isAKeyPressed()) {
+            playerX -= playerSpeed;
+        }
+    }
+
     private void setUpWindow() {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

@@ -4,8 +4,19 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
     private boolean wKeyPressed, sKeyPressed, aKeyPressed, dKeyPressed;
 
-    public boolean iswKeyPressed() {
+    public boolean isWKeyPressed() {
         return wKeyPressed;
+    }
+    public boolean isAKeyPressed() {
+        return aKeyPressed;
+    }
+
+    public boolean isDKeyPressed() {
+        return dKeyPressed;
+    }
+
+    public boolean isSKeyPressed() {
+        return sKeyPressed;
     }
 
     @Override
