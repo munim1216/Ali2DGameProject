@@ -1,4 +1,4 @@
-import javax.swing.*;
+package Game;
 
 public class Runner {
     public static void main(String[] args) {

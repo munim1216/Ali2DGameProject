@@ -1,16 +1,21 @@
+package Game;
+
+import Entities.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
+    // STATIC SCREEN SETTINGS
+    private static final int ORIGINALTILESIZE = 16;
+    private static final int SCALE = 3;
+    public static final int TILESIZE = ORIGINALTILESIZE * SCALE;
 
     // SCREEN SETTINGS
-    private final int originalTileSize = 16;
-    private final int scale = 3;
-    public final int tileSize = originalTileSize * scale;
     public final int maxScreenCol = 16;
     public final int maxScreenRow = 12;
-    public final int screenHeight = tileSize * maxScreenRow;
-    public final int screenWidth = tileSize * maxScreenCol;
+    public final int screenHeight = TILESIZE * maxScreenRow;
+    public final int screenWidth = TILESIZE * maxScreenCol;
 
     // GAME LOOP
     private Thread gameThread;
@@ -18,10 +23,7 @@ public class GamePanel extends JPanel implements Runnable{
     // player's input
     private KeyHandler keyH;
     // players default position;
-    private int playerX = 100;
-    private int playerY = 100;
-    private int playerSpeed = 3;
-
+    private Player player;
 
     GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -32,6 +34,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(keyH);
         this.setFocusable(true);
 
+        player = new Player(keyH);
         startGameThread();
         setUpWindow();
     }
@@ -65,26 +68,13 @@ public class GamePanel extends JPanel implements Runnable{
 
         Graphics2D g2D = (Graphics2D) g;
 
-        g.setColor(Color.white);
-
-        g2D.fillRect(playerX, playerY, tileSize, tileSize);
+        player.draw(g2D);
 
         g2D.dispose();
     }
 
     private void update() {
-        if (keyH.isWKeyPressed()) {
-            playerY -= playerSpeed;
-        }
-        if (keyH.isSKeyPressed()) {
-            playerY += playerSpeed;
-        }
-        if (keyH.isDKeyPressed()) {
-            playerX += playerSpeed;
-        }
-        if (keyH.isAKeyPressed()) {
-            playerX -= playerSpeed;
-        }
+       player.playerUpdate();
     }
 
     private void setUpWindow() {
