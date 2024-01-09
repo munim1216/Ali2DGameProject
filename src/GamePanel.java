@@ -1,7 +1,3 @@
-package Game;
-
-import Entities.Player;
-
 import javax.swing.*;
 import java.awt.*;
 
