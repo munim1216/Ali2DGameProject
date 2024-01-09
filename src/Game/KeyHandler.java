@@ -44,4 +44,8 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_D -> dKeyPressed = false;
         }
     }
+
+    public boolean isKeyPressed() {
+        return wKeyPressed || aKeyPressed || sKeyPressed || dKeyPressed;
+    }
 }

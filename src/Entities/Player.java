@@ -35,14 +35,14 @@ public class Player {
         this.keyH = keyH;
 
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("Sprites/ReneeSprite/reneeUp1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("Sprites/ReneeSprite/reneeUp2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("Sprites/ReneeSprite/reneeDown1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("Sprites/ReneeSprite/reneeDown2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("Sprites/ReneeSprite/reneeLeft1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("Sprites/ReneeSprite/reneeLeft2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("Sprites/ReneeSprite/reneeRight1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("Sprites/ReneeSprite/reneeRight2.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeUp1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeUp2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeDown1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeDown2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeLeft1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeLeft2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeRight1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeRight2.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,6 +58,9 @@ public class Player {
     }
 
     public void playerUpdate() {
+        if (keyH.isKeyPressed()) {
+            spriteCounter++;
+        }
         if (keyH.isWKeyPressed()) {
             playerY -= playerSpeed;
             direction = "up";
@@ -75,9 +78,9 @@ public class Player {
             direction = "left";
         }
 
-        spriteCounter++;
         if (spriteCounter >= 10) {
             alternateSprite();
+            spriteCounter = 0;
         }
     }
 
