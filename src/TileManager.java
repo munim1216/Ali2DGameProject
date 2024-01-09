@@ -91,6 +91,6 @@ public class TileManager {
     }
 
     private boolean notOutOfBounds(int worldX, int worldY) {
-        return (worldX < )
+        return (worldX < )d
     }
 }
