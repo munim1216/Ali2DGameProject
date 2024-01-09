@@ -7,15 +7,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class TileManager {
-    GamePanel gp;
-    Tile[] tiles;
-    int mapTileNum[][];
+    private GamePanel gp;
+    private Player player;
+    private Tile[] tiles;
+    private int mapTileNum[][];
 
-    public TileManager(GamePanel gp) {
+    public TileManager(GamePanel gp, Player player) {
         this.gp = gp;
+        this.player = player;
 
         tiles = new Tile[10];
-        mapTileNum = new int[GamePanel.MAX_SCREEN_COL][GamePanel.MAX_SCREEN_ROW];
+        mapTileNum = new int[GamePanel.MAX_WORLD_COL][GamePanel.MAX_WORLD_ROW];
         loadMap();
 
         try {
@@ -27,6 +29,10 @@ public class TileManager {
             tiles[2] = new Tile(image, false);
             image = ImageIO.read(getClass().getResourceAsStream("Tiles/gray_brick_1.png"));
             tiles[3] = new Tile(image, false);
+            image = ImageIO.read(getClass().getResourceAsStream("Tiles/forest_1.png"));
+            tiles[4] = new Tile(image, false);
+            image = ImageIO.read(getClass().getResourceAsStream("Tiles/sand_1.png"));
+            tiles[5] = new Tile(image, false);
         }   catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,19 +41,17 @@ public class TileManager {
     public void draw(Graphics2D g2D) {
         int col = 0;
         int row = 0;
-        int x = 0;
-        int y = 0;
 
-        while (col < gp.MAX_SCREEN_COL && row < gp.MAX_SCREEN_ROW) {
-            g2D.drawImage(tiles[mapTileNum[col][row]].getImage(), x, y, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+        while (col < GamePanel.MAX_SCREEN_COL && row < GamePanel.MAX_SCREEN_ROW) {
+            int screenX = (col * GamePanel.TILE_SIZE) - player.getworldX() + player.;
+            int worldY = row * GamePanel.TILE_SIZE;
+
+            g2D.drawImage(tiles[mapTileNum[col][row]].getImage(), screenX, , GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
             col++;
-            x += GamePanel.TILESIZE;
 
             if (col == GamePanel.MAX_SCREEN_COL) {
                 col = 0;
-                x = 0;
                 row++;
-                y +=  GamePanel.TILESIZE;
             }
         }
     }
@@ -60,9 +64,9 @@ public class TileManager {
             int col = 0;
             int row = 0;
 
-            while (col < GamePanel.MAX_SCREEN_COL && row < GamePanel.MAX_SCREEN_ROW) {
+            while (col < GamePanel.MAX_WORLD_COL && row < GamePanel.MAX_WORLD_ROW) {
                 String line = br.readLine();
-                while (col < GamePanel.MAX_SCREEN_COL) {
+                while (col < GamePanel.MAX_WORLD_COL) {
                     String[] numbers = line.split(" ");
 
                     int num = Integer.parseInt(numbers[col]);
@@ -70,7 +74,7 @@ public class TileManager {
                     mapTileNum[col][row] = num;
                     col++;
                 }
-                if (col == GamePanel.MAX_SCREEN_COL) {
+                if (col == GamePanel.MAX_WORLD_COL) {
                     col = 0;
                     row++;
                 }

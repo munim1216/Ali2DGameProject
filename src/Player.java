@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public class Player {
     // PLAYER POSITION
-    private int playerX;
-    private int playerY;
+    private int worldX;
+    private int worldY;
     private int playerSpeed;
 
     // PLAYER INPUT
@@ -18,9 +18,12 @@ public class Player {
 
     private int currentSprite;
     private int spriteCounter;
+    // CAMERA SETTINGS
+    public static final int PLAYER_SCREEN_X = GamePanel.SCREEN_WIDTH / 2;;
+    public static final int PLAYER_SCREEN_Y = GamePanel.SCREEN_HEIGHT / 2;
     public Player(KeyHandler keyH) {
-        playerX = 100;
-        playerY = 100;
+        worldX = 25 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
+        worldY = 25 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
         playerSpeed = 3;
 
         direction = "down";
@@ -44,12 +47,12 @@ public class Player {
         }
     }
 
-    public int getPlayerX() {
-        return playerX;
+    public int getworldX() {
+        return worldX;
     }
 
-    public int getPlayerY() {
-        return playerY;
+    public int getworldY() {
+        return worldY;
     }
 
     public void playerUpdate() {
@@ -57,19 +60,19 @@ public class Player {
             spriteCounter++;
         }
         if (keyH.isWKeyPressed()) {
-            playerY -= playerSpeed;
+            worldY -= playerSpeed;
             direction = "up";
         }
         if (keyH.isSKeyPressed()) {
-            playerY += playerSpeed;
+            worldY += playerSpeed;
             direction = "down";
         }
         if (keyH.isDKeyPressed()) {
-            playerX += playerSpeed;
+            worldX += playerSpeed;
             direction = "right";
         }
         if (keyH.isAKeyPressed()) {
-            playerX -= playerSpeed;
+            worldX -= playerSpeed;
             direction = "left";
         }
 
@@ -113,7 +116,7 @@ public class Player {
             }
         }
 
-        g2D.drawImage(image, playerX, playerY, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+        g2D.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
     }
 
     private void alternateSprite() {

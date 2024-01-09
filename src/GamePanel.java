@@ -3,27 +3,32 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
     // STATIC SCREEN SETTINGS
-    private static final int ORIGINALTILESIZE = 16;
+    private static final int ORIGINALTILE_SIZE = 16;
     private static final int SCALE = 3;
-    public static final int TILESIZE = ORIGINALTILESIZE * SCALE;
+    public static final int TILE_SIZE = ORIGINALTILE_SIZE * SCALE;
 
     // SCREEN SETTINGS
     public static final int MAX_SCREEN_COL = 16;
     public static final int MAX_SCREEN_ROW = 12;
-    private final int screenHeight = TILESIZE * MAX_SCREEN_ROW;
-    private final int screenWidth = TILESIZE * MAX_SCREEN_COL;
+    public static final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
+    public static final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
 
     // GAME LOOP
     private Thread gameThread;
     private final int FPS = 60;
-    // player's input
+    // PLAYER INPUT
     private KeyHandler keyH;
-    // players default position;
+    // PLAYER
     private Player player;
+    // MAP SETTINGS
+    public static final int MAX_WORLD_COL = 50;
+    public static final int MAX_WORLD_ROW = 50;
+    public static final int WORLD_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
+    public static final int WORLD_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
     private TileManager tileManager;
 
     GamePanel() {
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
 
@@ -31,9 +36,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
 
-        tileManager = new TileManager(this);
-
         player = new Player(keyH);
+
+        tileManager = new TileManager(this, player);
+
         startGameThread();
         setUpWindow();
     }
