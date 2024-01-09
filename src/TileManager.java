@@ -49,6 +49,7 @@ public class TileManager {
             int screenX = worldX - player.getworldX() + Player.PLAYER_SCREEN_X;
             int screenY = worldY - player.getworldY() + Player.PLAYER_SCREEN_Y;
 
+            if ()
             g2D.drawImage(tiles[mapTileNum[worldCol][worldRow]].getImage(), screenX, screenY, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
             worldCol++;
 
@@ -87,5 +88,9 @@ public class TileManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean notOutOfBounds(int worldX, int worldY) {
+        return (worldX < )
     }
 }
