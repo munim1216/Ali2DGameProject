@@ -2,11 +2,11 @@ import java.awt.image.BufferedImage;
 
 public class Tile {
     public BufferedImage image;
-    public boolean collisison;
+    public boolean collision;
 
-    public Tile(BufferedImage image, Boolean collisison) {
+    public Tile(BufferedImage image, Boolean collision) {
         this.image = image;
-        this.collisison = collisison;
+        this.collision = collision;
     }
 
     public BufferedImage getImage() {
