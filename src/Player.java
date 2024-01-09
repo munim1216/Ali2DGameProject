@@ -19,8 +19,8 @@ public class Player {
     private int currentSprite;
     private int spriteCounter;
     // CAMERA SETTINGS
-    public static final int PLAYER_SCREEN_X = GamePanel.SCREEN_WIDTH / 2;;
-    public static final int PLAYER_SCREEN_Y = GamePanel.SCREEN_HEIGHT / 2;
+    public static final int PLAYER_SCREEN_X = GamePanel.SCREEN_WIDTH / 2 - (GamePanel.TILE_SIZE / 2);
+    public static final int PLAYER_SCREEN_Y = GamePanel.SCREEN_HEIGHT / 2 - (GamePanel.TILE_SIZE / 2);
     public Player(KeyHandler keyH) {
         worldX = 25 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
         worldY = 25 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
