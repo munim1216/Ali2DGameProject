@@ -1,6 +1,7 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 
@@ -24,15 +25,14 @@ public class Player extends Entity {
         this.keyH = keyH;
 
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeUp1.png")); // credit: poke
-            up2 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeUp2.png")); // credit: poke
-            down1 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeDown1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeDown2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeLeft1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeLeft2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeRight1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeRight2.png"));
-
+            up1 = ImageIO.read(new File("src/sprites/ReneeSprite/reneeUp1.png")); // credit: poke
+            up2 = ImageIO.read(new File("src/sprites/ReneeSprite/reneeUp2.png")); // credit: poke
+            down1 = ImageIO.read(new File("src/sprites/ReneeSprite/reneeDown1.png"));
+            down2 = ImageIO.read(new File("src/sprites/ReneeSprite/reneeDown2.png"));
+            left1 = ImageIO.read(new File("src/sprites/ReneeSprite/reneeLeft1.png"));
+            left2 = ImageIO.read(new File("src/sprites/ReneeSprite/reneeLeft2.png"));
+            right1 = ImageIO.read(new File("src/sprites/ReneeSprite/reneeRight1.png"));
+            right2 = ImageIO.read(new File("src/sprites/ReneeSprite/reneeRight2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

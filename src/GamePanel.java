@@ -39,7 +39,6 @@ public class GamePanel extends JPanel implements Runnable {
         player = new Player(keyH);
 
         tileManager = new TileManager(this, player);
-
         startGameThread();
         setUpWindow();
     }
