@@ -19,7 +19,7 @@ public class Player extends Entity {
         currentSprite = 1;
         spriteCounter = 0;
 
-        solidArea = new Rectangle(8, 0, 32, 32);
+        solidArea = new Rectangle(8, 16, 32, 32);
 
         this.keyH = keyH;
 
@@ -114,7 +114,6 @@ public class Player extends Entity {
                 }
             }
         }
-        g2D.fillRect( PLAYER_SCREEN_X, PLAYER_SCREEN_Y, solidArea.width, solidArea.height);
         g2D.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
     }
 

@@ -16,6 +16,7 @@ public class Entity {
     protected int spriteCounter;
     // hitbox (i hate)
     protected Rectangle solidArea;
+    protected boolean collisionOn = false;
 
     public static void setMapTileNumAndTiles(int[][] mapTileNum, Tile[] tiles) {
         Entity.mapTileNum = mapTileNum;
@@ -23,10 +24,10 @@ public class Entity {
     }
     protected boolean collisionCheck() {
         // creates variables used to determine which rows and col will be checked
-        int leftWorldX = worldX + solidArea.x - speed;
-        int rightWorldX = worldX + solidArea.x + solidArea.width + speed;
-        int topWorldY = worldY + solidArea.y - speed;
-        int bottomWorldY = worldY + solidArea.y + solidArea.height + speed;
+        int leftWorldX = worldX + solidArea.x;
+        int rightWorldX = worldX + solidArea.x + solidArea.width;
+        int topWorldY = worldY + solidArea.y;
+        int bottomWorldY = worldY + solidArea.y + solidArea.height;
 
         int leftCol = leftWorldX / GamePanel.TILE_SIZE;
         int rightCol = rightWorldX / GamePanel.TILE_SIZE;
@@ -36,18 +37,22 @@ public class Entity {
         int tileCheck1, tileCheck2;
         switch (direction) {
             case "up" -> {
+                topRow = (topWorldY - speed) / GamePanel.TILE_SIZE;
                 tileCheck1 = mapTileNum[leftCol][topRow];
                 tileCheck2 = mapTileNum[rightCol][topRow];
             }
             case "down" -> {
+                bottomRow = (bottomWorldY + speed) / GamePanel.TILE_SIZE;
                 tileCheck1 = mapTileNum[leftCol][bottomRow];
                 tileCheck2 = mapTileNum[rightCol][bottomRow];
             }
             case "right" -> {
+                rightCol = (rightWorldX + speed) / GamePanel.TILE_SIZE;
                 tileCheck1 = mapTileNum[rightCol][topRow];
                 tileCheck2 = mapTileNum[rightCol][bottomRow];
             }
             case "left" -> {
+                leftCol = (leftWorldX - speed) / GamePanel.TILE_SIZE;
                 tileCheck1 = mapTileNum[leftCol][topRow];
                 tileCheck2 = mapTileNum[leftCol][bottomRow];
             }
