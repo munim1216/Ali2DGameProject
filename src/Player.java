@@ -4,31 +4,22 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 
-public class Player {
-    // PLAYER POSITION
-    private int worldX;
-    private int worldY;
-    private int playerSpeed;
-
+public class Player extends Entity {
     // PLAYER INPUT
     private KeyHandler keyH;
-    // PLAYER SPRITE
-    private BufferedImage up1, up2, down1, down2, right1, right2, left1, left2;
-    private String direction;
-
-    private int currentSprite;
-    private int spriteCounter;
     // CAMERA SETTINGS
     public static final int PLAYER_SCREEN_X = GamePanel.SCREEN_WIDTH / 2 - (GamePanel.TILE_SIZE / 2);
     public static final int PLAYER_SCREEN_Y = GamePanel.SCREEN_HEIGHT / 2 - (GamePanel.TILE_SIZE / 2);
     public Player(KeyHandler keyH) {
         worldX = 25 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
         worldY = 25 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
-        playerSpeed = 3;
+        speed = 3;
 
         direction = "down";
         currentSprite = 1;
         spriteCounter = 0;
+
+        solidArea = new Rectangle(8, 0, 32, 32);
 
         this.keyH = keyH;
 
@@ -60,20 +51,28 @@ public class Player {
             spriteCounter++;
         }
         if (keyH.isWKeyPressed()) {
-            worldY -= playerSpeed;
             direction = "up";
+            if (collisionCheck()){
+                worldY -= speed;
+            }
         }
         if (keyH.isSKeyPressed()) {
-            worldY += playerSpeed;
             direction = "down";
+            if (collisionCheck()) {
+                worldY += speed;
+            }
         }
         if (keyH.isDKeyPressed()) {
-            worldX += playerSpeed;
             direction = "right";
+            if (collisionCheck()) {
+                worldX += speed;
+            }
         }
         if (keyH.isAKeyPressed()) {
-            worldX -= playerSpeed;
             direction = "left";
+            if (collisionCheck()) {
+                worldX -= speed;
+            }
         }
 
         if (spriteCounter >= 10) {
@@ -115,7 +114,7 @@ public class Player {
                 }
             }
         }
-
+        g2D.fillRect( PLAYER_SCREEN_X, PLAYER_SCREEN_Y, solidArea.width, solidArea.height);
         g2D.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
     }
 

@@ -25,11 +25,11 @@ public class TileManager {
             image = ImageIO.read(getClass().getResourceAsStream("Tiles/flower_grass_1.png"));
             tiles[1] = new Tile(image, false);
             image = ImageIO.read(getClass().getResourceAsStream("Tiles/water_1.png"));
-            tiles[2] = new Tile(image, false);
+            tiles[2] = new Tile(image, true);
             image = ImageIO.read(getClass().getResourceAsStream("Tiles/gray_brick_1.png"));
-            tiles[3] = new Tile(image, false);
+            tiles[3] = new Tile(image, true);
             image = ImageIO.read(getClass().getResourceAsStream("Tiles/forest_1.png"));
-            tiles[4] = new Tile(image, false);
+            tiles[4] = new Tile(image, true);
             image = ImageIO.read(getClass().getResourceAsStream("Tiles/sand_1.png"));
             tiles[5] = new Tile(image, false);
         }   catch (IOException e) {
@@ -37,6 +37,11 @@ public class TileManager {
         }
 
         loadMap();
+        Entity.setMapTileNumAndTiles(mapTileNum, tiles);
+    }
+
+    public int[][] getMapTileNum() {
+        return mapTileNum;
     }
 
     public void draw(Graphics2D g2D) {
