@@ -6,6 +6,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/sprites" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/sprites/ReneeSprite" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Maps" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sprites/Interactables" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sprites/Tiles" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

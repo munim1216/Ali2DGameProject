@@ -1,10 +1,7 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class TileManager {
     private GamePanel gp;
@@ -20,17 +17,17 @@ public class TileManager {
         mapTileNum = new int[GamePanel.MAX_WORLD_COL][GamePanel.MAX_WORLD_ROW];
 
         try {
-            BufferedImage image = ImageIO.read(getClass().getResourceAsStream("Tiles/grass_1.png"));
+            BufferedImage image = ImageIO.read(new File("src/sprites/Tiles/grass_1.png"));
             tiles[0] = new Tile(image, false);
-            image = ImageIO.read(getClass().getResourceAsStream("Tiles/flower_grass_1.png"));
+            image = ImageIO.read(new File("src/sprites/Tiles/flower_grass_1.png"));
             tiles[1] = new Tile(image, false);
-            image = ImageIO.read(getClass().getResourceAsStream("Tiles/water_1.png"));
+            image = ImageIO.read(new File("src/sprites/Tiles/water_1.png"));
             tiles[2] = new Tile(image, true);
-            image = ImageIO.read(getClass().getResourceAsStream("Tiles/gray_brick_1.png"));
+            image = ImageIO.read(new File("src/sprites/Tiles/gray_brick_1.png"));
             tiles[3] = new Tile(image, true);
-            image = ImageIO.read(getClass().getResourceAsStream("Tiles/forest_1.png"));
+            image = ImageIO.read(new File("src/sprites/Tiles/forest_1.png"));
             tiles[4] = new Tile(image, true);
-            image = ImageIO.read(getClass().getResourceAsStream("Tiles/sand_1.png"));
+            image = ImageIO.read(new File("src/sprites/Tiles/sand_1.png"));
             tiles[5] = new Tile(image, false);
         }   catch (IOException e) {
             e.printStackTrace();
