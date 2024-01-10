@@ -24,8 +24,8 @@ public class Player extends Entity {
         this.keyH = keyH;
 
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeUp1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeUp2.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeUp1.png")); // credit: poke
+            up2 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeUp2.png")); // credit: poke
             down1 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeDown1.png"));
             down2 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeDown2.png"));
             left1 = ImageIO.read(getClass().getResourceAsStream("ReneeSprite/reneeLeft1.png"));
