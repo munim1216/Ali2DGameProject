@@ -17,6 +17,10 @@ public class Entity {
     // hitbox (i hate)
     protected Rectangle solidArea;
     protected boolean collisionOn = false;
+    // combat
+    protected int health;
+    protected int defense;
+    protected double multipler = 1.0;
 
     public static void setMapTileNumAndTiles(int[][] mapTileNum, Tile[] tiles) {
         Entity.mapTileNum = mapTileNum;

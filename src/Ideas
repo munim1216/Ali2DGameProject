@@ -1,5 +1,25 @@
-Card Based Rougelike
+class cards {
+constructor for cards
+attack, defend, heal, buff // what a card could do
+}
+class cardmanager {
+constructor for cardmanager (only one in game for player)
+return hand, collection of five cards you have?
+use card? call method on card to modify it // ex: player uses atk for 1, calls method to damage enemy for 1
+}
+class cardDeck {
+constructor for carddeck
+holds all cards player has.
+}
 
-Dungeons where you get the cards
+player should have an array of cards, managed by above classes
 
-walking a enemy starts a battle
+player needs health, new variable to entity called health; attack can maybe be a modifer? to implement buff.
+
+cooldown mechanic for cards. based on draw amount. start
+
+add variable to tile class called, "has player seen before?" (needs better name) to have any areas the player hasnt seen look black.
+
+player inventory can be an array of artifacts the player has.
+
+dungeon crawling, rougelike inspired by slay the spire.

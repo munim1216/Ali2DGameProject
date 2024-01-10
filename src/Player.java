@@ -11,6 +11,8 @@ public class Player extends Entity {
     // CAMERA SETTINGS
     public static final int PLAYER_SCREEN_X = GamePanel.SCREEN_WIDTH / 2 - (GamePanel.TILE_SIZE / 2);
     public static final int PLAYER_SCREEN_Y = GamePanel.SCREEN_HEIGHT / 2 - (GamePanel.TILE_SIZE / 2);
+    // PLAYER INVENTORY
+    private SuperInteractable[] itemList;
     public Player(KeyHandler keyH) {
         worldX = 25 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
         worldY = 25 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
@@ -23,6 +25,8 @@ public class Player extends Entity {
         solidArea = new Rectangle(8, 16, 32, 32);
 
         this.keyH = keyH;
+
+        itemList = new SuperInteractable[100];
 
         try {
             up1 = ImageIO.read(new File("src/sprites/ReneeSprite/reneeUp1.png")); // credit: poke
