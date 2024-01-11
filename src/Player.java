@@ -14,6 +14,8 @@ public class Player extends Entity {
     // PLAYER INVENTORY
     private SuperInteractable[] itemList;
     public Player(KeyHandler keyH) {
+        super(8,16);
+
         worldX = 25 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
         worldY = 25 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
         speed = 3;
@@ -22,7 +24,7 @@ public class Player extends Entity {
         currentSprite = 1;
         spriteCounter = 0;
 
-        solidArea = new Rectangle(8, 16, 32, 32);
+        solidArea = new Rectangle(rectangleDefaultX, rectangleDefaultY, 32, 32);
 
         this.keyH = keyH;
 
@@ -118,8 +120,10 @@ public class Player extends Entity {
                 }
             }
         }
+        solidArea.x = 8;
+        solidArea.y = 16;
         g2D.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
-        g2D.drawRect(PLAYER_SCREEN_X, PLAYER_SCREEN_Y, solidArea.x, solidArea.y);
+        g2D.draw(solidArea);
 
     }
 

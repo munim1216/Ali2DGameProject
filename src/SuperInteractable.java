@@ -14,11 +14,14 @@ public class SuperInteractable {
     protected static SuperInteractable[] inScreen = new SuperInteractable[100];
     // LOCATION
     protected int worldX, worldY;
+    protected final int defaultRectangleX, defaultRectangleY;
     // FOR STORING TO DRAW
     protected static SuperInteractable[] interactables = new SuperInteractable[100];
     protected static int nextSlot = 0;
 
-    protected SuperInteractable() {
+    protected SuperInteractable(int defaultRectangleX, int defaultRectangleY) {
+        this.defaultRectangleX = defaultRectangleX;
+        this.defaultRectangleY = defaultRectangleY;
         interactables[nextSlot] = this;
         System.out.println(interactables[nextSlot].toString());
         nextSlot++;
@@ -29,6 +32,13 @@ public class SuperInteractable {
     }
     protected Rectangle getSolidArea() {
         return solidArea;
+    }
+    protected int getWorldX() {
+        return worldX;
+    }
+
+    protected int getWorldY() {
+        return worldY;
     }
 
     public boolean isCollision() {

@@ -5,10 +5,10 @@ import java.io.IOException;
 
 public class Key_Interactable extends SuperInteractable {
     public Key_Interactable(int worldX, int worldY) {
-        super();
+        super(9, 0);
         collision = false;
         canPickUp = true;
-        solidArea = new Rectangle(9, 0, 30,45);
+        solidArea = new Rectangle(defaultRectangleX, defaultRectangleY, 30,45);
 
         this.worldX = worldX;
         this.worldY = worldY;
