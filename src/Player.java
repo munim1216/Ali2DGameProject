@@ -13,6 +13,7 @@ public class Player extends Entity {
     public static final int PLAYER_SCREEN_Y = GamePanel.SCREEN_HEIGHT / 2 - (GamePanel.TILE_SIZE / 2);
     // PLAYER INVENTORY
     private SuperInteractable[] itemList;
+    private int nextItem;
     public Player(KeyHandler keyH) {
         super(8,16);
 
@@ -126,7 +127,10 @@ public class Player extends Entity {
         g2D.draw(solidArea);
 
     }
-
+    public void pickUp(SuperInteractable item) {
+        itemList[nextItem] = item;
+        nextItem++;
+    }
     private void alternateSprite() {
         if (currentSprite == 1) {
             currentSprite = 2;
