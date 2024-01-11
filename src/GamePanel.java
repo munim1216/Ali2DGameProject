@@ -73,6 +73,7 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2D = (Graphics2D) g;
 
         tileManager.draw(g2D);
+        SuperInteractable.draw(g2D);
         player.draw(g2D);
 
         g2D.dispose();

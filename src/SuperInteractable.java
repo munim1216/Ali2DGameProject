@@ -18,6 +18,7 @@ public class SuperInteractable {
     protected static int nextSlot = 0;
     protected SuperInteractable() {
         interactables[nextSlot] = this;
+        System.out.println(interactables[nextSlot].toString());
         nextSlot++;
     }
     protected boolean notOutOfBounds() {
