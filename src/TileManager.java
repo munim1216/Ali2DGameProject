@@ -35,6 +35,7 @@ public class TileManager {
 
         loadMap();
         Key_Interactable key = new Key_Interactable(10 * GamePanel.TILE_SIZE,10 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
+        Chest_Interactable chest = new Chest_Interactable(15 * GamePanel.TILE_SIZE,15 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
         Entity.setMapTileNumAndTiles(mapTileNum, tiles);
     }
 

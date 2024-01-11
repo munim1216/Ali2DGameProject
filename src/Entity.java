@@ -75,6 +75,44 @@ public class Entity {
     }
 
     protected boolean interactableCollisionCheck() {
+        for (int i = 0; SuperInteractable.inScreen[i] != null; i++) {
+            if (SuperInteractable.inScreen[i].isCollision()) {
+                switch (direction) {
+                    case "up" -> {
+                        this.solidArea.y -= speed;
+                        if (solidArea.intersects(SuperInteractable.inScreen[i].getSolidArea())) {
+                            this.solidArea.y += speed;
+                            return false;
+                        }
+                        this.solidArea.y += speed;
+                    }
+                    case "down" -> {
+                        this.solidArea.y += speed;
+                        if (solidArea.intersects(SuperInteractable.inScreen[i].getSolidArea())) {
+                            this.solidArea.y -= speed;
+                            return false;
+                        }
+                        this.solidArea.y -= speed;
+                    }
+                    case "left" -> {
+                        this.solidArea.x -= speed;
+                        if (solidArea.intersects(SuperInteractable.inScreen[i].getSolidArea())) {
+                            this.solidArea.x += speed;
+                            return false;
+                        }
+                        this.solidArea.x += speed;
+                    }
+                    case "right" -> {
+                        this.solidArea.x += speed;
+                        if (solidArea.intersects(SuperInteractable.inScreen[i].getSolidArea())) {
+                            this.solidArea.x -= speed;
+                            return false;
+                        }
+                        this.solidArea.x -= speed;
+                    }
+                }
+            }
+        }
         return false;
     }
 }

@@ -11,11 +11,13 @@ public class SuperInteractable {
     protected boolean collision;
     protected boolean canPickUp;
     protected Rectangle solidArea;
+    protected static SuperInteractable[] inScreen = new SuperInteractable[100];
     // LOCATION
     protected int worldX, worldY;
     // FOR STORING TO DRAW
     protected static SuperInteractable[] interactables = new SuperInteractable[100];
     protected static int nextSlot = 0;
+
     protected SuperInteractable() {
         interactables[nextSlot] = this;
         System.out.println(interactables[nextSlot].toString());
@@ -25,6 +27,14 @@ public class SuperInteractable {
         return (this.worldX + GamePanel.TILE_SIZE > player.getworldX() - Player.PLAYER_SCREEN_X ) && (this.worldX - GamePanel.TILE_SIZE  < player.getworldX() + Player.PLAYER_SCREEN_X) &&
                 (this.worldY + GamePanel.TILE_SIZE  > player.getworldY() - Player.PLAYER_SCREEN_Y) && (this.worldY - GamePanel.TILE_SIZE  < player.getworldY() + Player.PLAYER_SCREEN_Y);
     }
+    protected Rectangle getSolidArea() {
+        return solidArea;
+    }
+
+    public boolean isCollision() {
+        return collision;
+    }
+
     public static void draw(Graphics2D g2D) {
         for (int i = 0; interactables[i] != null; i++) {
             if (interactables[i].notOutOfBounds()) {
@@ -34,7 +44,20 @@ public class SuperInteractable {
             }
         }
     }
+
+    public static void interactablesInFrame() {
+        int nextAdded = 0;
+        for (int i = 0; interactables[i] != null; i++) {
+            if (interactables[i].notOutOfBounds()) {
+                inScreen[nextAdded] = interactables[i];
+                nextAdded++;
+            }
+        }
+    }
     public static void setPlayer(Player player) {
         SuperInteractable.player = player;
+    }
+    public static SuperInteractable[] getInScreen() {
+        return inScreen;
     }
 }
