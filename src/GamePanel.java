@@ -67,6 +67,8 @@ public class GamePanel extends JPanel implements Runnable {
                 update();
                 repaint();
                 delta = 0;
+                System.out.println("MouseInfo, x: " + MouseInfo.getPointerInfo().getLocation().x + " y: " + MouseInfo.getPointerInfo().getLocation().y);
+                System.out.println();
             }
         }
     }
@@ -94,5 +96,6 @@ public class GamePanel extends JPanel implements Runnable {
         window.add(this);
         window.pack();
         window.setVisible(true);
+
     }
 }
