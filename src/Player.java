@@ -56,25 +56,25 @@ public class Player extends Entity {
         }
         if (keyH.isWKeyPressed()) {
             direction = "up";
-            if (collisionCheck()){
+            if (tileCollisionCheck()){
                 worldY -= speed;
             }
         }
         if (keyH.isSKeyPressed()) {
             direction = "down";
-            if (collisionCheck()) {
+            if (tileCollisionCheck()) {
                 worldY += speed;
             }
         }
         if (keyH.isDKeyPressed()) {
             direction = "right";
-            if (collisionCheck()) {
+            if (tileCollisionCheck()) {
                 worldX += speed;
             }
         }
         if (keyH.isAKeyPressed()) {
             direction = "left";
-            if (collisionCheck()) {
+            if (tileCollisionCheck()) {
                 worldX -= speed;
             }
         }

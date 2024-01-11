@@ -27,7 +27,7 @@ public class Entity {
         Entity.mapTileNum = mapTileNum;
         Entity.tiles = tiles;
     }
-    protected boolean collisionCheck() {
+    protected boolean tileCollisionCheck() {
         // creates variables used to determine which rows and col will be checked
         int leftWorldX = worldX + solidArea.x;
         int rightWorldX = worldX + solidArea.x + solidArea.width;
@@ -72,5 +72,9 @@ public class Entity {
         } else {
             return true;
         }
+    }
+
+    protected boolean interactableCollisionCheck() {
+        return false;
     }
 }
