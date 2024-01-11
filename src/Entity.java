@@ -98,28 +98,33 @@ public class Entity {
                     case "up" -> {
                         this.solidArea.y -= speed;
                         if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                            reset(this, inScreen[i]);
                             return false;
                         }
                     }
                     case "down" -> {
                         this.solidArea.y += speed;
                         if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                            reset(this, inScreen[i]);
                             return false;
                         }
                     }
                     case "left" -> {
                         this.solidArea.x -= speed;
                         if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                            reset(this, inScreen[i]);
                             return false;
                         }
                     }
                     case "right" -> {
                         this.solidArea.x += speed;
                         if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                            reset(this, inScreen[i]);
                             return false;
                         }
                     }
                 }
+                reset(this, inScreen[i]);
             }
         }
         return true;
@@ -128,6 +133,7 @@ public class Entity {
     private void reset(Entity entity, SuperInteractable interactable) {
         entity.solidArea.x = entity.rectangleDefaultX;
         entity.solidArea.y = entity.rectangleDefaultY;
-
+        interactable.solidArea.x = interactable.defaultRectangleX;
+        interactable.solidArea.y = interactable.defaultRectangleY;
     }
 }

@@ -5,10 +5,10 @@ import java.io.IOException;
 
 public class Chest_Interactable extends SuperInteractable {
     public Chest_Interactable(int worldX, int worldY) {
-        super();
+        super(0,18);
         collision = true;
         canPickUp = false;
-        solidArea = new Rectangle(0, 18, 48, 30);
+        solidArea = new Rectangle(defaultRectangleX, defaultRectangleY, 48, 30);
 
         this.worldX = worldX;
         this.worldY = worldY;
