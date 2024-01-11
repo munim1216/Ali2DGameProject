@@ -1,7 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowListener;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel implements Runnable, WindowListener {
     // STATIC SCREEN SETTINGS
     private static final int ORIGINALTILE_SIZE = 16;
     private static final int SCALE = 3;
@@ -16,6 +19,8 @@ public class GamePanel extends JPanel implements Runnable {
     // GAME LOOP
     private Thread gameThread;
     private final int FPS = 60;
+    private WindowListener windowListener;
+    private boolean isRunning;
     // PLAYER INPUT
     private KeyHandler keyH;
     // PLAYER
@@ -31,6 +36,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
+
+        isRunning = true;
 
         keyH = new KeyHandler();
         this.addKeyListener(keyH);
@@ -64,8 +71,13 @@ public class GamePanel extends JPanel implements Runnable {
 
             previousTime = currentTime;
             if (delta >= 1) {
-                update();
-                repaint();
+                if (isRunning) {
+                    update();
+                    repaint();
+                    System.out.println("IS RUNNING");
+                } else {
+                    System.out.println("IS NOT RUNNING");
+                }
                 delta = 0;
                 System.out.println("MouseInfo, x: " + MouseInfo.getPointerInfo().getLocation().x + " y: " + MouseInfo.getPointerInfo().getLocation().y);
                 System.out.println();
@@ -95,7 +107,43 @@ public class GamePanel extends JPanel implements Runnable {
         window.setTitle("2D GAME");
         window.add(this);
         window.pack();
+        window.addWindowListener(windowListener);
         window.setVisible(true);
 
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        isRunning = true;
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        isRunning = false;
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        isRunning = false;
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        isRunning = false;
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        isRunning = true;
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        isRunning = true;
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        isRunning = false;
     }
 }
