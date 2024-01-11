@@ -130,7 +130,7 @@ public class Entity {
         return true;
     }
 
-    private void reset(Entity entity, SuperInteractable interactable) {
+    protected void reset(Entity entity, SuperInteractable interactable) {
         entity.solidArea.x = entity.rectangleDefaultX;
         entity.solidArea.y = entity.rectangleDefaultY;
         interactable.solidArea.x = interactable.defaultRectangleX;

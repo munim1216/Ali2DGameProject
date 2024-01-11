@@ -81,7 +81,10 @@ public class Player extends Entity {
                 worldX -= speed;
             }
         }
-
+        SuperInteractable interactable = pickupCheck();
+        if (interactable != null) {
+            pickUp(interactable);
+        }
         if (spriteCounter >= 10) {
             alternateSprite();
             spriteCounter = 0;
@@ -127,9 +130,10 @@ public class Player extends Entity {
         g2D.draw(solidArea);
 
     }
-    public void pickUp(SuperInteractable item) {
+    private void pickUp(SuperInteractable item) {
         itemList[nextItem] = item;
         nextItem++;
+        item.pickUp();
     }
     private void alternateSprite() {
         if (currentSprite == 1) {
@@ -137,5 +141,53 @@ public class Player extends Entity {
         } else {
             currentSprite = 1;
         }
+    }
+
+    private SuperInteractable pickupCheck() {
+        SuperInteractable[] inScreen = SuperInteractable.getInScreen();
+        for (int i = 0; inScreen[i] != null; i++) {
+            this.solidArea.x = this.solidArea.x + this.worldX;
+            this.solidArea.y = this.solidArea.y + this.worldY;
+
+            inScreen[i].getSolidArea().x = inScreen[i].getSolidArea().x + inScreen[i].getWorldX();
+            inScreen[i].getSolidArea().y = inScreen[i].getSolidArea().y + inScreen[i].getWorldY();
+
+
+            System.out.println(SuperInteractable.inScreen[i].toString());
+            if (SuperInteractable.inScreen[i].isCanPickUp()) {
+                switch (direction) {
+                    case "up" -> {
+                        this.solidArea.y -= speed;
+                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                            reset(this, inScreen[i]);
+                            return SuperInteractable.inScreen[i];
+                        }
+                    }
+                    case "down" -> {
+                        this.solidArea.y += speed;
+                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                            reset(this, inScreen[i]);
+                            return SuperInteractable.inScreen[i];
+                        }
+                    }
+                    case "left" -> {
+                        this.solidArea.x -= speed;
+                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                            reset(this, inScreen[i]);
+                            return SuperInteractable.inScreen[i];
+                        }
+                    }
+                    case "right" -> {
+                        this.solidArea.x += speed;
+                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                            reset(this, inScreen[i]);
+                            return SuperInteractable.inScreen[i];
+                        }
+                    }
+                }
+                reset(this, inScreen[i]);
+            }
+        }
+        return null;
     }
 }

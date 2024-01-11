@@ -42,12 +42,15 @@ public class SuperInteractable {
     protected int getWorldY() {
         return worldY;
     }
-
-    protected void pickUp() {
+    public void pickUp() {
         interactables[idx] = null;
+        interactables = ArrayUtil.reorderArr(interactables);
     }
     public boolean isCollision() {
         return collision;
+    }
+    public boolean isCanPickUp() {
+        return canPickUp;
     }
 
     public static void draw(Graphics2D g2D) {
