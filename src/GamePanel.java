@@ -38,6 +38,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         player = new Player(keyH);
 
+        SuperInteractable.setPlayer(player);
+        Key_Interactable key = new Key_Interactable(0,0); // test code to ensure the key is being drawn correctly
+
         tileManager = new TileManager(this, player);
         startGameThread();
         setUpWindow();
