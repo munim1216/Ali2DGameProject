@@ -82,20 +82,22 @@ public class Entity {
         }
     }
 
-    protected boolean interactableCollisionCheck() { // needs urgent fixing
+    protected boolean interactableCollisionCheck() {
         SuperInteractable[] inScreen = SuperInteractable.getInScreen();
         for (int i = 0; inScreen[i] != null; i++) {
+            // its actual x in the world, not the hitbox
             this.solidArea.x = this.solidArea.x + this.worldX;
             this.solidArea.y = this.solidArea.y + this.worldY;
 
+            // actual x in world, not hitbox
             inScreen[i].getSolidArea().x = inScreen[i].getSolidArea().x + inScreen[i].getWorldX();
             inScreen[i].getSolidArea().y = inScreen[i].getSolidArea().y + inScreen[i].getWorldY();
 
-
-            System.out.println(SuperInteractable.inScreen[i].toString());
+            // switch is only checked if collision is true
             if (SuperInteractable.inScreen[i].isCollision()) {
                 switch (direction) {
                     case "up" -> {
+                        // moving up is closer to the 0 for y
                         this.solidArea.y -= speed;
                         if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
                             reset(this, inScreen[i]);
@@ -124,8 +126,8 @@ public class Entity {
                         }
                     }
                 }
-                reset(this, inScreen[i]);
             }
+            reset(this, inScreen[i]);
         }
         return true;
     }

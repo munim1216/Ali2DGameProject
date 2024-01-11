@@ -25,7 +25,6 @@ public class SuperInteractable {
         this.defaultRectangleY = defaultRectangleY;
         this.idx = nextSlot;
         interactables[nextSlot] = this;
-        System.out.println(interactables[nextSlot].toString());
         nextSlot++;
     }
     protected boolean notOutOfBounds() {
