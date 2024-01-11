@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int WORLD_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
     private TileManager tileManager;
 
-    GamePanel() {
+    public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);

@@ -21,6 +21,7 @@ public class Entity {
     protected int health;
     protected int defense;
     protected double multipler = 1.0;
+    public Entity(){}
 
     public static void setMapTileNumAndTiles(int[][] mapTileNum, Tile[] tiles) {
         Entity.mapTileNum = mapTileNum;

@@ -18,7 +18,7 @@ public class KeyHandler implements KeyListener {
     public boolean isSKeyPressed() {
         return sKeyPressed;
     }
-
+    public KeyHandler(){}
     @Override
     public void keyTyped(KeyEvent e) {
     }
