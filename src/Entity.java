@@ -27,6 +27,9 @@ public class Entity {
         Entity.mapTileNum = mapTileNum;
         Entity.tiles = tiles;
     }
+    protected boolean collisionCheck() {
+        return tileCollisionCheck() && interactableCollisionCheck();
+    }
     protected boolean tileCollisionCheck() {
         // creates variables used to determine which rows and col will be checked
         int leftWorldX = worldX + solidArea.x;
@@ -74,13 +77,14 @@ public class Entity {
         }
     }
 
-    protected boolean interactableCollisionCheck() {
+    protected boolean interactableCollisionCheck() { // needs urgent fixing
         for (int i = 0; SuperInteractable.inScreen[i] != null; i++) {
+            System.out.println(SuperInteractable.inScreen[i].toString());
             if (SuperInteractable.inScreen[i].isCollision()) {
                 switch (direction) {
                     case "up" -> {
                         this.solidArea.y -= speed;
-                        if (solidArea.intersects(SuperInteractable.inScreen[i].getSolidArea())) {
+                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
                             this.solidArea.y += speed;
                             return false;
                         }
@@ -88,15 +92,14 @@ public class Entity {
                     }
                     case "down" -> {
                         this.solidArea.y += speed;
-                        if (solidArea.intersects(SuperInteractable.inScreen[i].getSolidArea())) {
+                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
                             this.solidArea.y -= speed;
                             return false;
                         }
                         this.solidArea.y -= speed;
                     }
                     case "left" -> {
-                        this.solidArea.x -= speed;
-                        if (solidArea.intersects(SuperInteractable.inScreen[i].getSolidArea())) {
+                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
                             this.solidArea.x += speed;
                             return false;
                         }
@@ -104,8 +107,8 @@ public class Entity {
                     }
                     case "right" -> {
                         this.solidArea.x += speed;
-                        if (solidArea.intersects(SuperInteractable.inScreen[i].getSolidArea())) {
-                            this.solidArea.x -= speed;
+                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                            this.solidArea.x -= speed;                             System.out.println("ODDITY");
                             return false;
                         }
                         this.solidArea.x -= speed;
@@ -113,6 +116,6 @@ public class Entity {
                 }
             }
         }
-        return false;
+        return true;
     }
 }

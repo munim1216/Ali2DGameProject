@@ -56,25 +56,25 @@ public class Player extends Entity {
         }
         if (keyH.isWKeyPressed()) {
             direction = "up";
-            if (tileCollisionCheck()){
+            if (collisionCheck()){
                 worldY -= speed;
             }
         }
         if (keyH.isSKeyPressed()) {
             direction = "down";
-            if (tileCollisionCheck()) {
+            if (collisionCheck()) {
                 worldY += speed;
             }
         }
         if (keyH.isDKeyPressed()) {
             direction = "right";
-            if (tileCollisionCheck()) {
+            if (collisionCheck()) {
                 worldX += speed;
             }
         }
         if (keyH.isAKeyPressed()) {
             direction = "left";
-            if (tileCollisionCheck()) {
+            if (collisionCheck()) {
                 worldX -= speed;
             }
         }
@@ -119,6 +119,8 @@ public class Player extends Entity {
             }
         }
         g2D.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
+        g2D.drawRect(PLAYER_SCREEN_X, PLAYER_SCREEN_Y, solidArea.x, solidArea.y);
+
     }
 
     private void alternateSprite() {
