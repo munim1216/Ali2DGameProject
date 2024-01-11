@@ -10,6 +10,11 @@ public class ArrayUtil {
                 nextAdded++;
             }
         }
+//        for (SuperInteractable element : newArr) {
+//            if (element != null) {
+//                System.out.println(element);
+//            }
+//        }
         return newArr;
     }
 }

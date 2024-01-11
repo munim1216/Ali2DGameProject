@@ -43,7 +43,8 @@ public class SuperInteractable {
     }
     public void pickUp() {
         interactables[idx] = null;
-        interactables = ArrayUtil.reorderArr(interactables);
+        SuperInteractable.interactables = ArrayUtil.reorderArr(interactables);
+        System.out.println(SuperInteractable.interactables[0]);
     }
     public boolean isCollision() {
         return collision;
