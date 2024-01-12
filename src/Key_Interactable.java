@@ -16,7 +16,7 @@ public class Key_Interactable extends SuperInteractable {
         this.worldY = worldY;
 
         try {
-            image = ImageIO.read(new File("src/sprites/Interactables/key_1.png"));
+            image = Utility.scale(ImageIO.read(new File("src/sprites/Interactables/key_1.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }

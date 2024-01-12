@@ -71,7 +71,7 @@ public class SuperInteractable {
             if (interactables[i].notOutOfBounds()) {
                 int screenX = interactables[i].worldX - player.getworldX() + Player.PLAYER_SCREEN_X;
                 int screenY = interactables[i].worldY - player.getworldY() + Player.PLAYER_SCREEN_Y;
-                g2D.drawImage(interactables[i].image, screenX, screenY, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
+                g2D.drawImage(interactables[i].image, screenX, screenY, null);
             }
         }
     }

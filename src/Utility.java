@@ -18,6 +18,7 @@ public class Utility {
         BufferedImage scaledImage = new BufferedImage(GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, image.getType());
         Graphics2D g2D = scaledImage.createGraphics();
         g2D.drawImage(image, 0,0, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
+        g2D.dispose();
         return scaledImage;
     }
 }

@@ -139,8 +139,7 @@ public class Player extends Entity {
             }
         }
 
-        g2D.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
-        g2D.draw(solidArea);
+        g2D.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, null);
     }
     private void alternateSprite() {
         if (currentSprite == 1) {
