@@ -12,15 +12,7 @@ public class UI {
         g2D.setFont(new Font("Arial", Font.PLAIN, 40));
         g2D.setColor(Color.YELLOW);
 
-        String str = "Keys: ";
-        int i = 0;
-        while(player.getItemList()[i] != null) {
-            if (player.getItemList()[i].getName().equals("Key")) {
-                i++;
-            }
-        }
-        str += i;
-
+        String str = "Keys: " + player.getNumKeys();
         g2D.drawString(str, 20, 60);
     }
 }

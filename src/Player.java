@@ -15,6 +15,7 @@ public class Player extends Entity {
     private SuperInteractable[] itemList;
     private int nextItem;
     private SuperInteractable addToItemList;
+    private int numKeys;
     public Player(KeyHandler keyH) {
         super(8,16);
 
@@ -31,6 +32,7 @@ public class Player extends Entity {
         this.keyH = keyH;
 
         itemList = new SuperInteractable[100];
+        numKeys = 0;
 
         try {
             up1 = ImageIO.read(new File("src/sprites/ReneeSprite/reneeUp1.png")); // credit: poke
@@ -54,6 +56,10 @@ public class Player extends Entity {
         return worldY;
     }
 
+    public int getNumKeys() {
+        return numKeys;
+    }
+
     public SuperInteractable[] getItemList() {
         return itemList;
     }
@@ -66,28 +72,28 @@ public class Player extends Entity {
         }
         if (keyH.isWKeyPressed()) {
             direction = "up";
-            pickupCheck();
+            interactCheck();
             if (collisionCheck()){
                 worldY -= speed;
             }
         }
         if (keyH.isSKeyPressed()) {
             direction = "down";
-            pickupCheck();
+            interactCheck();
             if (collisionCheck()) {
                 worldY += speed;
             }
         }
         if (keyH.isDKeyPressed()) {
             direction = "right";
-            pickupCheck();
+            interactCheck();
             if (collisionCheck()) {
                 worldX += speed;
             }
         }
         if (keyH.isAKeyPressed()) {
             direction = "left";
-            pickupCheck();
+            interactCheck();
             if (collisionCheck()) {
                 worldX -= speed;
             }
@@ -144,7 +150,7 @@ public class Player extends Entity {
         }
     }
 
-    private void pickupCheck() { // rework into interact check?
+    private void interactCheck() { // rework into interact check?
         boolean stop = false;
         for (int i = 0; SuperInteractable.inScreen[i] != null; i++) {
             if (SuperInteractable.inScreen[i].canInteract) {
@@ -203,6 +209,7 @@ public class Player extends Entity {
             case "Key", "WingedBoot" -> pickUp(interactable);
             case "Chest", "Door" -> {
                 if (SuperInteractable.useItem(this, interactable)) {
+                    numKeys--;
                     ArrayUtil.reorderArr(itemList);
                     int newNextNum = 0;
                     while(itemList[newNextNum] != null) {
@@ -229,6 +236,9 @@ public class Player extends Entity {
             return;
         }
         itemList[nextItem] = item;
+        if (item.getName().equals("Key")) {
+            numKeys++;
+        }
         for (int i = 0; itemList[i] != null; i++) {
             System.out.println("This is currently in my inv: " + itemList[i]);
         }
