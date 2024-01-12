@@ -137,6 +137,9 @@ public class Player extends Entity {
             return;
         }
         itemList[nextItem] = item;
+        System.out.println("This is now in my inv: " + itemList[nextItem]);
+        System.out.println("This is not supposed to be in my inv: " + itemList[nextItem + 1]);
+
         nextItem++;
         item.pickUp();
     }

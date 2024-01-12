@@ -7,6 +7,7 @@ public class ArrayUtil {
         for (SuperInteractable element : arr) {
             if (element != null) {
                 newArr[nextAdded] = element;
+                System.out.println("ARRAY NUM :" + nextAdded + ", whats been added: " + element);
                 nextAdded++;
             }
         }

@@ -44,6 +44,10 @@ public class SuperInteractable {
     public void pickUp() {
         interactables[idx] = null;
         interactables = ArrayUtil.reorderArr(interactables);
+
+        // shoves the invisble object that remains away into unloadable terrain (in future) (im unsure why, java garbage collection should've picked it up but it instead survives.)
+        this.worldX = 0;
+        this.worldY = 0;
     }
     public boolean isCollision() {
         return collision;
@@ -54,6 +58,7 @@ public class SuperInteractable {
 
     public static void draw(Graphics2D g2D) {
         for (int i = 0; interactables[i] != null; i++) {
+                System.out.println(interactables[i] + " has been drawn!");
             if (interactables[i].notOutOfBounds()) {
                 int screenX = interactables[i].worldX - player.getworldX() + Player.PLAYER_SCREEN_X;
                 int screenY = interactables[i].worldY - player.getworldY() + Player.PLAYER_SCREEN_Y;
