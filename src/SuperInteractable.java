@@ -43,9 +43,17 @@ public class SuperInteractable {
     protected int getWorldY() {
         return worldY;
     }
-    public void pickUp() {
-        interactables[idx] = null;
+    protected String getName() {
+        return name;
+    }
+    public static void pickUp(SuperInteractable interactable) {
+        interactable.canPickUp = false;
+
+        interactables[interactable.idx] = null;
         interactables = ArrayUtil.reorderArr(interactables);
+        for (int i = 0; interactables[i] != null; i++) {
+            interactables[i].idx = i;
+        }
     }
     public boolean isCollision() {
         return collision;
