@@ -13,4 +13,19 @@ public class ArrayUtil {
         }
         return newArr;
     }
+    public static void reorderArr2(SuperInteractable[] arr) {
+        int earliestNull = 1000000;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == null) {
+                if (i < earliestNull) {
+                    earliestNull = i;
+                }
+            } else if (i > earliestNull) {
+                arr[earliestNull] = arr[i];
+                arr[i] = null;
+                i--;
+            }
+        }
+    }
 }

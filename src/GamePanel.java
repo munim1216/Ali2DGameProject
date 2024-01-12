@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int WORLD_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
     public static final int WORLD_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
     private TileManager tileManager;
+    private UI ui;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -39,6 +40,8 @@ public class GamePanel extends JPanel implements Runnable {
         player = new Player(keyH);
 
         SuperInteractable.setPlayer(player);
+
+        ui = new UI(this, player);
 
         tileManager = new TileManager(this, player);
         startGameThread();
@@ -76,6 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         tileManager.draw(g2D);
         SuperInteractable.draw(g2D);
+        ui.draw(g2D);
         player.draw(g2D);
 
         g2D.dispose();
