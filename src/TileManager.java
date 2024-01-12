@@ -18,7 +18,8 @@ public class TileManager {
 
         try {
             BufferedImage image = ImageIO.read(new File("src/sprites/Tiles/grass_1.png"));
-            tiles[0] = new Tile(image, false);
+            //tiles[0] = new Tile(image, false);
+            tiles[0] = new Tile(Utility.scale(image), false);
             image = ImageIO.read(new File("src/sprites/Tiles/flower_grass_1.png"));
             tiles[1] = new Tile(image, false);
             image = ImageIO.read(new File("src/sprites/Tiles/water_1.png"));
@@ -71,7 +72,7 @@ public class TileManager {
             int screenY = worldY - player.getworldY() + Player.PLAYER_SCREEN_Y;
 
             if (notOutOfBounds(worldX, worldY)) {
-                g2D.drawImage(image, screenX, screenY, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
+                g2D.drawImage(image, screenX, screenY,null); // midst of editing
             }
             worldCol++;
 

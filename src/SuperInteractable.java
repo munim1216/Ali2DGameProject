@@ -54,7 +54,7 @@ public class SuperInteractable {
         interactable.canPickUp = false;
 
         interactables[interactable.idx] = null;
-        ArrayUtil.reorderArr(interactables);
+        Utility.reorderArr(interactables);
         for (int i = 0; interactables[i] != null; i++) {
             interactables[i].idx = i;
         }

@@ -210,7 +210,7 @@ public class Player extends Entity {
             case "Chest", "Door" -> {
                 if (SuperInteractable.useItem(this, interactable)) {
                     numKeys--;
-                    ArrayUtil.reorderArr(itemList);
+                    Utility.reorderArr(itemList);
                     int newNextNum = 0;
                     while(itemList[newNextNum] != null) {
                         newNextNum++;
