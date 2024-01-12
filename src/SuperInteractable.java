@@ -28,6 +28,7 @@ public class SuperInteractable {
         interactables[nextSlot] = this;
         nextSlot++;
     }
+    // make a new overloaded constructor so u can actually remove things from the interactable array, and keep them on the player inv array
     protected boolean notOutOfBounds() {
         return (this.worldX + GamePanel.TILE_SIZE > player.getworldX() - Player.PLAYER_SCREEN_X ) && (this.worldX - GamePanel.TILE_SIZE  < player.getworldX() + Player.PLAYER_SCREEN_X) &&
                 (this.worldY + GamePanel.TILE_SIZE  > player.getworldY() - Player.PLAYER_SCREEN_Y) && (this.worldY - GamePanel.TILE_SIZE  < player.getworldY() + Player.PLAYER_SCREEN_Y);
