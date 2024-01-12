@@ -34,7 +34,12 @@ public class TileManager {
         }
 
         loadMap();
-        new Key_Interactable(10 * GamePanel.TILE_SIZE,10 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
+        new Key_Interactable(20 * GamePanel.TILE_SIZE,10 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
+        new Key_Interactable(20 * GamePanel.TILE_SIZE,12 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
+        new Key_Interactable(20 * GamePanel.TILE_SIZE,14 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
+        new Key_Interactable(20 * GamePanel.TILE_SIZE,16 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
+
+
         new Chest_Interactable(18 * GamePanel.TILE_SIZE,18 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
         Entity.setMapTileNumAndTiles(mapTileNum, tiles);
     }

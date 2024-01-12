@@ -132,17 +132,6 @@ public class Player extends Entity {
         g2D.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
         g2D.draw(solidArea);
     }
-    private void pickUp(SuperInteractable item) {
-        if (item == null) {
-            return;
-        }
-        itemList[nextItem] = item;
-        System.out.println("This is now in my inv: " + itemList[nextItem]);
-        System.out.println("This is not supposed to be in my inv: " + itemList[nextItem + 1]);
-
-        nextItem++;
-        item.pickUp();
-    }
     private void alternateSprite() {
         if (currentSprite == 1) {
             currentSprite = 2;
@@ -152,13 +141,12 @@ public class Player extends Entity {
     }
 
     private void pickupCheck() {
-        SuperInteractable[] inScreen = SuperInteractable.getInScreen();
-        for (int i = 0; inScreen[i] != null; i++) {
+        for (int i = 0; SuperInteractable.inScreen[i] != null; i++) {
             this.solidArea.x = this.solidArea.x + this.worldX;
             this.solidArea.y = this.solidArea.y + this.worldY;
 
-            inScreen[i].getSolidArea().x = inScreen[i].getSolidArea().x + inScreen[i].getWorldX();
-            inScreen[i].getSolidArea().y = inScreen[i].getSolidArea().y + inScreen[i].getWorldY();
+            SuperInteractable.inScreen[i].getSolidArea().x = SuperInteractable.inScreen[i].getSolidArea().x + SuperInteractable.inScreen[i].getWorldX();
+            SuperInteractable.inScreen[i].getSolidArea().y = SuperInteractable.inScreen[i].getSolidArea().y + SuperInteractable.inScreen[i].getWorldY();
 
             // switch is only checked if can pickup is true
             if (SuperInteractable.inScreen[i].isCanPickUp()) {
@@ -167,34 +155,46 @@ public class Player extends Entity {
                         // moving up is closer to the 0 for y
                         this.solidArea.y -= speed;
                         if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, inScreen[i]);
-                            pickUp(inScreen[i]);
+                            reset(this, SuperInteractable.inScreen[i]);
+                            pickUp(SuperInteractable.inScreen[i]);
                         }
                     }
                     case "down" -> {
                         this.solidArea.y += speed;
                         if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, inScreen[i]);
-                            pickUp(inScreen[i]);
+                            reset(this, SuperInteractable.inScreen[i]);
+                            pickUp(SuperInteractable.inScreen[i]);
                         }
                     }
                     case "left" -> {
                         this.solidArea.x -= speed;
                         if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, inScreen[i]);
-                            pickUp(inScreen[i]);
+                            reset(this, SuperInteractable.inScreen[i]);
+                            pickUp(SuperInteractable.inScreen[i]);
                         }
                     }
                     case "right" -> {
                         this.solidArea.x += speed;
                         if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, inScreen[i]);
-                            pickUp(inScreen[i]);
+                            reset(this, SuperInteractable.inScreen[i]);
+                            pickUp(SuperInteractable.inScreen[i]);
                         }
                     }
                 }
             }
-            reset(this, inScreen[i]);
+            reset(this, SuperInteractable.inScreen[i]);
         }
+    }
+    private void pickUp(SuperInteractable item) { // sosmethign wrong
+        if (item == null) {
+            return;
+        }
+        itemList[nextItem] = item;
+        System.out.println("This is now in my inv: " + itemList[nextItem]);
+        System.out.println("This is not supposed to be in my inv: " + itemList[nextItem + 1]);
+
+        nextItem++;
+        item.canPickUp = false; // im even doing forbidden things to try to fix it.
+        item.pickUp();
     }
 }

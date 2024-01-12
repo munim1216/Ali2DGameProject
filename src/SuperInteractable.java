@@ -19,6 +19,7 @@ public class SuperInteractable {
     protected static SuperInteractable[] interactables = new SuperInteractable[100];
     protected static int nextSlot = 0;
     protected int idx;
+    protected boolean draw = true;
 
     protected SuperInteractable(int defaultRectangleX, int defaultRectangleY) {
         this.defaultRectangleX = defaultRectangleX;
@@ -41,15 +42,19 @@ public class SuperInteractable {
     protected int getWorldY() {
         return worldY;
     }
-    protected void pickedUp() {
-        this.solidArea = null;
-        this.collision = false;
-        canPickUp = false;
-    }
-    public void pickUp() {
+
+    public void pickUp() { // somethhing horribly wrong
         interactables[idx] = null;
         interactables = ArrayUtil.reorderArr(interactables);
-        pickedUp();
+        System.out.println();
+        System.out.println();
+        int i = 0;
+        for (SuperInteractable element : interactables) {
+            if (element != null) {
+                System.out.println("ARRAY NUM :" + i + ", whats remains added: " + element);
+                i++;
+            }
+        }
     }
     public boolean isCollision() {
         return collision;
@@ -59,13 +64,12 @@ public class SuperInteractable {
     }
 
     public static void draw(Graphics2D g2D) {
-        for (int i = 0; interactables[i] != null; i++) {
-                System.out.println(interactables[i] + " has been drawn!");
-            if (interactables[i].notOutOfBounds()) {
-                int screenX = interactables[i].worldX - player.getworldX() + Player.PLAYER_SCREEN_X;
-                int screenY = interactables[i].worldY - player.getworldY() + Player.PLAYER_SCREEN_Y;
-                g2D.drawImage(interactables[i].image, screenX, screenY, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
-            }
+        for (int i = 0; inScreen[i] != null; i++) {
+                int screenX = inScreen[i].worldX - player.getworldX() + Player.PLAYER_SCREEN_X;
+                int screenY = inScreen[i].worldY - player.getworldY() + Player.PLAYER_SCREEN_Y;
+                g2D.drawImage(inScreen[i].image, screenX, screenY, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
+                //System.out.println(interactables[i]);
+
         }
     }
 
