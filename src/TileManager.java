@@ -44,7 +44,7 @@ public class TileManager {
         new Key_Interactable(23 * GamePanel.TILE_SIZE,14 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
         new Key_Interactable(23 * GamePanel.TILE_SIZE,16 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
 
-
+        new Door_Interactable(15 * GamePanel.TILE_SIZE, 5 * GamePanel.TILE_SIZE);
 
         new Chest_Interactable(18 * GamePanel.TILE_SIZE,18 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
         Entity.setMapTileNumAndTiles(mapTileNum, tiles);

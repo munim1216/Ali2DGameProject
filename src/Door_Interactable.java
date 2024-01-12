@@ -3,21 +3,21 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Chest_Interactable extends SuperInteractable {
-    public Chest_Interactable(int worldX, int worldY) {
-        super(0,18);
+public class Door_Interactable extends SuperInteractable {
+    public Door_Interactable(int worldX, int worldY) {
+        super(0, 0);
         collision = true;
         canPickUp = false;
-        solidArea = new Rectangle(defaultRectangleX, defaultRectangleY, 48, 30);
+        solidArea = new Rectangle(defaultRectangleX, defaultRectangleY, 48, 48);
 
-        name = "Chest";
+        name = "Door";
         neededToInteract = "Key";
 
         this.worldX = worldX;
         this.worldY = worldY;
 
         try {
-            image = ImageIO.read(new File("src/sprites/Interactables/chest_1.png"));
+            image = ImageIO.read(new File("src/sprites/Interactables/door_1.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -93,18 +93,25 @@ public class SuperInteractable {
     }
 
     public static boolean useItem(Player player, SuperInteractable interactable) {
+        if (!interactable.collision) {
+            return false;
+        }
         boolean hasNeededItem = false;
         SuperInteractable[] itemList = player.getItemList();
         for (int i = 0; itemList[i] != null; i++) {
+            System.out.println("CHECKING: " + itemList[i]);
             if (itemList[i].getName().equals(interactable.getNeededItem())) {
+                System.out.println(itemList[i].getName());
                 hasNeededItem = true;
                 itemList[i] = null;
                 System.out.println("accessible");
-                break;
             }
         }
+        System.out.println(itemList[0]);
+        System.out.println(itemList[1]);
+        System.out.println(itemList[2]);
 
-        if (hasNeededItem) {
+        if (hasNeededItem) { // turn into a switch when more interactables are implemented
             interactable.collision = false;
             System.out.println("KEY CONSUMED.");
         }

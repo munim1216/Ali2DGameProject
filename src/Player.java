@@ -190,9 +190,10 @@ public class Player extends Entity {
     private void interact(SuperInteractable interactable) {
         switch (interactable.getName()) {
             case "Key", "Boots" -> pickUp(interactable);
-            case "Chest" -> {
+            case "Chest", "Door" -> {
                 if (SuperInteractable.useItem(this, interactable)) {
                     itemList = ArrayUtil.reorderArr(itemList);
+                    nextItem--;
                     for (SuperInteractable item : itemList) {
                         if (item != null) {
                             System.out.println("I STILL HAVE: " + item);
@@ -200,7 +201,6 @@ public class Player extends Entity {
                     }
                 }
             }
-            case "Door" -> throw new UnsupportedOperationException("smelly");
         }
     }
 
