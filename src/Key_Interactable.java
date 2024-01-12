@@ -18,5 +18,6 @@ public class Key_Interactable extends SuperInteractable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }
