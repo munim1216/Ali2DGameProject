@@ -140,7 +140,7 @@ public class Player extends Entity {
         }
     }
 
-    private void pickupCheck() {
+    private void pickupCheck() { // rework into interact check?
         for (int i = 0; SuperInteractable.inScreen[i] != null; i++) {
             this.solidArea.x = this.solidArea.x + this.worldX;
             this.solidArea.y = this.solidArea.y + this.worldY;
@@ -148,45 +148,53 @@ public class Player extends Entity {
             SuperInteractable.inScreen[i].getSolidArea().x = SuperInteractable.inScreen[i].getSolidArea().x + SuperInteractable.inScreen[i].getWorldX();
             SuperInteractable.inScreen[i].getSolidArea().y = SuperInteractable.inScreen[i].getSolidArea().y + SuperInteractable.inScreen[i].getWorldY();
 
-            // switch is only checked if can pickup is true
-            if (SuperInteractable.inScreen[i].isCanPickUp()) {
-                switch (direction) {
-                    case "up" -> {
-                        // moving up is closer to the 0 for y
-                        this.solidArea.y -= speed;
-                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, SuperInteractable.inScreen[i]);
-                            pickUp(SuperInteractable.inScreen[i]);
-                        }
+            switch (direction) {
+                case "up" -> {
+                    // moving up is closer to the 0 for y
+                    this.solidArea.y -= speed;
+                    if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                        reset(this, SuperInteractable.inScreen[i]);
+                        interact(SuperInteractable.inScreen[i]);
                     }
-                    case "down" -> {
-                        this.solidArea.y += speed;
-                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, SuperInteractable.inScreen[i]);
-                            pickUp(SuperInteractable.inScreen[i]);
-                        }
+                }
+                case "down" -> {
+                    this.solidArea.y += speed;
+                    if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                        reset(this, SuperInteractable.inScreen[i]);
+                        interact(SuperInteractable.inScreen[i]);
                     }
-                    case "left" -> {
-                        this.solidArea.x -= speed;
-                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, SuperInteractable.inScreen[i]);
-                            pickUp(SuperInteractable.inScreen[i]);
-                        }
+                }
+                case "left" -> {
+                    this.solidArea.x -= speed;
+                    if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                        reset(this, SuperInteractable.inScreen[i]);
+                        interact(SuperInteractable.inScreen[i]);
                     }
-                    case "right" -> {
-                        this.solidArea.x += speed;
-                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, SuperInteractable.inScreen[i]);
-                            pickUp(SuperInteractable.inScreen[i]);
-                        }
+                }
+                case "right" -> {
+                    this.solidArea.x += speed;
+                    if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                        reset(this, SuperInteractable.inScreen[i]);
+                        interact(SuperInteractable.inScreen[i]);
                     }
                 }
             }
             reset(this, SuperInteractable.inScreen[i]);
         }
     }
+
+    private void interact(SuperInteractable interactable) {
+        switch (interactable.getName()) {
+            case "Key", "Boots" -> pickUp(interactable);
+            case "Chest" -> throw new UnsupportedOperationException();
+            case "Door" -> throw new UnsupportedOperationException("smelly");
+        }
+    }
+
+
+
     private void pickUp(SuperInteractable item) {
-        if (item == null) {
+        if (item == null || !item.canPickUp) {
             return;
         }
         itemList[nextItem] = item;
@@ -194,6 +202,6 @@ public class Player extends Entity {
         System.out.println("This is not supposed to be in my inv: " + itemList[nextItem + 1]);
 
         nextItem++;
-        item.pickUp();
+        SuperInteractable.pickUp(item);
     }
 }

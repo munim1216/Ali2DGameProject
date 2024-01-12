@@ -28,7 +28,7 @@ public class SuperInteractable {
         interactables[nextSlot] = this;
         nextSlot++;
     }
-    // make a new overloaded constructor so u can actually remove things from the interactable array, and keep them on the player inv array
+    // make a new overloaded constructor so u can actually remove things from the interactable array, and keep them on the player inv array (for stuff other than key)
     protected boolean notOutOfBounds() {
         return (this.worldX + GamePanel.TILE_SIZE > player.getworldX() - Player.PLAYER_SCREEN_X ) && (this.worldX - GamePanel.TILE_SIZE  < player.getworldX() + Player.PLAYER_SCREEN_X) &&
                 (this.worldY + GamePanel.TILE_SIZE  > player.getworldY() - Player.PLAYER_SCREEN_Y) && (this.worldY - GamePanel.TILE_SIZE  < player.getworldY() + Player.PLAYER_SCREEN_Y);
@@ -44,19 +44,16 @@ public class SuperInteractable {
         return worldY;
     }
 
-    public void pickUp() {
-        this.canPickUp = false;
-        this.draw = false;
+    protected String getName() {
+        return name;
+    }
 
-        System.out.println();
-        System.out.println();
-        int i = 0;
-        for (SuperInteractable element : interactables) {
-            if (element != null) {
-                System.out.println("ARRAY NUM :" + i + ", whats remains added: " + element);
-                i++;
-            }
-        }
+    public static void pickUp(SuperInteractable pickedUp) {
+        interactables[pickedUp.idx] = null;
+        pickedUp.canPickUp = false;
+        pickedUp.draw = false;
+
+        ArrayUtil.reorderArr(interactables);
     }
     public boolean isCollision() {
         return collision;
