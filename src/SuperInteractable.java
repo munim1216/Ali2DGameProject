@@ -20,7 +20,7 @@ public class SuperInteractable {
     protected static SuperInteractable[] interactables = new SuperInteractable[100];
     protected static int nextSlot = 0;
     protected int idx;
-    protected boolean draw = true;
+    protected boolean canInteract = true;
 
     protected SuperInteractable(int defaultRectangleX, int defaultRectangleY) {
         this.defaultRectangleX = defaultRectangleX;
@@ -98,7 +98,7 @@ public class SuperInteractable {
         }
         boolean hasNeededItem = false;
         SuperInteractable[] itemList = player.getItemList();
-        for (int i = 0; itemList[i] != null; i++) {
+        for (int i = 0; itemList[i] != null && !hasNeededItem; i++) {
             System.out.println("CHECKING: " + itemList[i]);
             if (itemList[i].getName().equals(interactable.getNeededItem())) {
                 System.out.println(itemList[i].getName());
@@ -113,9 +113,12 @@ public class SuperInteractable {
 
         if (hasNeededItem) { // turn into a switch when more interactables are implemented
             interactable.collision = false;
+            interactable.interacted();
             System.out.println("KEY CONSUMED.");
         }
         return hasNeededItem;
     }
-
+    public void interacted() {
+        canInteract = false;
+    }
 }
