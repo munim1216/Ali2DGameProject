@@ -189,7 +189,7 @@ public class Player extends Entity {
 
     private void interact(SuperInteractable interactable) {
         switch (interactable.getName()) {
-            case "Key", "Boots" -> pickUp(interactable);
+            case "Key", "WingedBoot" -> pickUp(interactable);
             case "Chest", "Door" -> {
                 if (SuperInteractable.useItem(this, interactable)) {
                     itemList = ArrayUtil.reorderArr(itemList);
