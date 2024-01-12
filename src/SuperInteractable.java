@@ -92,13 +92,14 @@ public class SuperInteractable {
         return inScreen;
     }
 
-    public static void useItem(Player player, SuperInteractable interactable) {
+    public static boolean useItem(Player player, SuperInteractable interactable) {
         boolean hasNeededItem = false;
         SuperInteractable[] itemList = player.getItemList();
         for (int i = 0; itemList[i] != null; i++) {
             if (itemList[i].getName().equals(interactable.getNeededItem())) {
                 hasNeededItem = true;
                 itemList[i] = null;
+                System.out.println("accessible");
                 break;
             }
         }
@@ -107,6 +108,7 @@ public class SuperInteractable {
             interactable.collision = false;
             System.out.println("KEY CONSUMED.");
         }
+        return hasNeededItem;
     }
 
 }
