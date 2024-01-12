@@ -6,6 +6,7 @@ public class SuperInteractable {
     protected BufferedImage image;
     // TYPE
     protected String name;
+    protected String neededToInteract;
     // PLAYER INTERACTION
     protected static Player player;
     protected boolean collision;
@@ -45,6 +46,9 @@ public class SuperInteractable {
     }
     protected String getName() {
         return name;
+    }
+    protected String getNeededItem() {
+        return neededToInteract;
     }
     public static void pickUp(SuperInteractable interactable) {
         interactable.canPickUp = false;
@@ -86,6 +90,23 @@ public class SuperInteractable {
     }
     public static SuperInteractable[] getInScreen() {
         return inScreen;
+    }
+
+    public static void useItem(Player player, SuperInteractable interactable) {
+        boolean hasNeededItem = false;
+        SuperInteractable[] itemList = player.getItemList();
+        for (int i = 0; itemList[i] != null; i++) {
+            if (itemList[i].getName().equals(interactable.getNeededItem())) {
+                hasNeededItem = true;
+                itemList[i] = null;
+                break;
+            }
+        }
+
+        if (hasNeededItem) {
+            interactable.collision = false;
+            System.out.println("KEY CONSUMED.");
+        }
     }
 
 }

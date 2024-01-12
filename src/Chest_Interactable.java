@@ -11,6 +11,7 @@ public class Chest_Interactable extends SuperInteractable {
         solidArea = new Rectangle(defaultRectangleX, defaultRectangleY, 48, 30);
 
         name = "Chest";
+        neededToInteract = "Chest";
 
         this.worldX = worldX;
         this.worldY = worldY;

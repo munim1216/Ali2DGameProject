@@ -54,6 +54,10 @@ public class Player extends Entity {
         return worldY;
     }
 
+    public SuperInteractable[] getItemList() {
+        return itemList;
+    }
+
     public void playerUpdate() {
         SuperInteractable interactable;
 
@@ -62,29 +66,29 @@ public class Player extends Entity {
         }
         if (keyH.isWKeyPressed()) {
             direction = "up";
+            pickupCheck();
             if (collisionCheck()){
-                pickupCheck();
                 worldY -= speed;
             }
         }
         if (keyH.isSKeyPressed()) {
             direction = "down";
+            pickupCheck();
             if (collisionCheck()) {
-                pickupCheck();
                 worldY += speed;
             }
         }
         if (keyH.isDKeyPressed()) {
             direction = "right";
+            pickupCheck();
             if (collisionCheck()) {
-                pickupCheck();
                 worldX += speed;
             }
         }
         if (keyH.isAKeyPressed()) {
             direction = "left";
+            pickupCheck();
             if (collisionCheck()) {
-                pickupCheck();
                 worldX -= speed;
             }
         }
@@ -186,7 +190,13 @@ public class Player extends Entity {
     private void interact(SuperInteractable interactable) {
         switch (interactable.getName()) {
             case "Key", "Boots" -> pickUp(interactable);
-            case "Chest" -> throw new UnsupportedOperationException();
+            case "Chest" -> {
+                SuperInteractable.useItem(this, interactable);
+                itemList = ArrayUtil.reorderArr(itemList);
+                for (SuperInteractable item : itemList) {
+                    System.out.println("I STILL HAVE: " + item);
+                }
+            }
             case "Door" -> throw new UnsupportedOperationException("smelly");
         }
     }
