@@ -16,8 +16,8 @@ public class Utility {
 
     public static BufferedImage scale(BufferedImage image) { // still editiing
         BufferedImage scaledImage = new BufferedImage(GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, image.getType());
-        Graphics2D g2D = image.createGraphics();
-        g2D.drawImage(scaledImage, 0,0, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
+        Graphics2D g2D = scaledImage.createGraphics();
+        g2D.drawImage(image, 0,0, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
         return scaledImage;
     }
 }

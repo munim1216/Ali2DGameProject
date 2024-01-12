@@ -18,18 +18,17 @@ public class TileManager {
 
         try {
             BufferedImage image = ImageIO.read(new File("src/sprites/Tiles/grass_1.png"));
-            //tiles[0] = new Tile(image, false);
             tiles[0] = new Tile(Utility.scale(image), false);
             image = ImageIO.read(new File("src/sprites/Tiles/flower_grass_1.png"));
-            tiles[1] = new Tile(image, false);
+            tiles[1]= new Tile(Utility.scale(image), false);
             image = ImageIO.read(new File("src/sprites/Tiles/water_1.png"));
-            tiles[2] = new Tile(image, true);
+            tiles[2] = new Tile(Utility.scale(image), true);
             image = ImageIO.read(new File("src/sprites/Tiles/gray_brick_1.png"));
-            tiles[3] = new Tile(image, true);
+            tiles[3] = new Tile(Utility.scale(image), true);
             image = ImageIO.read(new File("src/sprites/Tiles/forest_1.png"));
-            tiles[4] = new Tile(image, true);
+            tiles[4] = new Tile(Utility.scale(image), true);
             image = ImageIO.read(new File("src/sprites/Tiles/sand_1.png"));
-            tiles[5] = new Tile(image, false);
+            tiles[5] = new Tile(Utility.scale(image), false);
         }   catch (IOException e) {
             e.printStackTrace();
         }
