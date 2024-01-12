@@ -10,6 +10,8 @@ public class Key_Interactable extends SuperInteractable {
         canPickUp = true;
         solidArea = new Rectangle(defaultRectangleX, defaultRectangleY, 30,45);
 
+        name = "Key";
+
         this.worldX = worldX;
         this.worldY = worldY;
 
@@ -18,5 +20,6 @@ public class Key_Interactable extends SuperInteractable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }

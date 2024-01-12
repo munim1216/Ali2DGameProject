@@ -1,8 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
-import java.awt.event.WindowListener;
 
 public class GamePanel extends JPanel implements Runnable {
     // STATIC SCREEN SETTINGS
@@ -97,6 +94,5 @@ public class GamePanel extends JPanel implements Runnable {
         window.add(this);
         window.pack();
         window.setVisible(true);
-
     }
 }

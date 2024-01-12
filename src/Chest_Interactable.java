@@ -10,6 +10,8 @@ public class Chest_Interactable extends SuperInteractable {
         canPickUp = false;
         solidArea = new Rectangle(defaultRectangleX, defaultRectangleY, 48, 30);
 
+        name = "Chest";
+
         this.worldX = worldX;
         this.worldY = worldY;
 
