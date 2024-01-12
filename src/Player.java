@@ -192,8 +192,12 @@ public class Player extends Entity {
             case "Key", "WingedBoot" -> pickUp(interactable);
             case "Chest", "Door" -> {
                 if (SuperInteractable.useItem(this, interactable)) {
-                    itemList = ArrayUtil.reorderArr(itemList);
-                    nextItem--;
+                    ArrayUtil.reorderArr(itemList);
+                    int newNextNum = 0;
+                    while(itemList[newNextNum] != null) {
+                        newNextNum++;
+                    }
+                    nextItem = newNextNum;
                     for (SuperInteractable item : itemList) {
                         if (item != null) {
                             System.out.println("I STILL HAVE: " + item);
@@ -211,9 +215,11 @@ public class Player extends Entity {
             return;
         }
         itemList[nextItem] = item;
-        System.out.println("This is now in my inv: " + itemList[nextItem]);
-        System.out.println("This is not supposed to be in my inv: " + itemList[nextItem + 1]);
+        for (int i = 0; itemList[i] != null; i++) {
+            System.out.println("This is currently in my inv: " + itemList[i]);
+        }
 
+        System.out.println();
         nextItem++;
         SuperInteractable.pickUp(item);
     }
