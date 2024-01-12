@@ -43,9 +43,10 @@ public class SuperInteractable {
         return worldY;
     }
 
-    public void pickUp() { // somethhing horribly wrong
-        interactables[idx] = null;
-        interactables = ArrayUtil.reorderArr(interactables);
+    public void pickUp() {
+        this.canPickUp = false;
+        this.draw = false;
+
         System.out.println();
         System.out.println();
         int i = 0;
@@ -65,11 +66,11 @@ public class SuperInteractable {
 
     public static void draw(Graphics2D g2D) {
         for (int i = 0; inScreen[i] != null; i++) {
+            if (inScreen[i].draw) {
                 int screenX = inScreen[i].worldX - player.getworldX() + Player.PLAYER_SCREEN_X;
                 int screenY = inScreen[i].worldY - player.getworldY() + Player.PLAYER_SCREEN_Y;
                 g2D.drawImage(inScreen[i].image, screenX, screenY, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
-                //System.out.println(interactables[i]);
-
+            }
         }
     }
 

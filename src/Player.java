@@ -185,7 +185,7 @@ public class Player extends Entity {
             reset(this, SuperInteractable.inScreen[i]);
         }
     }
-    private void pickUp(SuperInteractable item) { // sosmethign wrong
+    private void pickUp(SuperInteractable item) {
         if (item == null) {
             return;
         }
@@ -194,7 +194,6 @@ public class Player extends Entity {
         System.out.println("This is not supposed to be in my inv: " + itemList[nextItem + 1]);
 
         nextItem++;
-        item.canPickUp = false; // im even doing forbidden things to try to fix it.
         item.pickUp();
     }
 }
