@@ -203,10 +203,13 @@ public class Player extends Entity {
             case "Key", "WingedBoot" -> pickUp(interactable);
             case "Chest", "Door" -> {
                 if (SuperInteractable.useItem(this, interactable)) {
-                    System.out.println("TRUE");
-                    nextItem--;
-                    ArrayUtil.reorderArr2(itemList);
-                    System.out.println(itemList.length);
+                    ArrayUtil.reorderArr(itemList);
+                    int newNextNum = 0;
+                    while(itemList[newNextNum] != null) {
+                        newNextNum++;
+                    }
+                    nextItem = newNextNum;
+
                     for (SuperInteractable item : itemList) {
                         if (item != null) {
                             System.out.println("I STILL HAVE: " + item);
