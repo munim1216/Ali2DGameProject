@@ -27,6 +27,9 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int WORLD_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
     private TileManager tileManager;
     private UI ui;
+    // SOUND
+    public static Sound MUSIC = new Sound(0);
+    public static Sound SE = new Sound(1);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -46,6 +49,9 @@ public class GamePanel extends JPanel implements Runnable {
         tileManager = new TileManager(this, player);
         startGameThread();
         setUpWindow();
+        MUSIC.setClip(0);
+        MUSIC.play();
+        MUSIC.loop();
     }
 
     private void startGameThread() {
@@ -76,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         // debugging
-        long drawStart = System.nanoTime();
+      //  long drawStart = System.nanoTime();
 
         Graphics2D g2D = (Graphics2D) g;
 
@@ -86,8 +92,8 @@ public class GamePanel extends JPanel implements Runnable {
         player.draw(g2D);
 
         // debugging
-        long drawEnd = System.nanoTime();
-        System.out.println("Draw Time: " + (drawEnd - drawStart));
+//        long drawEnd = System.nanoTime();
+//        System.out.println("Draw Time: " + (drawEnd - drawStart));
 
         g2D.dispose();
     }

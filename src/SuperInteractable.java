@@ -58,6 +58,9 @@ public class SuperInteractable {
         for (int i = 0; interactables[i] != null; i++) {
             interactables[i].idx = i;
         }
+
+        GamePanel.SE.setClip(0);
+        GamePanel.SE.play();
     }
     public boolean isCollision() {
         return collision;
