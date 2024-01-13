@@ -15,7 +15,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     // GAME LOOP
     private Thread gameThread;
+    private int gameState;
     private final int FPS = 60;
+    public static final int PLAYSTATE = 1;
+    public static final int PAUSESTATE = 0;
+
     // PLAYER INPUT
     private KeyHandler keyH;
     // PLAYER
@@ -23,8 +27,6 @@ public class GamePanel extends JPanel implements Runnable {
     // MAP SETTINGS
     public static final int MAX_WORLD_COL = 50;
     public static final int MAX_WORLD_ROW = 50;
-    public static final int WORLD_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
-    public static final int WORLD_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
     private TileManager tileManager;
     private UI ui;
     // SOUND
@@ -36,7 +38,9 @@ public class GamePanel extends JPanel implements Runnable {
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
 
-        keyH = new KeyHandler();
+        gameState = PLAYSTATE;
+
+        keyH = new KeyHandler(this);
         this.addKeyListener(keyH);
         this.setFocusable(true);
 
@@ -85,11 +89,15 @@ public class GamePanel extends JPanel implements Runnable {
       //  long drawStart = System.nanoTime();
 
         Graphics2D g2D = (Graphics2D) g;
+        if (gameState == PLAYSTATE) {
+            tileManager.draw(g2D);
+            SuperInteractable.draw(g2D);
+            ui.draw(g2D);
+            player.draw(g2D);
+        } else {
+            ui.drawPauseMenu(g2D);
+        }
 
-        tileManager.draw(g2D);
-        SuperInteractable.draw(g2D);
-        ui.draw(g2D);
-        player.draw(g2D);
 
         // debugging
 //        long drawEnd = System.nanoTime();
@@ -98,9 +106,21 @@ public class GamePanel extends JPanel implements Runnable {
         g2D.dispose();
     }
 
+    public int getGameState() {
+        return gameState;
+    }
+    public void pause() {
+        gameState = PAUSESTATE;
+    }
+    public void unpause() {
+        gameState = PLAYSTATE;
+    }
+
     private void update() {
-       player.playerUpdate();
-       SuperInteractable.interactablesInFrame();
+        if (gameState == PLAYSTATE) {
+            player.playerUpdate();
+            SuperInteractable.interactablesInFrame();
+        }
     }
 
     private void setUpWindow() {
@@ -112,4 +132,5 @@ public class GamePanel extends JPanel implements Runnable {
         window.pack();
         window.setVisible(true);
     }
+
 }

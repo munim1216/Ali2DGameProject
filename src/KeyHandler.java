@@ -18,7 +18,10 @@ public class KeyHandler implements KeyListener {
     public boolean isSKeyPressed() {
         return sKeyPressed;
     }
-    public KeyHandler(){}
+    private GamePanel gp;
+    public KeyHandler(GamePanel gp){
+        this.gp = gp;
+    }
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -26,6 +29,13 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
+            case KeyEvent.VK_P -> {
+                if (gp.getGameState() == GamePanel.PLAYSTATE) {
+                    gp.pause();
+                } else {
+                    gp.unpause();
+                }
+             }
             case KeyEvent.VK_W -> wKeyPressed = true;
             case KeyEvent.VK_S -> sKeyPressed = true;
             case KeyEvent.VK_A -> aKeyPressed = true;
