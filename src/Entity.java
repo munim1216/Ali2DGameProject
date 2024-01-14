@@ -16,6 +16,7 @@ public class Entity {
     protected String direction;
     protected int currentSprite;
     protected int spriteCounter;
+    protected int actionLockCounter;
     // hitbox (i hate)
     protected Rectangle solidArea;
     protected int rectangleDefaultX;
@@ -194,11 +195,15 @@ public class Entity {
     }
 
     protected void setAction() {
-        switch ((int) (Math.random() * 4) + 1) {
-            case 1 -> direction = "up";
-            case 2 -> direction = "down";
-            case 3 -> direction = "right";
-            case 4 -> direction = "left";
+        actionLockCounter++;
+        if (actionLockCounter >= 120) {
+            switch ((int) (Math.random() * 4) + 1) {
+                case 1 -> direction = "up";
+                case 2 -> direction = "down";
+                case 3 -> direction = "right";
+                case 4 -> direction = "left";
+            }
+            actionLockCounter = 0;
         }
     }
 
@@ -216,6 +221,7 @@ public class Entity {
         spriteCounter++;
         if (spriteCounter > 12) {
             alternateSprite();
+            spriteCounter = 0;
         }
     }
 
