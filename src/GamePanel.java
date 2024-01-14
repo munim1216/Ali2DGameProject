@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int MAX_WORLD_COL = 50;
     public static final int MAX_WORLD_ROW = 50;
     private TileManager tileManager;
-    private UI ui;
+    public static UI ui;
     // SOUND
     public static Sound MUSIC = new Sound(0);
     public static Sound SE = new Sound(1);
@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
 
-        player = new Player(keyH, this);
+        player = new Player(keyH);
 
         SuperInteractable.setPlayer(player);
 
@@ -58,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         tileManager = new TileManager(this, player);
 
-        Entity.setNeededVariables(tileManager.getMapTileNum(), tileManager.getTiles(), player, assetSetter.getNPCs());
+        Entity.setNeededVariables(tileManager.getMapTileNum(), tileManager.getTiles(), player, assetSetter.getNPCs(), this);
 
         startGameThread();
         setUpWindow();
@@ -141,11 +141,9 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     private void update() {
-        if (gameState == PLAYSTATE) {
-            player.playerUpdate();
-            SuperInteractable.interactablesInFrame();
-            assetSetter.update();
-        }
+        player.playerUpdate();
+        SuperInteractable.interactablesInFrame();
+        assetSetter.update();
     }
 
     private void setUpWindow() {

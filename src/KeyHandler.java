@@ -23,6 +23,10 @@ public class KeyHandler implements KeyListener {
         return fKeyPressed;
     }
 
+    public void setFKeyPressed(boolean fKeyPressed) {
+        this.fKeyPressed = fKeyPressed;
+    }
+
     private GamePanel gp;
     public KeyHandler(GamePanel gp){
         this.gp = gp;
@@ -33,20 +37,24 @@ public class KeyHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_P -> {
-                if (gp.getGameState() == GamePanel.PLAYSTATE) {
-                    gp.pause();
-                } else {
-                    gp.unpause();
-                }
-             }
-            case KeyEvent.VK_W -> wKeyPressed = true;
-            case KeyEvent.VK_S -> sKeyPressed = true;
-            case KeyEvent.VK_A -> aKeyPressed = true;
-            case KeyEvent.VK_D -> dKeyPressed = true;
-            case KeyEvent.VK_F -> fKeyPressed = true;
+        int code = e.getKeyCode();
+        if (gp.getGameState() == GamePanel.PLAYSTATE) {
+            switch (code) {
+                case KeyEvent.VK_P -> gp.pause();
+                case KeyEvent.VK_W -> wKeyPressed = true;
+                case KeyEvent.VK_S -> sKeyPressed = true;
+                case KeyEvent.VK_A -> aKeyPressed = true;
+                case KeyEvent.VK_D -> dKeyPressed = true;
+                case KeyEvent.VK_F -> fKeyPressed = true;
+            }
+        } else if (gp.getGameState() == GamePanel.PAUSESTATE) {
+            if (code == KeyEvent.VK_P) {
+                gp.unpause();
+            }
+        } else if (code == KeyEvent.VK_ENTER) {
+            gp.unpause();
         }
+
     }
 
     @Override

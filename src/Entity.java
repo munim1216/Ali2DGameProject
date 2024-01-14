@@ -31,17 +31,18 @@ public class Entity {
     protected String[] dialogue;
     protected Entity lastTouchingPlayer;
     protected int nextDialogue;
+    protected static GamePanel gp;
     public Entity(int rectangleDefaultX, int rectangleDefaultY){
         this.rectangleDefaultX = rectangleDefaultX;
         this.rectangleDefaultY = rectangleDefaultY;
     }
 
-    public static void setNeededVariables(int[][] mapTileNum, Tile[] tiles, Player player, Entity[] NPCs) {
+    public static void setNeededVariables(int[][] mapTileNum, Tile[] tiles, Player player, Entity[] NPCs, GamePanel gp) {
         Entity.mapTileNum = mapTileNum;
         Entity.tiles = tiles;
         Entity.player = player;
         Entity.NPCs = NPCs;
-
+        Entity.gp = gp;
     }
     protected boolean collisionCheck() {
         return tileCollisionCheck() && interactableCollisionCheck() && entityCollisionCheck() && playerCollisionCheck();
@@ -333,14 +334,23 @@ public class Entity {
         }
     }
     protected String speak() {
-        String speechBox = dialogue[nextDialogue];
+        String speechBox;
+        if (nextDialogue >= dialogue.length) {
+            nextDialogue = 0;
+        }
+        speechBox = dialogue[nextDialogue];
         nextDialogue++;
+
         return speechBox;
     }
     public void update() {
+        if (gp.getGameState() != GamePanel.PLAYSTATE) {
+            return;
+        }
         if (!Utility.notOutOfBounds(this, player)) {
             return;
         }
+
         setAction();
         if (collisionCheck()) {
             switch (direction) {

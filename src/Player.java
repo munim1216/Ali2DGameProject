@@ -17,8 +17,7 @@ public class Player extends Entity {
     private SuperInteractable addToItemList;
     private int numKeys;
     // GAME PANEL
-    GamePanel gp;
-    public Player(KeyHandler keyH, GamePanel gp) {
+    public Player(KeyHandler keyH) {
         super(8,16);
 
         this.gp = gp;
@@ -70,8 +69,13 @@ public class Player extends Entity {
 
     public void playerUpdate() {
         if (keyH.isFKeyPressed() && !entityCollisionCheck()) {
-            gp.startDialouge(lastTouchingPlayer);
-            lastTouchingPlayer.speak();
+            if (gp.getGameState() == GamePanel.PLAYSTATE) {
+                gp.startDialouge(lastTouchingPlayer);
+                GamePanel.ui.setNextDialogue(lastTouchingPlayer.speak());
+                keyH.setFKeyPressed(false);
+            } else if (gp.getGameState() == GamePanel.DIAL0GUESTATE) {
+                gp.unpause();
+            }
         }
         if (GamePanel.gameState == GamePanel.PLAYSTATE) {
             if (keyH.isKeyPressed()) {
