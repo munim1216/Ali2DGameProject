@@ -141,13 +141,6 @@ public class Player extends Entity {
 
         g2D.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, null);
     }
-    private void alternateSprite() {
-        if (currentSprite == 1) {
-            currentSprite = 2;
-        } else {
-            currentSprite = 1;
-        }
-    }
 
     private void interactCheck() { // rework into interact check?
         boolean stop = false;

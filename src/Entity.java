@@ -20,7 +20,6 @@ public class Entity {
     protected Rectangle solidArea;
     protected int rectangleDefaultX;
     protected int rectangleDefaultY;
-    protected boolean collisionOn = false;
     // combat
     protected int health;
     protected int defense;
@@ -186,11 +185,38 @@ public class Entity {
         g2D.drawImage(image, screenX, screenY, null);
     }
 
-    protected void setAction() {
+    protected void alternateSprite() {
+        if (currentSprite == 1) {
+            currentSprite = 2;
+        } else {
+            currentSprite = 1;
+        }
+    }
 
+    protected void setAction() {
+        switch ((int) (Math.random() * 4) + 1) {
+            case 1 -> direction = "up";
+            case 2 -> direction = "down";
+            case 3 -> direction = "right";
+            case 4 -> direction = "left";
+        }
     }
 
     public void update() {
         setAction();
+        if (collisionCheck()) {
+            switch (direction) {
+                case "up" -> worldY -= speed;
+                case "down" -> worldY += speed;
+                case "right" -> worldX += speed;
+                case "left" -> worldX -= speed;
+            }
+        }
+
+        spriteCounter++;
+        if (spriteCounter > 12) {
+            alternateSprite();
+        }
     }
+
 }

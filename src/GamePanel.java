@@ -126,6 +126,7 @@ public class GamePanel extends JPanel implements Runnable {
         if (gameState == PLAYSTATE) {
             player.playerUpdate();
             SuperInteractable.interactablesInFrame();
+            assetSetter.update();
         }
     }
 

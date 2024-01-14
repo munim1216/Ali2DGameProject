@@ -16,4 +16,10 @@ public class AssetSetter {
             NPCs[i].draw(g2D);
         }
     }
+
+    public void update() {
+        for (int i = 0; NPCs[i] != null; i++) {
+            NPCs[i].update();
+        }
+    }
 }

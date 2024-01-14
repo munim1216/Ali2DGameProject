@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +8,8 @@ public class Auron_NPC extends Entity {
     private BufferedImage right3, right4, left3, left4;
     public Auron_NPC(){
         super(9,0 );
+
+        solidArea = new Rectangle(rectangleDefaultX, rectangleDefaultY, 30, 0);
 
         direction = "down";
         speed = 2;
@@ -32,5 +35,7 @@ public class Auron_NPC extends Entity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        currentSprite = 1;
     }
 }
