@@ -30,10 +30,7 @@ public class SuperInteractable {
         nextSlot++;
     }
     // make a new overloaded constructor so u can actually remove things from the interactable array, and keep them on the player inv array (for stuff other than key)
-    protected boolean notOutOfBounds() {
-        return (this.worldX + GamePanel.TILE_SIZE > player.getworldX() - Player.PLAYER_SCREEN_X ) && (this.worldX - GamePanel.TILE_SIZE  < player.getworldX() + Player.PLAYER_SCREEN_X) &&
-                (this.worldY + GamePanel.TILE_SIZE  > player.getworldY() - Player.PLAYER_SCREEN_Y) && (this.worldY - GamePanel.TILE_SIZE  < player.getworldY() + Player.PLAYER_SCREEN_Y);
-    }
+
     protected Rectangle getSolidArea() {
         return solidArea;
     }
@@ -71,7 +68,7 @@ public class SuperInteractable {
 
     public static void draw(Graphics2D g2D) {
         for (int i = 0; interactables[i] != null; i++) {
-            if (interactables[i].notOutOfBounds()) {
+            if (Utility.notOutOfBounds(interactables[i], player)) {
                 int screenX = interactables[i].worldX - player.getworldX() + Player.PLAYER_SCREEN_X;
                 int screenY = interactables[i].worldY - player.getworldY() + Player.PLAYER_SCREEN_Y;
                 g2D.drawImage(interactables[i].image, screenX, screenY, null);
@@ -82,7 +79,7 @@ public class SuperInteractable {
     public static void interactablesInFrame() {
         int nextAdded = 0;
         for (int i = 0; interactables[i] != null; i++) {
-            if (interactables[i].notOutOfBounds()) {
+            if (Utility.notOutOfBounds(interactables[i], player)) {
                 inScreen[nextAdded] = interactables[i];
                 nextAdded++;
             }

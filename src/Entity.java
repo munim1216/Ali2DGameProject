@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Entity {
+    // player
+    private static Player player;
     // world map && possible tiles
     protected static int[][] mapTileNum;
     protected static Tile[] tiles;
@@ -28,9 +30,10 @@ public class Entity {
         this.rectangleDefaultY = rectangleDefaultY;
     }
 
-    public static void setMapTileNumAndTiles(int[][] mapTileNum, Tile[] tiles) {
+    public static void setNeededVariables(int[][] mapTileNum, Tile[] tiles, Player player) {
         Entity.mapTileNum = mapTileNum;
         Entity.tiles = tiles;
+        Entity.player = player;
     }
     protected boolean collisionCheck() {
         return tileCollisionCheck() && interactableCollisionCheck();
@@ -137,5 +140,57 @@ public class Entity {
         entity.solidArea.y = entity.rectangleDefaultY;
         interactable.solidArea.x = interactable.defaultRectangleX;
         interactable.solidArea.y = interactable.defaultRectangleY;
+    }
+
+    protected void draw(Graphics2D g2D) {
+        if (!Utility.notOutOfBounds(this, player)) {
+            return;
+        }
+
+        int screenX = worldX - player.getworldX() + Player.PLAYER_SCREEN_X;
+        int screenY = worldY - player.getworldY() + Player.PLAYER_SCREEN_Y;
+
+        BufferedImage image = null;
+
+        switch (direction) {
+            case "up" -> {
+                if (currentSprite == 1) {
+                    image = up1;
+                } else {
+                    image = up2;
+                }
+            }
+            case "down" -> {
+                if (currentSprite == 1) {
+                    image = down1;
+                } else {
+                    image = down2;
+                }
+            }
+            case "left" -> {
+                if (currentSprite == 1) {
+                    image = left1;
+                } else {
+                    image = left2;
+                }
+            }
+            case "right" -> {
+                if (currentSprite == 1) {
+                    image = right1;
+                } else {
+                    image = right2;
+                }
+            }
+        }
+
+        g2D.drawImage(image, screenX, screenY, null);
+    }
+
+    protected void setAction() {
+
+    }
+
+    public void update() {
+        setAction();
     }
 }

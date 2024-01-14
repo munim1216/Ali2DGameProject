@@ -32,6 +32,8 @@ public class GamePanel extends JPanel implements Runnable {
     // SOUND
     public static Sound MUSIC = new Sound(0);
     public static Sound SE = new Sound(1);
+    // PLACING THINGS
+    AssetSetter assetSetter;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -49,6 +51,9 @@ public class GamePanel extends JPanel implements Runnable {
         SuperInteractable.setPlayer(player);
 
         ui = new UI(this, player);
+
+        assetSetter = new AssetSetter();
+        assetSetter.setNPC();
 
         tileManager = new TileManager(this, player);
         startGameThread();
@@ -94,6 +99,7 @@ public class GamePanel extends JPanel implements Runnable {
             SuperInteractable.draw(g2D);
             ui.draw(g2D);
             player.draw(g2D);
+            assetSetter.draw(g2D);
         } else {
             ui.drawPauseMenu(g2D);
         }
