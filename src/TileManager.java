@@ -52,11 +52,14 @@ public class TileManager {
         new Door_Interactable(15 * GamePanel.TILE_SIZE, 5 * GamePanel.TILE_SIZE);
 
         new Chest_Interactable(18 * GamePanel.TILE_SIZE,18 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
-        Entity.setNeededVariables(mapTileNum, tiles, player);
     }
 
     public int[][] getMapTileNum() {
         return mapTileNum;
+    }
+
+    public Tile[] getTiles() {
+        return tiles;
     }
 
     public void draw(Graphics2D g2D) {

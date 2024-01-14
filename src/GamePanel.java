@@ -56,6 +56,9 @@ public class GamePanel extends JPanel implements Runnable {
         assetSetter.setNPC();
 
         tileManager = new TileManager(this, player);
+
+        Entity.setNeededVariables(tileManager.getMapTileNum(), tileManager.getTiles(), player, assetSetter.getNPCs());
+
         startGameThread();
         setUpWindow();
         MUSIC.setClip(0);
@@ -97,9 +100,9 @@ public class GamePanel extends JPanel implements Runnable {
         if (gameState == PLAYSTATE) {
             tileManager.draw(g2D);
             SuperInteractable.draw(g2D);
+            assetSetter.draw(g2D);
             ui.draw(g2D);
             player.draw(g2D);
-            assetSetter.draw(g2D);
         } else {
             ui.drawPauseMenu(g2D);
         }

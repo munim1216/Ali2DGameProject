@@ -9,13 +9,13 @@ public class Auron_NPC extends Entity {
     public Auron_NPC(){
         super(9,0 );
 
-        solidArea = new Rectangle(rectangleDefaultX, rectangleDefaultY, 30, 0);
+        solidArea = new Rectangle(rectangleDefaultX, rectangleDefaultY, 30, 48);
 
         direction = "down";
         speed = 2;
 
-        worldX = 19 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
-        worldY = 19 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
+        worldX = 21 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
+        worldY = 21 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
 
         try {
 

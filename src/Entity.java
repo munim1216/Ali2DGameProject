@@ -21,6 +21,7 @@ public class Entity {
     protected Rectangle solidArea;
     protected int rectangleDefaultX;
     protected int rectangleDefaultY;
+    protected static Entity[] NPCs;
     // combat
     protected int health;
     protected int defense;
@@ -30,13 +31,15 @@ public class Entity {
         this.rectangleDefaultY = rectangleDefaultY;
     }
 
-    public static void setNeededVariables(int[][] mapTileNum, Tile[] tiles, Player player) {
+    public static void setNeededVariables(int[][] mapTileNum, Tile[] tiles, Player player, Entity[] NPCs) {
         Entity.mapTileNum = mapTileNum;
         Entity.tiles = tiles;
         Entity.player = player;
+        Entity.NPCs = NPCs;
+
     }
     protected boolean collisionCheck() {
-        return tileCollisionCheck() && interactableCollisionCheck();
+        return tileCollisionCheck() && interactableCollisionCheck() && entityCollisionCheck() && playerCollisionCheck();
     }
     protected boolean tileCollisionCheck() {
         // creates variables used to determine which rows and col will be checked
@@ -134,6 +137,103 @@ public class Entity {
         }
         return true;
     }
+    protected boolean entityCollisionCheck() {
+        for (int i = 0; NPCs[i] != null; i++) {
+            if (NPCs[i] != this) {
+
+                // its actual x in the world, not the hitbox
+                this.solidArea.x = this.solidArea.x + this.worldX;
+                this.solidArea.y = this.solidArea.y + this.worldY;
+
+                // actual x in world, not hitbox
+                NPCs[i].solidArea.x = NPCs[i].solidArea.x + NPCs[i].worldX;
+                NPCs[i].solidArea.y = NPCs[i].solidArea.y + NPCs[i].worldY;
+
+                // switch is only checked if collision is true
+                switch (direction) {
+                    case "up" -> {
+                        // moving up is closer to the 0 for y
+                        this.solidArea.y -= speed;
+                        if (NPCs[i].solidArea.intersects(this.solidArea)) {
+                            reset(this, NPCs[i]);System.out.println("ACCESSIBLE");
+                            return false;
+                        }
+                    }
+                    case "down" -> {
+                        this.solidArea.y += speed;
+                        if (NPCs[i].solidArea.intersects(this.solidArea)) {
+                            reset(this, NPCs[i]);System.out.println("ACCESSIBLE");
+                            return false;
+                        }
+                    }
+                    case "left" -> {
+                        this.solidArea.x -= speed;
+                        if (NPCs[i].solidArea.intersects(this.solidArea)) {
+                            reset(this, NPCs[i]);System.out.println("ACCESSIBLE");
+                            return false;
+                        }
+                    }
+                    case "right" -> {
+                        this.solidArea.x += speed;
+                        if (NPCs[i].solidArea.intersects(this.solidArea)) {
+                            reset(this, NPCs[i]);System.out.println("ACCESSIBLE");
+                            return false;
+                        }
+                    }
+                }
+                reset(this, NPCs[i]);
+            }
+        }
+        return true;
+    }
+
+    protected boolean playerCollisionCheck() {
+        if (this == player) {
+            return true;
+        }
+        // its actual x in the world, not the hitbox
+        this.solidArea.x = this.solidArea.x + this.worldX;
+        this.solidArea.y = this.solidArea.y + this.worldY;
+
+        // actual x in world, not hitbox
+        player.solidArea.x = player.solidArea.x + player.worldX;
+        player.solidArea.y = player.solidArea.y + player.worldY;
+
+        // switch is only checked if collision is true
+        switch (direction) {
+            case "up" -> {
+                // moving up is closer to the 0 for y
+                this.solidArea.y -= speed;
+                if (player.solidArea.intersects(this.solidArea)) {
+                    reset(this, player);System.out.println("workin");
+                    return false;
+                }
+            }
+            case "down" -> {
+                this.solidArea.y += speed;
+                if (player.solidArea.intersects(this.solidArea)) {
+                    reset(this, player);System.out.println("workin");
+                    return false;
+                }
+            }
+            case "left" -> {
+                this.solidArea.x -= speed;
+                if (player.solidArea.intersects(this.solidArea)) {
+                    reset(this, player);System.out.println("workin");
+                    return false;
+                }
+            }
+            case "right" -> {
+                this.solidArea.x += speed;
+                if (player.solidArea.intersects(this.solidArea)) {
+                    reset(this, player);System.out.println("workin");
+                    return false;
+                }
+            }
+        }
+        reset(this, player);
+        return true;
+    }
 
     protected void reset(Entity entity, SuperInteractable interactable) {
         entity.solidArea.x = entity.rectangleDefaultX;
@@ -141,6 +241,14 @@ public class Entity {
         interactable.solidArea.x = interactable.defaultRectangleX;
         interactable.solidArea.y = interactable.defaultRectangleY;
     }
+
+    protected void reset(Entity entity, Entity target) {
+        entity.solidArea.x = entity.rectangleDefaultX;
+        entity.solidArea.y = entity.rectangleDefaultY;
+        target.solidArea.x = target.rectangleDefaultX;
+        target.solidArea.y = target.rectangleDefaultY;
+    }
+
 
     protected void draw(Graphics2D g2D) {
         if (!Utility.notOutOfBounds(this, player)) {
@@ -208,6 +316,9 @@ public class Entity {
     }
 
     public void update() {
+        if (!Utility.notOutOfBounds(this, player)) {
+            return;
+        }
         setAction();
         if (collisionCheck()) {
             switch (direction) {
