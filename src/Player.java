@@ -209,13 +209,6 @@ public class Player extends Entity {
                     }
                     nextItem = newNextNum;
 
-                    for (SuperInteractable item : itemList) {
-                        if (item != null) {
-                            System.out.println("I STILL HAVE: " + item);
-                        }
-                    }
-                } else {
-                    System.out.println("false");
                 }
             }
         }
@@ -231,11 +224,7 @@ public class Player extends Entity {
         if (item.getName().equals("Key")) {
             numKeys++;
         }
-        for (int i = 0; itemList[i] != null; i++) {
-            System.out.println("This is currently in my inv: " + itemList[i]);
-        }
 
-        System.out.println();
         nextItem++;
         SuperInteractable.pickUp(item);
     }

@@ -155,28 +155,28 @@ public class Entity {
                         // moving up is closer to the 0 for y
                         this.solidArea.y -= speed;
                         if (NPCs[i].solidArea.intersects(this.solidArea)) {
-                            reset(this, NPCs[i]);System.out.println("ACCESSIBLE");
+                            reset(this, NPCs[i]);
                             return false;
                         }
                     }
                     case "down" -> {
                         this.solidArea.y += speed;
                         if (NPCs[i].solidArea.intersects(this.solidArea)) {
-                            reset(this, NPCs[i]);System.out.println("ACCESSIBLE");
+                            reset(this, NPCs[i]);
                             return false;
                         }
                     }
                     case "left" -> {
                         this.solidArea.x -= speed;
                         if (NPCs[i].solidArea.intersects(this.solidArea)) {
-                            reset(this, NPCs[i]);System.out.println("ACCESSIBLE");
+                            reset(this, NPCs[i]);
                             return false;
                         }
                     }
                     case "right" -> {
                         this.solidArea.x += speed;
                         if (NPCs[i].solidArea.intersects(this.solidArea)) {
-                            reset(this, NPCs[i]);System.out.println("ACCESSIBLE");
+                            reset(this, NPCs[i]);
                             return false;
                         }
                     }
@@ -205,28 +205,28 @@ public class Entity {
                 // moving up is closer to the 0 for y
                 this.solidArea.y -= speed;
                 if (player.solidArea.intersects(this.solidArea)) {
-                    reset(this, player);System.out.println("workin");
+                    reset(this, player);
                     return false;
                 }
             }
             case "down" -> {
                 this.solidArea.y += speed;
                 if (player.solidArea.intersects(this.solidArea)) {
-                    reset(this, player);System.out.println("workin");
+                    reset(this, player);
                     return false;
                 }
             }
             case "left" -> {
                 this.solidArea.x -= speed;
                 if (player.solidArea.intersects(this.solidArea)) {
-                    reset(this, player);System.out.println("workin");
+                    reset(this, player);
                     return false;
                 }
             }
             case "right" -> {
                 this.solidArea.x += speed;
                 if (player.solidArea.intersects(this.solidArea)) {
-                    reset(this, player);System.out.println("workin");
+                    reset(this, player);
                     return false;
                 }
             }
