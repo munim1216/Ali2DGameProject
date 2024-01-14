@@ -26,6 +26,11 @@ public class Entity {
     protected int health;
     protected int defense;
     protected double multipler = 1.0;
+    // dialouge
+    protected boolean hasDialogue;
+    protected String[] dialogue;
+    protected Entity lastTouchingPlayer;
+    protected int nextDialogue;
     public Entity(int rectangleDefaultX, int rectangleDefaultY){
         this.rectangleDefaultX = rectangleDefaultX;
         this.rectangleDefaultY = rectangleDefaultY;
@@ -156,6 +161,9 @@ public class Entity {
                         this.solidArea.y -= speed;
                         if (NPCs[i].solidArea.intersects(this.solidArea)) {
                             reset(this, NPCs[i]);
+                            lastTouchingPlayer = NPCs[i];
+                            System.out.println(lastTouchingPlayer);
+
                             return false;
                         }
                     }
@@ -163,6 +171,9 @@ public class Entity {
                         this.solidArea.y += speed;
                         if (NPCs[i].solidArea.intersects(this.solidArea)) {
                             reset(this, NPCs[i]);
+                            lastTouchingPlayer = NPCs[i];
+                            System.out.println(lastTouchingPlayer);
+
                             return false;
                         }
                     }
@@ -170,6 +181,9 @@ public class Entity {
                         this.solidArea.x -= speed;
                         if (NPCs[i].solidArea.intersects(this.solidArea)) {
                             reset(this, NPCs[i]);
+                            lastTouchingPlayer = NPCs[i];
+                            System.out.println(lastTouchingPlayer);
+
                             return false;
                         }
                     }
@@ -177,10 +191,14 @@ public class Entity {
                         this.solidArea.x += speed;
                         if (NPCs[i].solidArea.intersects(this.solidArea)) {
                             reset(this, NPCs[i]);
+                            lastTouchingPlayer = NPCs[i];
+                            System.out.println(lastTouchingPlayer);
+
                             return false;
                         }
                     }
                 }
+                lastTouchingPlayer = null;
                 reset(this, NPCs[i]);
             }
         }
@@ -314,7 +332,11 @@ public class Entity {
             actionLockCounter = 0;
         }
     }
-
+    protected String speak() {
+        String speechBox = dialogue[nextDialogue];
+        nextDialogue++;
+        return speechBox;
+    }
     public void update() {
         if (!Utility.notOutOfBounds(this, player)) {
             return;

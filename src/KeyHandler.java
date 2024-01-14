@@ -2,7 +2,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-    private boolean wKeyPressed, sKeyPressed, aKeyPressed, dKeyPressed;
+    private boolean wKeyPressed, sKeyPressed, aKeyPressed, dKeyPressed, fKeyPressed;
 
     public boolean isWKeyPressed() {
         return wKeyPressed;
@@ -18,6 +18,11 @@ public class KeyHandler implements KeyListener {
     public boolean isSKeyPressed() {
         return sKeyPressed;
     }
+
+    public boolean isFKeyPressed() {
+        return fKeyPressed;
+    }
+
     private GamePanel gp;
     public KeyHandler(GamePanel gp){
         this.gp = gp;
@@ -40,6 +45,7 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_S -> sKeyPressed = true;
             case KeyEvent.VK_A -> aKeyPressed = true;
             case KeyEvent.VK_D -> dKeyPressed = true;
+            case KeyEvent.VK_F -> fKeyPressed = true;
         }
     }
 

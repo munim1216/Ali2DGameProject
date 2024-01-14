@@ -14,8 +14,6 @@ public class AssetSetter {
     public void draw(Graphics2D g2D) {
         for (int i = 0; NPCs[i] != null; i++) {
             NPCs[i].draw(g2D);
-            g2D.setColor(Color.PINK);
-            g2D.draw(NPCs[i].solidArea);
         }
     }
 

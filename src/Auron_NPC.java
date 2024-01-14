@@ -17,6 +17,10 @@ public class Auron_NPC extends Entity {
         worldX = 21 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
         worldY = 21 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
 
+        hasDialogue = true;
+        dialogue = new String[] {"Hey, is that you Renee?", "I haven't seen you in ages", "So I'm not alone", "Do you know where we are?"};
+
+
         try {
 
             up1 = Utility.scale(ImageIO.read(new File("src/sprites/AuronSprite/auronUp1.png")));

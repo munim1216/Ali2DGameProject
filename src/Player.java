@@ -16,8 +16,12 @@ public class Player extends Entity {
     private int nextItem;
     private SuperInteractable addToItemList;
     private int numKeys;
-    public Player(KeyHandler keyH) {
+    // GAME PANEL
+    GamePanel gp;
+    public Player(KeyHandler keyH, GamePanel gp) {
         super(8,16);
+
+        this.gp = gp;
 
         worldX = 17 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
         worldY = 17 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
@@ -65,44 +69,48 @@ public class Player extends Entity {
     }
 
     public void playerUpdate() {
-        SuperInteractable interactable;
+        if (keyH.isFKeyPressed() && !entityCollisionCheck()) {
+            gp.startDialouge(lastTouchingPlayer);
+            lastTouchingPlayer.speak();
+        }
+        if (GamePanel.gameState == GamePanel.PLAYSTATE) {
+            if (keyH.isKeyPressed()) {
+                spriteCounter++;
+            }
+            if (keyH.isWKeyPressed()) {
+                direction = "up";
+                interactCheck();
+                if (collisionCheck()) {
+                    worldY -= speed;
+                }
+            }
+            if (keyH.isSKeyPressed()) {
+                direction = "down";
+                interactCheck();
+                if (collisionCheck()) {
+                    worldY += speed;
+                }
+            }
+            if (keyH.isDKeyPressed()) {
+                direction = "right";
+                interactCheck();
+                if (collisionCheck()) {
+                    worldX += speed;
+                }
+            }
+            if (keyH.isAKeyPressed()) {
+                direction = "left";
+                interactCheck();
+                if (collisionCheck()) {
+                    worldX -= speed;
+                }
+            }
+            if (spriteCounter >= 10) {
+                alternateSprite();
+                spriteCounter = 0;
+            }
+        }
 
-        if (keyH.isKeyPressed()) {
-            spriteCounter++;
-        }
-        if (keyH.isWKeyPressed()) {
-            direction = "up";
-            interactCheck();
-            if (collisionCheck()){
-                worldY -= speed;
-            }
-        }
-        if (keyH.isSKeyPressed()) {
-            direction = "down";
-            interactCheck();
-            if (collisionCheck()) {
-                worldY += speed;
-            }
-        }
-        if (keyH.isDKeyPressed()) {
-            direction = "right";
-            interactCheck();
-            if (collisionCheck()) {
-                worldX += speed;
-            }
-        }
-        if (keyH.isAKeyPressed()) {
-            direction = "left";
-            interactCheck();
-            if (collisionCheck()) {
-                worldX -= speed;
-            }
-        }
-
-        if (spriteCounter >= 10) {
-            alternateSprite();
-            spriteCounter = 0;
-        }
     }
 
     public void draw(Graphics2D g2D) {
@@ -208,7 +216,6 @@ public class Player extends Entity {
                         newNextNum++;
                     }
                     nextItem = newNextNum;
-
                 }
             }
         }

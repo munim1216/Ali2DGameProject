@@ -15,8 +15,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     // GAME LOOP
     private Thread gameThread;
-    private int gameState;
+    public static int gameState;
     private final int FPS = 60;
+    public static final int DIAL0GUESTATE = 2;
     public static final int PLAYSTATE = 1;
     public static final int PAUSESTATE = 0;
 
@@ -46,7 +47,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
 
-        player = new Player(keyH);
+        player = new Player(keyH, this);
 
         SuperInteractable.setPlayer(player);
 
@@ -103,8 +104,17 @@ public class GamePanel extends JPanel implements Runnable {
             assetSetter.draw(g2D);
             ui.draw(g2D);
             player.draw(g2D);
-        } else {
+        } else if (gameState == PAUSESTATE){
             ui.drawPauseMenu(g2D);
+        } else if (gameState == DIAL0GUESTATE) {
+            tileManager.draw(g2D);
+            SuperInteractable.draw(g2D);
+            assetSetter.draw(g2D);
+            ui.draw(g2D);
+            ui.drawDialougeBox(g2D);
+            player.draw(g2D);
+        } else {
+            throw new UnsupportedOperationException();
         }
 
 
@@ -124,6 +134,11 @@ public class GamePanel extends JPanel implements Runnable {
     public void unpause() {
         gameState = PLAYSTATE;
     }
+    public void startDialouge(Entity npc) {
+        gameState = DIAL0GUESTATE;
+
+    }
+
 
     private void update() {
         if (gameState == PLAYSTATE) {
