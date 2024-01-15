@@ -24,8 +24,8 @@ public class UI {
         try { // credit to https://github.com/curadProgrammer/shorts-java-programs/blob/main/Adding%20Custom%20Font/src/App.java for helping me kinda understand how i can do it
             File customFontFile = new File("src/Fonts/Cave-Story.ttf");
             titleFont = Font.createFont(Font.TRUETYPE_FONT, customFontFile);
-            customFontFile = new File(("src/Fonts/PixelEmulator-xq08.ttf"));
-            npcFont = Font.createFont(Font.TRUETYPE_FONT, customFontFile).deriveFont(24f);
+            File customFontFile2 = new File("src/Fonts/PixelifySans-VariableFont_wght.ttf");
+            npcFont = Font.createFont(Font.TRUETYPE_FONT, customFontFile2).deriveFont(24f);
         } catch (FontFormatException | IOException e) { // i dont understand why intelliji is allowed to put one | instead of || for an or??? quite odd
             e.printStackTrace();
         }
