@@ -38,6 +38,13 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
+        if (gp.getGameState() == GamePanel.TITLESCREEN) {
+            switch (code)  {
+                case KeyEvent.VK_S -> GamePanel.ui.incrementCommandNum();
+                case KeyEvent.VK_W -> GamePanel.ui.decrementCommandNum();
+                case KeyEvent.VK_F -> GamePanel.ui.selectOption();
+            }
+        }
         if (gp.getGameState() == GamePanel.PLAYSTATE) {
             switch (code) {
                 case KeyEvent.VK_P -> gp.pause();
@@ -50,9 +57,9 @@ public class KeyHandler implements KeyListener {
         } else if (gp.getGameState() == GamePanel.PAUSESTATE) {
             if (code == KeyEvent.VK_P) {
                 gp.unpause();
+            } else if (code == KeyEvent.VK_F) {
+                gp.unpause();
             }
-        } else if (code == KeyEvent.VK_ENTER) {
-            gp.unpause();
         }
 
     }

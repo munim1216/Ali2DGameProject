@@ -17,6 +17,7 @@ public class UI {
     private Font titleFont;
     private Font npcFont;
     private int commandNum;
+    private final int START = 0, CONTINUE = 1, QUIT = 2;
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -30,7 +31,9 @@ public class UI {
             e.printStackTrace();
         }
 
-        commandNum = 0;
+        // TITLE SCREEN
+        commandNum = START;
+
         nextDialogue = "";
 
         boxX = GamePanel.TILE_SIZE * 2;
@@ -130,6 +133,30 @@ public class UI {
         g2D.drawString(text, x, y);
         if (commandNum == 2) {
             g2D.drawString(">", x - GamePanel.TILE_SIZE, y);
+        }
+    }
+    public void incrementCommandNum() {
+        if (commandNum < QUIT) {
+            commandNum++;
+        } else {
+            commandNum = START;
+        }
+    }
+    public void decrementCommandNum() {
+        if (commandNum > START) {
+            commandNum--;
+        } else {
+            commandNum = QUIT;
+        }
+    }
+
+    public void selectOption() {
+        switch (commandNum) {
+            case START -> gp.startGame();
+            case CONTINUE -> {
+                throw new RuntimeException("UNIMPLEMENTED CURRENTLY");
+            }
+            case QUIT -> System.exit(0);
         }
     }
 

@@ -147,7 +147,9 @@ public class GamePanel extends JPanel implements Runnable {
         gameState = DIAL0GUESTATE;
 
     }
-
+    public void startGame() {
+        gameState = PLAYSTATE;
+    }
 
     private void update() {
         // actually keeps the game runnning!
