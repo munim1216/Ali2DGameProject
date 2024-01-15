@@ -22,8 +22,8 @@ public class Player extends Entity {
 
         this.gp = gp;
 
-        worldX = 17 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
-        worldY = 17 * GamePanel.TILE_SIZE - (GamePanel.TILE_SIZE / 2);
+        worldX = 10 * GamePanel.TILE_SIZE;
+        worldY = 4 * GamePanel.TILE_SIZE;
         speed = 3;
 
         direction = "down";

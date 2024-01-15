@@ -13,30 +13,52 @@ public class TileManager {
         this.gp = gp;
         this.player = player;
 
-        tiles = new Tile[10];
+        tiles = new Tile[27];
         mapTileNum = new int[GamePanel.MAX_WORLD_COL][GamePanel.MAX_WORLD_ROW];
 
         try {
-            BufferedImage image = ImageIO.read(new File("src/sprites/Tiles/grass_1.png"));
-            tiles[0] = new Tile(Utility.scale(image), false);
-            image = ImageIO.read(new File("src/sprites/Tiles/flower_grass_1.png"));
-            tiles[1]= new Tile(Utility.scale(image), false);
-            image = ImageIO.read(new File("src/sprites/Tiles/water_1.png"));
-            tiles[2] = new Tile(Utility.scale(image), true);
+            BufferedImage image = ImageIO.read(new File("src/sprites/Tiles/cave_1.png"));
+            tiles[10] = new Tile(Utility.scale(image), false);
+            image = ImageIO.read(new File("src/sprites/Tiles/dark_gray_brick_1.png"));
+            tiles[11]= new Tile(Utility.scale(image), false);
+            image = ImageIO.read(new File("src/sprites/Tiles/grass_1.png"));
+            tiles[12] = new Tile(Utility.scale(image), false);
             image = ImageIO.read(new File("src/sprites/Tiles/gray_brick_1.png"));
-            tiles[3] = new Tile(Utility.scale(image), true);
-            image = ImageIO.read(new File("src/sprites/Tiles/forest_1.png"));
-            tiles[4] = new Tile(Utility.scale(image), true);
+            tiles[13] = new Tile(Utility.scale(image), false);
+            image = ImageIO.read(new File("src/sprites/Tiles/stone_path_1.png"));
+            tiles[14] = new Tile(Utility.scale(image), false);
+            image = ImageIO.read(new File("src/sprites/Tiles/tree_1.png"));
+            tiles[15] = new Tile(Utility.scale(image), true);
+            image = ImageIO.read(new File("src/sprites/Tiles/wall_1.png"));
+            tiles[16] = new Tile(Utility.scale(image), true);
+            image = ImageIO.read(new File("src/sprites/Tiles/wall_2.png"));
+            tiles[17]= new Tile(Utility.scale(image), true);
+            image = ImageIO.read(new File("src/sprites/Tiles/wall_3.png"));
+            tiles[18] = new Tile(Utility.scale(image), true);
+            image = ImageIO.read(new File("src/sprites/Tiles/wall_4.png"));
+            tiles[19] = new Tile(Utility.scale(image), true);
+            image = ImageIO.read(new File("src/sprites/Tiles/wall_turn_bottom_left.png"));
+            tiles[20] = new Tile(Utility.scale(image), true);
+            image = ImageIO.read(new File("src/sprites/Tiles/wall_turn_bottom_right.png"));
+            tiles[21] = new Tile(Utility.scale(image), true);
+            image = ImageIO.read(new File("src/sprites/Tiles/wall_turn_top_left.png"));
+            tiles[22]= new Tile(Utility.scale(image), true);
+            image = ImageIO.read(new File("src/sprites/Tiles/wall_turn_top_right.png"));
+            tiles[23] = new Tile(Utility.scale(image), true);
+            image = ImageIO.read(new File("src/sprites/Tiles/water_1.png"));
+            tiles[24] = new Tile(Utility.scale(image), true);
+            image = ImageIO.read(new File("src/sprites/Tiles/water_2.png"));
+            tiles[25] = new Tile(Utility.scale(image), true);
             image = ImageIO.read(new File("src/sprites/Tiles/sand_1.png"));
-            tiles[5] = new Tile(Utility.scale(image), false);
+            tiles[26] = new Tile(Utility.scale(image), false);
         }   catch (IOException e) {
             e.printStackTrace();
         }
 
         loadMap();
-        new Key_Interactable(20 * GamePanel.TILE_SIZE,10 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
-        new Key_Interactable(20 * GamePanel.TILE_SIZE,12 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
-        new Key_Interactable(20 * GamePanel.TILE_SIZE,14 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
+        new Key_Interactable(5 * GamePanel.TILE_SIZE,3 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
+        new Key_Interactable(7 * GamePanel.TILE_SIZE,4 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
+        new Key_Interactable(25 * GamePanel.TILE_SIZE,5 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
         new Key_Interactable(20 * GamePanel.TILE_SIZE,16 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
 
         new Key_Interactable(23 * GamePanel.TILE_SIZE,10 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
@@ -49,9 +71,9 @@ public class TileManager {
         new WingedBoot_Interactable(26 * GamePanel.TILE_SIZE, 14 * GamePanel.TILE_SIZE); // test code to ensure boot can be drawn & picked up
         new WingedBoot_Interactable(26 * GamePanel.TILE_SIZE, 16 * GamePanel.TILE_SIZE); // test code to ensure boot can be drawn & picked up
 
-        new Door_Interactable(15 * GamePanel.TILE_SIZE, 5 * GamePanel.TILE_SIZE);
+        new Door_Interactable(15 * GamePanel.TILE_SIZE, 4 * GamePanel.TILE_SIZE);
 
-        new Chest_Interactable(18 * GamePanel.TILE_SIZE,18 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
+        new Chest_Interactable(30 * GamePanel.TILE_SIZE,2 * GamePanel.TILE_SIZE); // test code to ensure the key is being drawn correctly
     }
 
     public int[][] getMapTileNum() {
@@ -87,7 +109,7 @@ public class TileManager {
 
     private void loadMap() {
         try {
-            InputStream is = getClass().getResourceAsStream("Maps/starter_map.txt");
+            InputStream is = getClass().getResourceAsStream("Maps/map2.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int col = 0;
