@@ -14,18 +14,23 @@ public class UI {
     private final int textY;
     private Color opaqueBlack;
     private String nextDialogue;
-    private Font font;
+    private Font titleFont;
+    private Font npcFont;
+    private int commandNum;
 
     public UI(GamePanel gp) {
         this.gp = gp;
 
         try { // credit to https://github.com/curadProgrammer/shorts-java-programs/blob/main/Adding%20Custom%20Font/src/App.java for helping me kinda understand how i can do it
             File customFontFile = new File("src/Fonts/Cave-Story.ttf");
-            font = Font.createFont(Font.TRUETYPE_FONT, customFontFile).deriveFont(24f);
+            titleFont = Font.createFont(Font.TRUETYPE_FONT, customFontFile);
+            customFontFile = new File(("src/Fonts/PixelEmulator-xq08.ttf"));
+            npcFont = Font.createFont(Font.TRUETYPE_FONT, customFontFile).deriveFont(24f);
         } catch (FontFormatException | IOException e) { // i dont understand why intelliji is allowed to put one | instead of || for an or??? quite odd
             e.printStackTrace();
         }
 
+        commandNum = 0;
         nextDialogue = "";
 
         boxX = GamePanel.TILE_SIZE * 2;
@@ -63,7 +68,7 @@ public class UI {
         g2D.drawRoundRect(boxX + 5, boxY + 5, width - 10, height - 10, 25, 25) ;
 
         // words
-        g2D.setFont(font);
+        g2D.setFont(npcFont.deriveFont(24f));
         g2D.drawString(nextDialogue, textX, textY);
     }
 
@@ -77,7 +82,7 @@ public class UI {
         int y;
 
         // TITLE OF GAME
-        g2D.setFont(font.deriveFont(125f));
+        g2D.setFont(titleFont.deriveFont(125f));
         g2D.setColor(Color.GRAY);
         text = "REENE'S WORLD";
         x = getXForCenteredText(text, g2D) + 3;
@@ -102,21 +107,30 @@ public class UI {
         g2D.drawImage(renee, x, y, GamePanel.TILE_SIZE * 2, GamePanel.TILE_SIZE * 2, null);
 
         // MENU
-        g2D.setFont(font.deriveFont(45f));
+        g2D.setFont(titleFont.deriveFont(45f));
         text = "NEW GAME";
         x = getXForCenteredText(text, g2D);
         y += GamePanel.TILE_SIZE * 4;
         g2D.drawString(text, x, y);
+        if (commandNum == 0) {
+            g2D.drawString(">", x - GamePanel.TILE_SIZE, y);
+        }
 
         text = "CONTINUE";
         x = getXForCenteredText(text, g2D);
         y += GamePanel.TILE_SIZE;
         g2D.drawString(text, x, y);
+        if (commandNum == 1) {
+            g2D.drawString(">", x - GamePanel.TILE_SIZE, y);
+        }
 
         text = "QUIT";
         x = getXForCenteredText(text, g2D);
         y += GamePanel.TILE_SIZE;
         g2D.drawString(text, x, y);
+        if (commandNum == 2) {
+            g2D.drawString(">", x - GamePanel.TILE_SIZE, y);
+        }
     }
 
     private int getXForCenteredText(String text, Graphics2D g2D) {
