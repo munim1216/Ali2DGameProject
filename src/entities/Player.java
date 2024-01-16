@@ -92,15 +92,15 @@ public class Player extends Entity {
 
     public void playerUpdate() {
         if (keyH.isFKeyPressed() && !entityCollisionCheck()) {
-            if (gp.getGameState() == GamePanel.PLAYSTATE) {
+            if (gp.getGameState() == GamePanel.PLAY_STATE) {
                 gp.startDialouge();
                 UI.setNextDialogue(lastTouchingPlayer.speak());
                 keyH.setFKeyPressed(false);
-            } else if (gp.getGameState() == GamePanel.DIAL0GUESTATE) {
+            } else if (gp.getGameState() == GamePanel.DIAL0GUE_STATE) {
                 gp.unpause();
             }
         }
-        if (GamePanel.gameState == GamePanel.PLAYSTATE) {
+        if (GamePanel.gameState == GamePanel.PLAY_STATE) {
             if (keyH.isKeyPressed()) {
                 spriteCounter++;
             }

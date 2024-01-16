@@ -21,12 +21,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     // GAME LOOP
     private Thread gameThread;
-    public static int gameState;
     private final int FPS = 60;
-    public static final int TITLESCREEN = 3;
-    public static final int DIAL0GUESTATE = 2;
-    public static final int PLAYSTATE = 1;
-    public static final int PAUSESTATE = 0;
+    // CURRENT STATE OF GAME
+    public static int gameState;
+    public static final int EVENT_STATE = 4;
+    public static final int TITLE_SCREEN = 3;
+    public static final int DIAL0GUE_STATE = 2;
+    public static final int PLAY_STATE = 1;
+    public static final int PAUSE_STATE = 0;
 
     // PLAYER INPUT
     private KeyHandler keyH;
@@ -50,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
 
         // so you open on the title screen
-        gameState = TITLESCREEN;
+        gameState = TITLE_SCREEN;
 
         // so the game can actually detect key input
         keyH = new KeyHandler(this);
@@ -127,10 +129,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2D = (Graphics2D) g;
         switch (gameState) {
-            case PLAYSTATE -> playState(g2D);
-            case DIAL0GUESTATE -> dialogueState(g2D);
-            case PAUSESTATE -> pauseState(g2D);
-            case TITLESCREEN -> titleScreenState(g2D);
+            case PLAY_STATE -> playState(g2D);
+            case DIAL0GUE_STATE -> dialogueState(g2D);
+            case PAUSE_STATE -> pauseState(g2D);
+            case TITLE_SCREEN -> titleScreenState(g2D);
             default -> throw new UnsupportedOperationException("HEY YOU'RE NOT SUPPOSED TO BE IN THIS STATE.");
         }
 
@@ -146,17 +148,23 @@ public class GamePanel extends JPanel implements Runnable {
         return gameState;
     }
     public void pause() {
-        gameState = PAUSESTATE;
+        gameState = PAUSE_STATE;
     }
     public void unpause() {
-        gameState = PLAYSTATE;
+        gameState = PLAY_STATE;
     }
     public void startDialouge() {
-        gameState = DIAL0GUESTATE;
+        gameState = DIAL0GUE_STATE;
 
     }
+    public void startEvent() {
+        gameState = EVENT_STATE;
+    }
+    public void endEvent() {
+        gameState = PLAY_STATE;
+    }
     public void startGame() {
-        gameState = PLAYSTATE;
+        gameState = PLAY_STATE;
         MUSIC.stop();
         MUSIC.setClip(1);
         MUSIC.play();

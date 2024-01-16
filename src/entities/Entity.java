@@ -304,7 +304,7 @@ public class Entity {
     // the method that is called every 1/60 of a second so that all the entities are always updated
     public void update() {
         // if you aren't playing everything else should be paused
-        if (gp.getGameState() != GamePanel.PLAYSTATE) {
+        if (gp.getGameState() != GamePanel.PLAY_STATE) {
             return;
         }
         // don't really need to update something outside of frame
