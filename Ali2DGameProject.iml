@@ -6,7 +6,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/res" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/resources/audio/sounds" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/resources/txt_files/maps" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/fonts" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/resources" isTestSource="false" />

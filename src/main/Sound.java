@@ -11,7 +11,7 @@ public class Sound {
 
     public Sound(int type) {
         if (type == 0) {
-            sounds[0] = new File("/src/sounds/BackgroundMusic_1.wav");
+            sounds[0] = new File("//sounds/BackgroundMusic_1.wav");
             sounds[1] = new File("/src/sounds/green.wav");
         } else if (type == 1) {
             sounds[0] = new File("/src/sounds/keypickup.wav");
