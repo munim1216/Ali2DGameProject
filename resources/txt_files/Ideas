@@ -1,25 +1,21 @@
-class cards {
-constructor for cards
-attack, defend, heal, buff // what a card could do
-}
-class cardmanager {
-constructor for cardmanager (only one in game for player)
-return hand, collection of five cards you have?
-use card? call method on card to modify it // ex: player uses atk for 1, calls method to damage enemy for 1
-}
-class cardDeck {
-constructor for carddeck
-holds all cards player has.
-}
-
-player should have an array of cards, managed by above classes
-
 player needs health, new variable to entity called health; attack can maybe be a modifer? to implement buff.
 
-cooldown mechanic for cards. based on draw amount. start
+cooldown mechanic for player weapon
 
 add variable to tile class called, "has player seen before?" (needs better name) to have any areas the player hasnt seen look black.
 
 player inventory can be an array of artifacts the player has.
 
-dungeon crawling, rougelike inspired by slay the spire.
+after every room player gets to a tile that ends the room and brings them to a new room, door locks behind him.
+
+mad god created renee and co for his own entertainment, saying they'll get their own lives if they etertain him and get to the end of
+his trials? dungeon? mad house?
+
+shop keeper is one of the bosses so players are encouraged to buy from him
+
+you can stay in rooms for as long as u want to farm currency, but stay too long and pumishing boss comes, little reward to kill him
+
+get between rooms via boat man of chaos? implemtn rougelike events there? {
+    he judges u for every answer.
+    ex: say you were stuck in an office,
+}

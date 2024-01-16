@@ -1,6 +1,7 @@
 package main;
 import entities.Player;
 import javax.imageio.ImageIO;
+import events.Event;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -97,8 +98,7 @@ public class UI {
     }
     public void drawEvent(Graphics2D g2D, Event event) {
         drawBox(g2D);
-
-        //g2D.drawString(event.getDialogue(), textX, textY);
+        g2D.drawString(event.getDialogue(), textX, textY);
     }
 
 

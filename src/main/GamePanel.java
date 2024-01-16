@@ -3,7 +3,10 @@ package main;
 import entities.Entity;
 import entities.Player;
 import entities.AssetSetter;
+import events.EventHandler;
+import events.Spikes_Event;
 import interactables.SuperInteractable;
+import events.Event;
 import javax.swing.*;
 import java.awt.*;
 
@@ -80,6 +83,12 @@ public class GamePanel extends JPanel implements Runnable {
         // collision hell needs all of these.
         Entity.setNeededVariables(tileManager.getMapTileNum(), tileManager.getTiles(), player, assetSetter.getNPCs(), this);
 
+        // event needs access to game panel
+        Event.addGPandUI(this);
+
+        // testing code
+        new Spikes_Event();
+
         // the game can actually start if the thread is active
         startGameThread();
 
@@ -144,6 +153,7 @@ public class GamePanel extends JPanel implements Runnable {
         g2D.dispose();
     }
 
+    // game state things
     public int getGameState() {
         return gameState;
     }
@@ -163,6 +173,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void endEvent() {
         gameState = PLAY_STATE;
     }
+    // beginning the game after clicking start
     public void startGame() {
         gameState = PLAY_STATE;
         MUSIC.stop();
@@ -176,6 +187,7 @@ public class GamePanel extends JPanel implements Runnable {
         player.playerUpdate();
         SuperInteractable.interactablesInFrame();
         assetSetter.update();
+        EventHandler.update();
     }
 
     private void setUpWindow() {
