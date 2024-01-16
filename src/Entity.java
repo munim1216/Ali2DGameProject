@@ -104,6 +104,7 @@ public class Entity {
     protected boolean interactableCollisionCheck() {
         SuperInteractable[] inScreen = SuperInteractable.getInScreen();
         for (int i = 0; inScreen[i] != null; i++) {
+            if (SuperInteractable.inScreen[i].isCollision()) {
             // its actual x in the world, not the hitbox
             this.solidArea.x = this.solidArea.x + this.worldX;
             this.solidArea.y = this.solidArea.y + this.worldY;
@@ -113,42 +114,23 @@ public class Entity {
             inScreen[i].getSolidArea().y = inScreen[i].getSolidArea().y + inScreen[i].getWorldY();
 
             // switch is only checked if collision is true
-            if (SuperInteractable.inScreen[i].isCollision()) {
+
                 // after adjusting where the hit boxes of both the entity and interactable, it tests if the rectangles that represent their hit boxes
                 // would intersect after moving in the direction they're trying to move in. (thanks to the handy method intersect from rectangle class)
                 switch (direction) {
-                    case "up" -> {
-                        this.solidArea.y -= speed;
-                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, inScreen[i]);
-                            return false;
-                        }
-                    }
-                    case "down" -> {
-                        this.solidArea.y += speed;
-                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, inScreen[i]);
-                            return false;
-                        }
-                    }
-                    case "left" -> {
-                        this.solidArea.x -= speed;
-                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, inScreen[i]);
-                            return false;
-                        }
-                    }
-                    case "right" -> {
-                        this.solidArea.x += speed;
-                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, inScreen[i]);
-                            return false;
-                        }
-                    }
+                    case "up" -> this.solidArea.y -= speed;
+                    case "down" -> this.solidArea.y += speed;
+                    case "left" -> this.solidArea.x -= speed;
+                    case "right" -> this.solidArea.x += speed;
+                }
+                if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                    reset(this, inScreen[i]);
+                    return false;
+                } else {
+                    reset(this, inScreen[i]);
                 }
             }
             // it needs to reset it to its default rectangle x and y, or the hitboxes would get infintely massive and mess up a lotta stuff
-            reset(this, inScreen[i]);
         }
         return true;
     }
@@ -229,15 +211,19 @@ public class Entity {
 
 
     protected void draw(Graphics2D g2D) {
+        // used to actually make the sprites appear on the screen
         if (!Utility.notOutOfBounds(this, player)) {
+            // only rendered if its in frame
             return;
         }
 
+        // math to decide where on the screen entity is being drawn
         int screenX = worldX - player.getworldX() + Player.PLAYER_SCREEN_X;
         int screenY = worldY - player.getworldY() + Player.PLAYER_SCREEN_Y;
 
         BufferedImage image = null;
 
+        // switch to decide which sprite is being displayed
         switch (direction) {
             case "up" -> {
                 if (currentSprite == 1) {
@@ -269,9 +255,11 @@ public class Entity {
             }
         }
 
+        // the actual draw!
         g2D.drawImage(image, screenX, screenY, null);
     }
 
+    // made this a method so its easier to read
     protected void alternateSprite() {
         if (currentSprite == 1) {
             currentSprite = 2;
@@ -280,6 +268,7 @@ public class Entity {
         }
     }
 
+    // for npcs and mobs, their default behavior, there will be more advanced ones in the future (hopefully)
     protected void setAction() {
         actionLockCounter++;
         if (actionLockCounter >= 120) {
@@ -292,6 +281,8 @@ public class Entity {
             actionLockCounter = 0;
         }
     }
+
+    // method to return the string that is needed to be drawn on the screen when you're in dialogue
     protected String speak() {
         String speechBox;
         if (nextDialogue >= dialogue.length) {
@@ -302,6 +293,8 @@ public class Entity {
 
         return speechBox;
     }
+
+    // the mehot
     public void update() {
         if (gp.getGameState() != GamePanel.PLAYSTATE) {
             return;
@@ -326,5 +319,4 @@ public class Entity {
             spriteCounter = 0;
         }
     }
-
 }
