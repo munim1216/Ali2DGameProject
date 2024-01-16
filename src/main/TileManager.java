@@ -1,7 +1,18 @@
+package main;
+
+import entities.Player;
+import interactables.Chest_Interactable;
+import interactables.Door_Interactable;
+import interactables.Key_Interactable;
+import interactables.WingedBoot_Interactable;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.InputStream;
 
 public class TileManager {
     private GamePanel gp;
@@ -109,7 +120,7 @@ public class TileManager {
 
     private void loadMap() {
         try {
-            InputStream is = getClass().getResourceAsStream("Maps/map2.txt");
+            InputStream is = getClass().getResourceAsStream("/src/maps/map2.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int col = 0;

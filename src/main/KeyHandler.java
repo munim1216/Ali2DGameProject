@@ -1,3 +1,5 @@
+package main;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -37,15 +39,17 @@ public class KeyHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        // the code is an int that represents which key has been pressed
         int code = e.getKeyCode();
+
+        // checks which kinda state the game is in
         if (gp.getGameState() == GamePanel.TITLESCREEN) {
             switch (code) {
-                case KeyEvent.VK_S -> GamePanel.ui.incrementCommandNum();
-                case KeyEvent.VK_W -> GamePanel.ui.decrementCommandNum();
-                case KeyEvent.VK_F -> GamePanel.ui.selectOption();
+                case KeyEvent.VK_S -> gp.UI.incrementCommandNum();
+                case KeyEvent.VK_W -> gp.UI.decrementCommandNum();
+                case KeyEvent.VK_F -> gp.UI.selectOption();
             }
-        }
-        if (gp.getGameState() == GamePanel.PLAYSTATE) {
+        } else if (gp.getGameState() == GamePanel.PLAYSTATE) {
             switch (code) {
                 case KeyEvent.VK_P -> gp.pause();
                 case KeyEvent.VK_W -> wKeyPressed = true;

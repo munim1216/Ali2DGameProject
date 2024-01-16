@@ -1,3 +1,5 @@
+package main;
+import entities.Player;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -93,16 +95,15 @@ public class UI {
         g2D.setFont(new Font("Times New Roman", Font.BOLD, 40));
         g2D.drawString("PAUSED", GamePanel.SCREEN_WIDTH / 2 - 20, GamePanel.SCREEN_HEIGHT / 2);
     }
+    public void drawEvent(Graphics2D g2D, Event event) {
+        drawBox(g2D);
 
-    public void drawDialougeBox(Graphics2D g2D) {
-        // actual rectangle
-        g2D.setColor(opaqueBlack);
-        g2D.fillRoundRect(boxX, boxY, width, height, 35, 35) ;
+        //g2D.drawString(event.getDialogue(), textX, textY);
+    }
 
-        // outline
-        g2D.setStroke(new BasicStroke(5));
-        g2D.setColor(Color.WHITE);
-        g2D.drawRoundRect(boxX + 5, boxY + 5, width - 10, height - 10, 25, 25) ;
+
+    public void drawDialouge(Graphics2D g2D) {
+       drawBox(g2D);
 
         // words
         g2D.setFont(npcFont.deriveFont(24f));
@@ -209,5 +210,16 @@ public class UI {
     private int getXForCenteredText(String text, Graphics2D g2D) {
         int length = (int) g2D.getFontMetrics().getStringBounds(text, g2D).getWidth();
         return GamePanel.SCREEN_WIDTH / 2 - length / 2;
+    }
+
+    private void drawBox(Graphics2D g2D) {
+        // actual rectangle
+        g2D.setColor(opaqueBlack);
+        g2D.fillRoundRect(boxX, boxY, width, height, 35, 35) ;
+
+        // outline
+        g2D.setStroke(new BasicStroke(5));
+        g2D.setColor(Color.WHITE);
+        g2D.drawRoundRect(boxX + 5, boxY + 5, width - 10, height - 10, 25, 25) ;
     }
 }

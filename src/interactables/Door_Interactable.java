@@ -1,3 +1,7 @@
+package interactables;
+
+import main.Utility;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
@@ -8,7 +12,7 @@ public class Door_Interactable extends SuperInteractable {
         super(0, 0);
         collision = true;
         canPickUp = false;
-        solidArea = new Rectangle(defaultRectangleX, defaultRectangleY, 48, 48);
+        solidArea = new Rectangle(DEFAULT_RECTANGLE_X, DEFAULT_RECTANGLE_Y, 48, 48);
 
         name = "Door";
         neededToInteract = "Key";

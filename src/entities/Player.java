@@ -1,3 +1,11 @@
+package entities;
+
+import interactables.SuperInteractable;
+import main.GamePanel;
+import main.KeyHandler;
+import main.UI;
+import main.Utility;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,7 +27,8 @@ public class Player extends Entity {
     // PLAYER HEALTH
     public final int FULL_SHIELD, HALF_SHIELD, EMPTY_SHIELD;
     private int currentHealth;
-
+    // UI
+    private UI UI;
     public Player(KeyHandler keyH) {
         super(8,16);
 
@@ -58,6 +67,9 @@ public class Player extends Entity {
         }
     }
 
+    public void addUI(UI ui) {
+        this.UI = ui;
+    }
     public int getworldX() {
         return worldX;
     }
@@ -82,7 +94,7 @@ public class Player extends Entity {
         if (keyH.isFKeyPressed() && !entityCollisionCheck()) {
             if (gp.getGameState() == GamePanel.PLAYSTATE) {
                 gp.startDialouge();
-                GamePanel.ui.setNextDialogue(lastTouchingPlayer.speak());
+                UI.setNextDialogue(lastTouchingPlayer.speak());
                 keyH.setFKeyPressed(false);
             } else if (gp.getGameState() == GamePanel.DIAL0GUESTATE) {
                 gp.unpause();
@@ -167,54 +179,51 @@ public class Player extends Entity {
 
     private void interactCheck() { // rework into interact check?
         boolean stop = false;
-        for (int i = 0; SuperInteractable.inScreen[i] != null; i++) {
-            if (SuperInteractable.inScreen[i].canInteract) {
+        for (int i = 0; SuperInteractable.getInScreen()[i] != null; i++) {
+            if (SuperInteractable.getInScreen()[i].isCanInteract()) {
                 this.solidArea.x = this.solidArea.x + this.worldX;
                 this.solidArea.y = this.solidArea.y + this.worldY;
 
-                SuperInteractable.inScreen[i].getSolidArea().x = SuperInteractable.inScreen[i].getSolidArea().x + SuperInteractable.inScreen[i].getWorldX();
-                SuperInteractable.inScreen[i].getSolidArea().y = SuperInteractable.inScreen[i].getSolidArea().y + SuperInteractable.inScreen[i].getWorldY();
+                SuperInteractable.getInScreen()[i].getSolidArea().x = SuperInteractable.getInScreen()[i].getSolidArea().x + SuperInteractable.getInScreen()[i].getWorldX();
+                SuperInteractable.getInScreen()[i].getSolidArea().y = SuperInteractable.getInScreen()[i].getSolidArea().y + SuperInteractable.getInScreen()[i].getWorldY();
 
                 switch (direction) {
                     case "up" -> {
                         // moving up is closer to the 0 for y
                         this.solidArea.y -= speed;
-                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, SuperInteractable.inScreen[i]);
-                            interact(SuperInteractable.inScreen[i]);
+                        if (SuperInteractable.getInScreen()[i].getSolidArea().intersects(this.solidArea)) {
+                            reset(this, SuperInteractable.getInScreen()[i]);
+                            interact(SuperInteractable.getInScreen()[i]);
                             stop = true;
                         }
                     }
                     case "down" -> {
                         this.solidArea.y += speed;
-                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, SuperInteractable.inScreen[i]);
-                            interact(SuperInteractable.inScreen[i]);
+                        if (SuperInteractable.getInScreen()[i].getSolidArea().intersects(this.solidArea)) {
+                            reset(this, SuperInteractable.getInScreen()[i]);
+                            interact(SuperInteractable.getInScreen()[i]);
                             stop = true;
                         }
                     }
                     case "left" -> {
                         this.solidArea.x -= speed;
-                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, SuperInteractable.inScreen[i]);
-                            interact(SuperInteractable.inScreen[i]);
+                        if (SuperInteractable.getInScreen()[i].getSolidArea().intersects(this.solidArea)) {
+                            reset(this, SuperInteractable.getInScreen()[i]);
+                            interact(SuperInteractable.getInScreen()[i]);
                             stop = true;
                         }
                     }
                     case "right" -> {
                         this.solidArea.x += speed;
-                        if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, SuperInteractable.inScreen[i]);
-                            interact(SuperInteractable.inScreen[i]);
+                        if (SuperInteractable.getInScreen()[i].getSolidArea().intersects(this.solidArea)) {
+                            reset(this, SuperInteractable.getInScreen()[i]);
+                            interact(SuperInteractable.getInScreen()[i]);
                             stop = true;
                         }
 
                     }
                 }
-                reset(this, SuperInteractable.inScreen[i]);
-                if (stop) {
-                    break;
-                }
+                reset(this, SuperInteractable.getInScreen()[i]);
             }
         }
     }
@@ -239,7 +248,7 @@ public class Player extends Entity {
 
 
     private void pickUp(SuperInteractable item) {
-        if (item == null || !item.canPickUp) {
+        if (item == null || !item.isCanPickUp()) {
             return;
         }
         itemList[nextItem] = item;

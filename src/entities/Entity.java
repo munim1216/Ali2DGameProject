@@ -1,3 +1,10 @@
+package entities;
+
+import interactables.SuperInteractable;
+import main.GamePanel;
+import main.Tile;
+import main.Utility;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -104,7 +111,7 @@ public class Entity {
     protected boolean interactableCollisionCheck() {
         SuperInteractable[] inScreen = SuperInteractable.getInScreen();
         for (int i = 0; inScreen[i] != null; i++) {
-            if (SuperInteractable.inScreen[i].isCollision()) {
+            if (SuperInteractable.getInScreen()[i].isCollision()) {
             // its actual x in the world, not the hitbox
             this.solidArea.x = this.solidArea.x + this.worldX;
             this.solidArea.y = this.solidArea.y + this.worldY;
@@ -123,7 +130,7 @@ public class Entity {
                     case "left" -> this.solidArea.x -= speed;
                     case "right" -> this.solidArea.x += speed;
                 }
-                if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
+                if (SuperInteractable.getInScreen()[i].getSolidArea().intersects(this.solidArea)) {
                     reset(this, inScreen[i]);
                     return false;
                 } else {
@@ -198,8 +205,8 @@ public class Entity {
     protected void reset(Entity entity, SuperInteractable interactable) {
         entity.solidArea.x = entity.rectangleDefaultX;
         entity.solidArea.y = entity.rectangleDefaultY;
-        interactable.solidArea.x = interactable.defaultRectangleX;
-        interactable.solidArea.y = interactable.defaultRectangleY;
+        interactable.getSolidArea().x = interactable.DEFAULT_RECTANGLE_X;
+        interactable.getSolidArea().y = interactable.DEFAULT_RECTANGLE_Y;
     }
 
     protected void reset(Entity entity, Entity target) {
@@ -294,16 +301,21 @@ public class Entity {
         return speechBox;
     }
 
-    // the mehot
+    // the method that is called every 1/60 of a second so that all the entities are always updated
     public void update() {
+        // if you aren't playing everything else should be paused
         if (gp.getGameState() != GamePanel.PLAYSTATE) {
             return;
         }
+        // don't really need to update something outside of frame
         if (!Utility.notOutOfBounds(this, player)) {
             return;
         }
 
+        // the method to decide a npc/mob's action
         setAction();
+
+        // can only move if there isnt a collision
         if (collisionCheck()) {
             switch (direction) {
                 case "up" -> worldY -= speed;
@@ -313,10 +325,19 @@ public class Entity {
             }
         }
 
+        // so the sprites don't rapidly change
         spriteCounter++;
         if (spriteCounter > 12) {
             alternateSprite();
             spriteCounter = 0;
         }
+    }
+
+    public int getWorldX() {
+        return worldX;
+    }
+
+    public int getWorldY() {
+        return worldY;
     }
 }

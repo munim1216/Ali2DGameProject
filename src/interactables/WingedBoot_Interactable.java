@@ -1,4 +1,7 @@
-import javax.imageio.IIOException;
+package interactables;
+
+import main.Utility;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
@@ -8,7 +11,7 @@ public class WingedBoot_Interactable extends SuperInteractable {
     public WingedBoot_Interactable(int worldX, int worldY) {
         super(3, 3);
 
-        solidArea = new Rectangle(defaultRectangleX, defaultRectangleY, 39, 39);
+        solidArea = new Rectangle(DEFAULT_RECTANGLE_X, DEFAULT_RECTANGLE_Y, 39, 39);
         collision = false;
         canPickUp = true;
 

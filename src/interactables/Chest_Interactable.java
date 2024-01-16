@@ -1,3 +1,7 @@
+package interactables;
+
+import main.Utility;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
@@ -8,7 +12,7 @@ public class Chest_Interactable extends SuperInteractable {
         super(0,18);
         collision = true;
         canPickUp = false;
-        solidArea = new Rectangle(defaultRectangleX, defaultRectangleY, 48, 30);
+        solidArea = new Rectangle(DEFAULT_RECTANGLE_X, DEFAULT_RECTANGLE_Y, 48, 30);
 
         name = "Chest";
         neededToInteract = "Key";

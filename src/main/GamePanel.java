@@ -1,3 +1,9 @@
+package main;
+
+import entities.Entity;
+import entities.Player;
+import entities.AssetSetter;
+import interactables.SuperInteractable;
 import javax.swing.*;
 import java.awt.*;
 
@@ -30,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int MAX_WORLD_COL = 50;
     public static final int MAX_WORLD_ROW = 50;
     private TileManager tileManager;
-    public static UI ui;
+    public final UI UI;
     // SOUND
     public static Sound MUSIC = new Sound(0);
     public static Sound SE = new Sound(1);
@@ -58,7 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
         SuperInteractable.setPlayer(player);
 
         // the ui, needs player to access its hp
-        ui = new UI(this, player);
+        UI = new UI(this, player);
 
         // to deal with npcs (and maybe enemies in the future too)
         assetSetter = new AssetSetter();
@@ -176,24 +182,24 @@ public class GamePanel extends JPanel implements Runnable {
         tileManager.draw(g2D);
         SuperInteractable.draw(g2D);
         assetSetter.draw(g2D);
-        ui.draw(g2D);
+        UI.draw(g2D);
         player.draw(g2D);
     }
 
     private void pauseState(Graphics2D g2D) {
-        ui.drawPauseMenu(g2D);
+        UI.drawPauseMenu(g2D);
     }
 
     private void dialogueState(Graphics2D g2D) {
         tileManager.draw(g2D);
         SuperInteractable.draw(g2D);
         assetSetter.draw(g2D);
-        ui.draw(g2D);
-        ui.drawDialougeBox(g2D);
+        UI.draw(g2D);
+        UI.drawDialouge(g2D);
         player.draw(g2D);
     }
 
     private void titleScreenState(Graphics2D g2D) {
-        ui.drawTitleScreen(g2D);
+        UI.drawTitleScreen(g2D);
     }
 }

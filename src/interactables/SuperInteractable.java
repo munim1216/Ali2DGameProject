@@ -1,3 +1,8 @@
+package interactables;
+
+import main.GamePanel;
+import entities.Player;
+import main.Utility;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -15,7 +20,8 @@ public class SuperInteractable {
     protected static SuperInteractable[] inScreen = new SuperInteractable[100];
     // LOCATION
     protected int worldX, worldY;
-    protected final int defaultRectangleX, defaultRectangleY;
+    public final int DEFAULT_RECTANGLE_X;
+    public final int DEFAULT_RECTANGLE_Y;
     // FOR STORING TO DRAW
     protected static SuperInteractable[] interactables = new SuperInteractable[100];
     protected static int nextSlot = 0;
@@ -23,25 +29,29 @@ public class SuperInteractable {
     protected boolean canInteract = true;
 
     protected SuperInteractable(int defaultRectangleX, int defaultRectangleY) {
-        this.defaultRectangleX = defaultRectangleX;
-        this.defaultRectangleY = defaultRectangleY;
+        this.DEFAULT_RECTANGLE_X = defaultRectangleX;
+        this.DEFAULT_RECTANGLE_Y = defaultRectangleY;
         this.idx = nextSlot;
         interactables[nextSlot] = this;
         nextSlot++;
     }
     // make a new overloaded constructor so u can actually remove things from the interactable array, and keep them on the player inv array (for stuff other than key)
 
-    protected Rectangle getSolidArea() {
+    public Rectangle getSolidArea() {
         return solidArea;
     }
-    protected int getWorldX() {
+    public int getWorldX() {
         return worldX;
     }
 
-    protected int getWorldY() {
+    public boolean isCanInteract() {
+        return canInteract;
+    }
+
+    public int getWorldY() {
         return worldY;
     }
-    protected String getName() {
+    public String getName() {
         return name;
     }
     protected String getNeededItem() {

@@ -1,3 +1,5 @@
+package entities;
+
 import java.awt.*;
 
 public class AssetSetter {
