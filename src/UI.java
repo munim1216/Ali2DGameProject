@@ -12,22 +12,41 @@ public class UI {
     private final int height;
     private final int textX;
     private final int textY;
+    private final int heartX;
+    private final int heartY;
     private Color opaqueBlack;
     private String nextDialogue;
     private Font titleFont;
     private Font npcFont;
     private int commandNum;
     private final int START = 0, CONTINUE = 1, QUIT = 2;
+    private BufferedImage full_shield, half_shield, empty_shield;
+    private Player player;
 
-    public UI(GamePanel gp) {
+    public UI(GamePanel gp, Player player) {
         this.gp = gp;
+        this.player = player;
 
+        // custom fonts
         try { // credit to https://github.com/curadProgrammer/shorts-java-programs/blob/main/Adding%20Custom%20Font/src/App.java for helping me kinda understand how i can do it
             File customFontFile = new File("src/Fonts/Cave-Story.ttf");
             titleFont = Font.createFont(Font.TRUETYPE_FONT, customFontFile);
             File customFontFile2 = new File("src/Fonts/PixelifySans-VariableFont_wght.ttf");
             npcFont = Font.createFont(Font.TRUETYPE_FONT, customFontFile2).deriveFont(24f);
         } catch (FontFormatException | IOException e) { // i dont understand why intelliji is allowed to put one | instead of || for an or??? quite odd
+            e.printStackTrace();
+        }
+
+        // player health ui
+        heartX = GamePanel.TILE_SIZE / 2;
+        heartY = GamePanel.TILE_SIZE / 2;
+        try {
+
+            full_shield = Utility.scale(ImageIO.read(new File("src/sprites/shields/full_shield.png")));
+            half_shield = Utility.scale(ImageIO.read(new File("src/sprites/shields/half_shield.png")));
+            empty_shield = Utility.scale(ImageIO.read(new File("src/sprites/shields/empty_shield.png")));
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -49,7 +68,22 @@ public class UI {
     }
 
     public void draw(Graphics2D g2D) {
-        // to be implemented later
+        int hp = player.getCurrentHealth();
+        int x = heartX;
+        int y = heartY;
+
+        for (int i = 1; i < 4; i++) {
+            if (hp - 2 >= 0) {
+                g2D.drawImage(full_shield, x, y, null);
+                hp -= 2;
+            } else if (hp - 1 >= 0) {
+                g2D.drawImage(half_shield, x, y, null);
+                hp--;
+            } else {
+                g2D.drawImage(empty_shield, x, y, null);
+            }
+            x += GamePanel.TILE_SIZE;
+        }
     }
 
     public void drawPauseMenu(Graphics2D g2D) {

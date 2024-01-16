@@ -12,6 +12,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/Sound" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/sprites/AuronSprite" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Fonts" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sprites/shields" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

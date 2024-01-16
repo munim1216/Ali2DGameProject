@@ -57,8 +57,8 @@ public class GamePanel extends JPanel implements Runnable {
         // needed to render only things in frame
         SuperInteractable.setPlayer(player);
 
-        // the ui,
-        ui = new UI(this);
+        // the ui, needs player to access its hp
+        ui = new UI(this, player);
 
         // to deal with npcs (and maybe enemies in the future too)
         assetSetter = new AssetSetter();
@@ -149,6 +149,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void startGame() {
         gameState = PLAYSTATE;
+        MUSIC.stop();
+        MUSIC.setClip(1);
+        MUSIC.play();
+        MUSIC.loop();
     }
 
     private void update() {

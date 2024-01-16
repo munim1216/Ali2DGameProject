@@ -16,11 +16,18 @@ public class Player extends Entity {
     private int nextItem;
     private SuperInteractable addToItemList;
     private int numKeys;
-    // GAME PANEL
+    // PLAYER HEALTH
+    public final int FULL_SHIELD, HALF_SHIELD, EMPTY_SHIELD;
+    private int currentHealth;
+
     public Player(KeyHandler keyH) {
         super(8,16);
 
-        this.gp = gp;
+        FULL_SHIELD = 2;
+        HALF_SHIELD = 1;
+        EMPTY_SHIELD = 0;
+
+        currentHealth = 6;
 
         worldX = 10 * GamePanel.TILE_SIZE;
         worldY = 4 * GamePanel.TILE_SIZE;
@@ -61,6 +68,10 @@ public class Player extends Entity {
 
     public int getNumKeys() {
         return numKeys;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
     }
 
     public SuperInteractable[] getItemList() {
