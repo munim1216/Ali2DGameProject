@@ -29,7 +29,7 @@ public class Entity {
     // dialouge
     protected boolean hasDialogue; // not every entity gonna have dialogue (such as enemies)
     protected String[] dialogue; // their actual words
-    protected Entity lastTouchingPlayer; // to initiate dialogue
+    protected static Entity lastTouchingPlayer; // to initiate dialogue
     protected int nextDialogue; // the next dialogue that's gonna be written
     protected static GamePanel gp; // needed to check the playstate
     public Entity(int rectangleDefaultX, int rectangleDefaultY){
@@ -114,9 +114,10 @@ public class Entity {
 
             // switch is only checked if collision is true
             if (SuperInteractable.inScreen[i].isCollision()) {
+                // after adjusting where the hit boxes of both the entity and interactable, it tests if the rectangles that represent their hit boxes
+                // would intersect after moving in the direction they're trying to move in. (thanks to the handy method intersect from rectangle class)
                 switch (direction) {
                     case "up" -> {
-                        // moving up is closer to the 0 for y
                         this.solidArea.y -= speed;
                         if (SuperInteractable.inScreen[i].getSolidArea().intersects(this.solidArea)) {
                             reset(this, inScreen[i]);
@@ -146,6 +147,7 @@ public class Entity {
                     }
                 }
             }
+            // it needs to reset it to its default rectangle x and y, or the hitboxes would get infintely massive and mess up a lotta stuff
             reset(this, inScreen[i]);
         }
         return true;
@@ -162,51 +164,22 @@ public class Entity {
                 NPCs[i].solidArea.x = NPCs[i].solidArea.x + NPCs[i].worldX;
                 NPCs[i].solidArea.y = NPCs[i].solidArea.y + NPCs[i].worldY;
 
-                // switch is only checked if collision is true
+                // after adjusting where the hit boxes of both the entity and other entity, it tests if the rectangles that represent their hit boxes
+                // would intersect after moving in the direction they're trying to move in. (thanks to the handy method intersect from rectangle class)
                 switch (direction) {
-                    case "up" -> {
-                        // moving up is closer to the 0 for y
-                        this.solidArea.y -= speed;
-                        if (NPCs[i].solidArea.intersects(this.solidArea)) {
-                            reset(this, NPCs[i]);
-                            lastTouchingPlayer = NPCs[i];
-                            System.out.println(lastTouchingPlayer);
-
-                            return false;
-                        }
-                    }
-                    case "down" -> {
-                        this.solidArea.y += speed;
-                        if (NPCs[i].solidArea.intersects(this.solidArea)) {
-                            reset(this, NPCs[i]);
-                            lastTouchingPlayer = NPCs[i];
-                            System.out.println(lastTouchingPlayer);
-
-                            return false;
-                        }
-                    }
-                    case "left" -> {
-                        this.solidArea.x -= speed;
-                        if (NPCs[i].solidArea.intersects(this.solidArea)) {
-                            reset(this, NPCs[i]);
-                            lastTouchingPlayer = NPCs[i];
-                            System.out.println(lastTouchingPlayer);
-
-                            return false;
-                        }
-                    }
-                    case "right" -> {
-                        this.solidArea.x += speed;
-                        if (NPCs[i].solidArea.intersects(this.solidArea)) {
-                            reset(this, NPCs[i]);
-                            lastTouchingPlayer = NPCs[i];
-                            System.out.println(lastTouchingPlayer);
-
-                            return false;
-                        }
-                    }
+                    case "up" -> this.solidArea.y -= speed;
+                    case "down" -> this.solidArea.y += speed;
+                    case "left" -> this.solidArea.x -= speed;
+                    case "right" -> this.solidArea.x += speed;
                 }
-                lastTouchingPlayer = null;
+                if (NPCs[i].solidArea.intersects(this.solidArea)) {
+                    reset(this, NPCs[i]);
+                    if (this == player) {
+                        lastTouchingPlayer = NPCs[i];
+                    }
+                    return false;
+                }
+
                 reset(this, NPCs[i]);
             }
         }
@@ -227,35 +200,14 @@ public class Entity {
 
         // switch is only checked if collision is true
         switch (direction) {
-            case "up" -> {
-                // moving up is closer to the 0 for y
-                this.solidArea.y -= speed;
-                if (player.solidArea.intersects(this.solidArea)) {
-                    reset(this, player);
-                    return false;
-                }
-            }
-            case "down" -> {
-                this.solidArea.y += speed;
-                if (player.solidArea.intersects(this.solidArea)) {
-                    reset(this, player);
-                    return false;
-                }
-            }
-            case "left" -> {
-                this.solidArea.x -= speed;
-                if (player.solidArea.intersects(this.solidArea)) {
-                    reset(this, player);
-                    return false;
-                }
-            }
-            case "right" -> {
-                this.solidArea.x += speed;
-                if (player.solidArea.intersects(this.solidArea)) {
-                    reset(this, player);
-                    return false;
-                }
-            }
+            case "up" -> this.solidArea.y -= speed;
+            case "down" -> this.solidArea.y += speed;
+            case "left" -> this.solidArea.x -= speed;
+            case "right" -> this.solidArea.x += speed;
+        }
+        if (player.solidArea.intersects(this.solidArea)) {
+            reset(this, player);
+            return false;
         }
         reset(this, player);
         return true;

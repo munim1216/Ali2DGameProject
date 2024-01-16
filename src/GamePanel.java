@@ -143,7 +143,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void unpause() {
         gameState = PLAYSTATE;
     }
-    public void startDialouge(Entity npc) {
+    public void startDialouge() {
         gameState = DIAL0GUESTATE;
 
     }

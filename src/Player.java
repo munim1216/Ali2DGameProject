@@ -81,7 +81,7 @@ public class Player extends Entity {
     public void playerUpdate() {
         if (keyH.isFKeyPressed() && !entityCollisionCheck()) {
             if (gp.getGameState() == GamePanel.PLAYSTATE) {
-                gp.startDialouge(lastTouchingPlayer);
+                gp.startDialouge();
                 GamePanel.ui.setNextDialogue(lastTouchingPlayer.speak());
                 keyH.setFKeyPressed(false);
             } else if (gp.getGameState() == GamePanel.DIAL0GUESTATE) {
