@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Auron_NPC extends Entity {
-    private BufferedImage right3, right4, left3, left4;
+    private BufferedImage right3, right4, left3, left4; // he has extra sprites i needa implement the animation for
     public Auron_NPC(){
         super(9,0 );
 

@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Entity {
-    // player
+    // player, a method for collision requires a reference to the player so here it is
     private static Player player;
     // world map && possible tiles
     protected static int[][] mapTileNum;
@@ -16,9 +16,9 @@ public class Entity {
     protected String direction;
     protected int currentSprite;
     protected int spriteCounter;
-    protected int actionLockCounter;
+    protected int actionLockCounter; // to prevent them from having a seizure
     // hitbox (i hate)
-    protected Rectangle solidArea;
+    protected Rectangle solidArea; // hit boxes are actually not over ur player until they're checking for collison (every 1/60 of a second) i would've implemented differently, but i had no clue how to do it so i ended up doing it similarly to the guide
     protected int rectangleDefaultX;
     protected int rectangleDefaultY;
     protected static Entity[] NPCs;
@@ -27,17 +27,18 @@ public class Entity {
     protected int defense;
     protected double multipler = 1.0;
     // dialouge
-    protected boolean hasDialogue;
-    protected String[] dialogue;
-    protected Entity lastTouchingPlayer;
-    protected int nextDialogue;
-    protected static GamePanel gp;
+    protected boolean hasDialogue; // not every entity gonna have dialogue (such as enemies)
+    protected String[] dialogue; // their actual words
+    protected Entity lastTouchingPlayer; // to initiate dialogue
+    protected int nextDialogue; // the next dialogue that's gonna be written
+    protected static GamePanel gp; // needed to check the playstate
     public Entity(int rectangleDefaultX, int rectangleDefaultY){
         this.rectangleDefaultX = rectangleDefaultX;
         this.rectangleDefaultY = rectangleDefaultY;
     }
 
     public static void setNeededVariables(int[][] mapTileNum, Tile[] tiles, Player player, Entity[] NPCs, GamePanel gp) {
+        // sets static variables needed
         Entity.mapTileNum = mapTileNum;
         Entity.tiles = tiles;
         Entity.player = player;
@@ -45,7 +46,7 @@ public class Entity {
         Entity.gp = gp;
     }
     protected boolean collisionCheck() {
-        return tileCollisionCheck() && interactableCollisionCheck() && entityCollisionCheck() && playerCollisionCheck();
+        return tileCollisionCheck() && interactableCollisionCheck() && entityCollisionCheck() && playerCollisionCheck(); // combination of all my collision checks
     }
     protected boolean tileCollisionCheck() {
         // creates variables used to determine which rows and col will be checked
@@ -54,39 +55,45 @@ public class Entity {
         int topWorldY = worldY + solidArea.y;
         int bottomWorldY = worldY + solidArea.y + solidArea.height;
 
+        // map organized in rows and
         int leftCol = leftWorldX / GamePanel.TILE_SIZE;
         int rightCol = rightWorldX / GamePanel.TILE_SIZE;
         int topRow = topWorldY / GamePanel.TILE_SIZE;
         int bottomRow = bottomWorldY / GamePanel.TILE_SIZE;
 
-        int tileCheck1, tileCheck2;
+        int tileCheck1, tileCheck2; // when moving, you only gotta check the two posssible tiles you'll be moving into, the switch below decides that
         switch (direction) {
             case "up" -> {
+                // going up means top left and top right tiles only gotta check
                 topRow = (topWorldY - speed) / GamePanel.TILE_SIZE;
                 tileCheck1 = mapTileNum[leftCol][topRow];
                 tileCheck2 = mapTileNum[rightCol][topRow];
             }
             case "down" -> {
+                // going down means bottom left and bottom right tiles only gotta check
                 bottomRow = (bottomWorldY + speed) / GamePanel.TILE_SIZE;
                 tileCheck1 = mapTileNum[leftCol][bottomRow];
                 tileCheck2 = mapTileNum[rightCol][bottomRow];
             }
             case "right" -> {
+                // going right means the right tiles have to be checked
                 rightCol = (rightWorldX + speed) / GamePanel.TILE_SIZE;
                 tileCheck1 = mapTileNum[rightCol][topRow];
                 tileCheck2 = mapTileNum[rightCol][bottomRow];
             }
             case "left" -> {
+                // going left means the left tiles have to be checked
                 leftCol = (leftWorldX - speed) / GamePanel.TILE_SIZE;
                 tileCheck1 = mapTileNum[leftCol][topRow];
                 tileCheck2 = mapTileNum[leftCol][bottomRow];
             }
             default -> {
-                tileCheck1 = -1;
-                tileCheck2 = -1;
+                // should crash the program if one of those above cases arent true.
+                throw new RuntimeException("THIS WASN'T SUPOSED TO HAPPEN.");
             }
         }
 
+        // if either of the two tilecheck tiles have the boolean collision to true, it'll return false meaning the entity cannot go in that direction.
         if (tiles[tileCheck1].isCOLLISION() || tiles[tileCheck2].isCOLLISION()) {
             return false;
         } else {
