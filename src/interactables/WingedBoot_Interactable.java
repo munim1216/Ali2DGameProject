@@ -21,7 +21,7 @@ public class WingedBoot_Interactable extends SuperInteractable {
         this.worldY = worldY;
 
         try {
-            image = Utility.scale(ImageIO.read(new File("src/sprites/Interactables/winged_boot_1.png")));
+            image = Utility.scale(ImageIO.read(new File("resources/sprites/Interactables/winged_boot_1.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }

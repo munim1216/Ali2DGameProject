@@ -31,9 +31,9 @@ public class UI {
 
         // custom fonts
         try { // credit to https://github.com/curadProgrammer/shorts-java-programs/blob/main/Adding%20Custom%20Font/src/App.java for helping me kinda understand how i can do it
-            File customFontFile = new File("src/Fonts/Cave-Story.ttf");
+            File customFontFile = new File("resources/fonts/Cave-Story.ttf");
             titleFont = Font.createFont(Font.TRUETYPE_FONT, customFontFile);
-            File customFontFile2 = new File("src/Fonts/PixelifySans-VariableFont_wght.ttf");
+            File customFontFile2 = new File("resources/fonts/PixelifySans-VariableFont_wght.ttf");
             npcFont = Font.createFont(Font.TRUETYPE_FONT, customFontFile2).deriveFont(24f);
         } catch (FontFormatException | IOException e) { // i dont understand why intelliji is allowed to put one | instead of || for an or??? quite odd
             e.printStackTrace();
@@ -44,9 +44,9 @@ public class UI {
         heartY = GamePanel.TILE_SIZE / 2;
         try {
 
-            full_shield = Utility.scale(ImageIO.read(new File("src/sprites/shields/full_shield.png")));
-            half_shield = Utility.scale(ImageIO.read(new File("src/sprites/shields/half_shield.png")));
-            empty_shield = Utility.scale(ImageIO.read(new File("src/sprites/shields/empty_shield.png")));
+            full_shield = Utility.scale(ImageIO.read(new File("resources/sprites/shields/full_shield.png")));
+            half_shield = Utility.scale(ImageIO.read(new File("resources/sprites/shields/half_shield.png")));
+            empty_shield = Utility.scale(ImageIO.read(new File("resources/sprites/shields/empty_shield.png")));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -122,7 +122,7 @@ public class UI {
         // TITLE OF GAME
         g2D.setFont(titleFont.deriveFont(125f));
         g2D.setColor(Color.GRAY);
-        text = "REENE'S WORLD";
+        text = "RENEE'S WORLD";
         x = getXForCenteredText(text, g2D) + 3;
         y = textY + GamePanel.TILE_SIZE + 3;
 
@@ -136,7 +136,7 @@ public class UI {
         // RENEE SPRITE
         BufferedImage renee = null;
         try {
-            renee = ImageIO.read(new File("src/sprites/ReneeSprite/reneeDown1.png"));
+            renee = ImageIO.read(new File("resources/sprites/ReneeSprite/reneeDown1.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

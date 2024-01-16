@@ -66,6 +66,8 @@ public class GamePanel extends JPanel implements Runnable {
         // the ui, needs player to access its hp
         UI = new UI(this, player);
 
+        // player also needs access to UI
+        player.addUI(UI);
         // to deal with npcs (and maybe enemies in the future too)
         assetSetter = new AssetSetter();
         assetSetter.setNPC();

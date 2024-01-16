@@ -11,11 +11,11 @@ public class Sound {
 
     public Sound(int type) {
         if (type == 0) {
-            sounds[0] = new File("//sounds/BackgroundMusic_1.wav");
-            sounds[1] = new File("/src/sounds/green.wav");
+            sounds[0] = new File("resources/audio/BackgroundMusic_1.wav");
+            sounds[1] = new File("resources/audio/green.wav");
         } else if (type == 1) {
-            sounds[0] = new File("/src/sounds/keypickup.wav");
-            sounds[1] = new File("/src/sounds/selectNoise.wav");
+            sounds[0] = new File("resources/audio/keypickup.wav");
+            sounds[1] = new File("resources/audio/selectNoise.wav");
         } else {
             throw new UnsupportedOperationException();
         }

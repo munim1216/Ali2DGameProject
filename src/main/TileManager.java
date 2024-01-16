@@ -8,11 +8,7 @@ import interactables.WingedBoot_Interactable;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.InputStream;
+import java.io.*;
 
 public class TileManager {
     private GamePanel gp;
@@ -28,39 +24,39 @@ public class TileManager {
         mapTileNum = new int[GamePanel.MAX_WORLD_COL][GamePanel.MAX_WORLD_ROW];
 
         try {
-            BufferedImage image = ImageIO.read(new File("src/sprites/Tiles/cave_1.png"));
+            BufferedImage image = ImageIO.read(new File("resources/sprites/Tiles/cave_1.png"));
             tiles[10] = new Tile(Utility.scale(image), false);
-            image = ImageIO.read(new File("src/sprites/Tiles/dark_gray_brick_1.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/dark_gray_brick_1.png"));
             tiles[11]= new Tile(Utility.scale(image), false);
-            image = ImageIO.read(new File("src/sprites/Tiles/grass_1.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/grass_1.png"));
             tiles[12] = new Tile(Utility.scale(image), false);
-            image = ImageIO.read(new File("src/sprites/Tiles/gray_brick_1.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/gray_brick_1.png"));
             tiles[13] = new Tile(Utility.scale(image), false);
-            image = ImageIO.read(new File("src/sprites/Tiles/stone_path_1.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/stone_path_1.png"));
             tiles[14] = new Tile(Utility.scale(image), false);
-            image = ImageIO.read(new File("src/sprites/Tiles/tree_1.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/tree_1.png"));
             tiles[15] = new Tile(Utility.scale(image), true);
-            image = ImageIO.read(new File("src/sprites/Tiles/wall_1.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/wall_1.png"));
             tiles[16] = new Tile(Utility.scale(image), true);
-            image = ImageIO.read(new File("src/sprites/Tiles/wall_2.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/wall_2.png"));
             tiles[17]= new Tile(Utility.scale(image), true);
-            image = ImageIO.read(new File("src/sprites/Tiles/wall_3.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/wall_3.png"));
             tiles[18] = new Tile(Utility.scale(image), true);
-            image = ImageIO.read(new File("src/sprites/Tiles/wall_4.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/wall_4.png"));
             tiles[19] = new Tile(Utility.scale(image), true);
-            image = ImageIO.read(new File("src/sprites/Tiles/wall_turn_bottom_left.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/wall_turn_bottom_left.png"));
             tiles[20] = new Tile(Utility.scale(image), true);
-            image = ImageIO.read(new File("src/sprites/Tiles/wall_turn_bottom_right.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/wall_turn_bottom_right.png"));
             tiles[21] = new Tile(Utility.scale(image), true);
-            image = ImageIO.read(new File("src/sprites/Tiles/wall_turn_top_left.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/wall_turn_top_left.png"));
             tiles[22]= new Tile(Utility.scale(image), true);
-            image = ImageIO.read(new File("src/sprites/Tiles/wall_turn_top_right.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/wall_turn_top_right.png"));
             tiles[23] = new Tile(Utility.scale(image), true);
-            image = ImageIO.read(new File("src/sprites/Tiles/water_1.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/water_1.png"));
             tiles[24] = new Tile(Utility.scale(image), true);
-            image = ImageIO.read(new File("src/sprites/Tiles/water_2.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/water_2.png"));
             tiles[25] = new Tile(Utility.scale(image), true);
-            image = ImageIO.read(new File("src/sprites/Tiles/sand_1.png"));
+            image = ImageIO.read(new File("resources/sprites/Tiles/sand_1.png"));
             tiles[26] = new Tile(Utility.scale(image), false);
         }   catch (IOException e) {
             e.printStackTrace();
@@ -120,8 +116,8 @@ public class TileManager {
 
     private void loadMap() {
         try {
-            InputStream is = getClass().getResourceAsStream("/src/maps/map2.txt");
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            //InputStream is = getClass().getResourceAsStream();
+            BufferedReader br = new BufferedReader(new FileReader(new File("resources/txt_files/maps/map2.txt")));
 
             int col = 0;
             int row = 0;
