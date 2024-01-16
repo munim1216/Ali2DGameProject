@@ -13,6 +13,7 @@ public class Sound {
             sounds[1] = new File("src/Sound/green.wav");
         } else if (type == 1) {
             sounds[0] = new File("src/Sound/keypickup.wav");
+            sounds[1] = new File("src/Sound/selectNoise.wav");
         } else {
             throw new UnsupportedOperationException();
         }

@@ -175,6 +175,8 @@ public class UI {
         } else {
             commandNum = START;
         }
+        GamePanel.SE.setClip(1);
+        GamePanel.SE.play();
     }
     public void decrementCommandNum() {
         if (commandNum > START) {
@@ -182,15 +184,25 @@ public class UI {
         } else {
             commandNum = QUIT;
         }
+        GamePanel.SE.setClip(1);
+        GamePanel.SE.play();
     }
 
     public void selectOption() {
         switch (commandNum) {
-            case START -> gp.startGame();
+            case START -> {
+                GamePanel.SE.setClip(1);
+                GamePanel.SE.play();
+                gp.startGame();
+            }
             case CONTINUE -> {
                 throw new RuntimeException("UNIMPLEMENTED CURRENTLY");
             }
-            case QUIT -> System.exit(0);
+            case QUIT -> {
+                GamePanel.SE.setClip(1);
+                GamePanel.SE.play();
+                System.exit(0);
+            }
         }
     }
 
