@@ -1,5 +1,7 @@
 package events;
 
+import entities.Player;
+
 public class Spikes_Event extends Event {
     public Spikes_Event() {
         super();
@@ -24,5 +26,11 @@ public class Spikes_Event extends Event {
         } else {
             throw new RuntimeException("shouldn't be happening");
         }
+    }
+
+    @Override
+    public void results(Player player) {
+        player.loseHP(2);
+        System.out.println("WORKING");
     }
 }

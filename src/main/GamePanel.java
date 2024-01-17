@@ -199,11 +199,6 @@ public class GamePanel extends JPanel implements Runnable {
         player.playerUpdate();
         SuperInteractable.interactablesInFrame();
         assetSetter.update();
-
-        // test code
-        if (gameState != TITLE_SCREEN) {
-            eventHandler.tryForEvent();
-        }
     }
 
     private void setUpWindow() {
@@ -251,6 +246,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void processEvent() {
         eventHandler.processEvent(UI.getCommandNum());
+        eventHandler.getCurrentEvent().results(player);
         gameState = RESULT_STATE;
     }
 }

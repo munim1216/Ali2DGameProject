@@ -9,11 +9,16 @@ public class EventHandler {
     private Event currentEvent;
     private boolean eventHappening;
     private Rectangle solidArea;
-    private final int rectangleDefaultX;
-    private final int rectangleDefaultY;
+    public final int rectangleDefaultX;
+    public final int rectangleDefaultY;
+    private int worldX;
+    private int worldY;
     public EventHandler() {
         eventHappening = false;
         currentEvent = null;
+
+        worldX = 0;
+        worldY = 0;
 
         rectangleDefaultX = 48;
         rectangleDefaultY = 48;
@@ -37,6 +42,14 @@ public class EventHandler {
 
     public Event getCurrentEvent() {
         return currentEvent;
+    }
+
+    public int getWorldX() {
+        return worldX;
+    }
+
+    public int getWorldY() {
+        return worldY;
     }
 
     public void processEvent(int choice) {

@@ -1,4 +1,5 @@
 package events;
+import entities.Player;
 import main.GamePanel;
 import main.UI;
 
@@ -41,6 +42,10 @@ public class Event {
         return choices;
     }
     protected void processEvent(int choice) {
+
+    }
+
+    public void results(Player player) {
 
     }
 }
