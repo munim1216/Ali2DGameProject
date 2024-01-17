@@ -52,6 +52,11 @@ public class EventHandler {
         return worldY;
     }
 
+    public void resetEvent() {
+        currentEvent.reset();
+        currentEvent = null;
+        eventHappening = false;
+    }
     public void processEvent(int choice) {
         currentEvent.processEvent(choice);
     }

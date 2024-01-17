@@ -142,7 +142,11 @@ public class Player extends Entity {
         }
     }
     public void loseHP(int amountLost) {
-        health -= amountLost;
+        currentHealth -= amountLost;
+    }
+    public void playerForceMove(int x, int y) {
+        worldX += x;
+        worldY += y;
     }
     public void draw(Graphics2D g2D) {
         BufferedImage image = null;

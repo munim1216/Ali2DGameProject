@@ -184,6 +184,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void endEvent() {
         gameState = PLAY_STATE;
+        eventHandler.resetEvent();
     }
     // beginning the game after clicking start
     public void startGame() {

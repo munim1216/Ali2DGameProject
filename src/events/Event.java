@@ -10,6 +10,7 @@ public class Event {
     protected boolean choiceTime;
     protected static GamePanel gp;
     protected final int OPTION_1 = 0, OPTION_2 = 1;
+    protected int choice;
 
 
     public Event(){}
@@ -45,6 +46,9 @@ public class Event {
 
     }
 
+    protected void reset() {
+
+    }
     public void results(Player player) {
 
     }
