@@ -76,7 +76,11 @@ public class KeyHandler implements KeyListener {
             System.out.println("ACCESSIBLE");
             switch (code) {
                 case KeyEvent.VK_W, KeyEvent.VK_S -> gp.UI.alternateCommandNum();
-                case KeyEvent.VK_F ->
+                case KeyEvent.VK_F -> gp.processEvent();
+            }
+        } else if (currentGameState == GamePanel.RESULT_STATE) {
+            if (code == KeyEvent.VK_F) {
+                gp.endEvent();
             }
         }
     }

@@ -71,6 +71,10 @@ public class UI {
 
     }
 
+    public int getCommandNum() {
+        return commandNum;
+    }
+
     public void draw(Graphics2D g2D) {
         int hp = player.getCurrentHealth();
         int x = heartX;
