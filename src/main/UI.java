@@ -22,7 +22,8 @@ public class UI {
     private Font titleFont;
     private Font npcFont;
     private int commandNum;
-    private final int START = 0, CONTINUE = 1, QUIT = 2;
+    public final int START = 0, CONTINUE = 1, QUIT = 2;
+    public final int OPTION_1 = 0, OPTION_2 = 2;
     private BufferedImage full_shield, half_shield, empty_shield;
     private Player player;
 
@@ -101,16 +102,30 @@ public class UI {
         int y = textY;
         drawBox(g2D);
         g2D.setFont(npcFont.deriveFont(30f));
+
         for (String line : event.getDialogue().split("\n")) {
             g2D.drawString(line, x, y);
             y += 35;
         }
+
         if (event.isChoiceTime()) {
+            boolean drawn = false;
+
             y += GamePanel.TILE_SIZE;
             for (String choice : event.getChoices()) {
                 g2D.drawString(choice, x, y);
+                if (!drawn && commandNum == OPTION_1) {
+                    g2D.drawString("<", x + stringScreenLength(choice, g2D), y);
+                    drawn = true;
+                }
                 y += GamePanel.TILE_SIZE  * 0.75;
+                if (!drawn && commandNum == OPTION_2) {
+                    g2D.drawString("<", x + stringScreenLength(choice, g2D), y);
+                    System.out.println("accessible");
+                    drawn = true;
+                }
             }
+            gp.choiceTime();
         }
     }
 
@@ -183,8 +198,8 @@ public class UI {
             g2D.drawString(">", x - GamePanel.TILE_SIZE, y);
         }
     }
-    public void incrementCommandNum() {
-        if (commandNum < QUIT) {
+    public void incrementCommandNum(int upperBound) {
+        if (commandNum < upperBound) {
             commandNum++;
         } else {
             commandNum = START;
@@ -192,8 +207,8 @@ public class UI {
         GamePanel.SE.setClip(1);
         GamePanel.SE.play();
     }
-    public void decrementCommandNum() {
-        if (commandNum > START) {
+    public void decrementCommandNum(int lowerBound) {
+        if (commandNum > lowerBound) {
             commandNum--;
         } else {
             commandNum = QUIT;
@@ -202,7 +217,17 @@ public class UI {
         GamePanel.SE.play();
     }
 
-    public void selectOption() {
+    public void alternateCommandNum() {
+        if (commandNum == 0) {
+            commandNum = 1;
+        } else if (commandNum == 1) {
+            commandNum = 0;
+        } else {
+            commandNum = 0;
+        }
+    }
+
+    public void titleMenuOptions() {
         switch (commandNum) {
             case START -> {
                 GamePanel.SE.setClip(1);
@@ -234,5 +259,9 @@ public class UI {
         g2D.setStroke(new BasicStroke(5));
         g2D.setColor(Color.WHITE);
         g2D.drawRoundRect(boxX + 5, boxY + 5, width - 10, height - 10, 25, 25) ;
+    }
+
+    private int stringScreenLength(String text, Graphics2D g2D) {
+        return (int) g2D.getFontMetrics().getStringBounds(text, g2D).getWidth();
     }
 }

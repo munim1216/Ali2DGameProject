@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int FPS = 60;
     // CURRENT STATE OF GAME
     public static int gameState;
+    public static final int CHOICE_STATE = 5;
     public static final int EVENT_STATE = 4;
     public static final int TITLE_SCREEN = 3;
     public static final int DIAL0GUE_STATE = 2;
@@ -143,6 +144,7 @@ public class GamePanel extends JPanel implements Runnable {
             case PAUSE_STATE -> pauseState(g2D);
             case TITLE_SCREEN -> titleScreenState(g2D);
             case EVENT_STATE -> eventState(g2D);
+            case CHOICE_STATE -> choiceState(g2D);
             default -> throw new UnsupportedOperationException("HEY YOU'RE NOT SUPPOSED TO BE IN THIS STATE.");
         }
 
@@ -173,6 +175,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void startEvent() {
         gameState = EVENT_STATE;
+    }
+    public void choiceTime() {
+        gameState = CHOICE_STATE;
     }
     public void endEvent() {
         gameState = PLAY_STATE;
@@ -233,6 +238,15 @@ public class GamePanel extends JPanel implements Runnable {
         UI.drawTitleScreen(g2D);
     }
     private void eventState(Graphics2D g2D) {
+        tileManager.draw(g2D);
+        SuperInteractable.draw(g2D);
+        assetSetter.draw(g2D);
+        UI.draw(g2D);
+        UI.drawEvent(g2D, eventHandler.getCurrentEvent());
+        player.draw(g2D);
+    }
+
+    private void choiceState(Graphics2D g2D) {
         tileManager.draw(g2D);
         SuperInteractable.draw(g2D);
         assetSetter.draw(g2D);

@@ -47,9 +47,9 @@ public class KeyHandler implements KeyListener {
         // checks which kinda state the game is in
         if (currentGameState == GamePanel.TITLE_SCREEN) {
             switch (code) {
-                case KeyEvent.VK_S -> gp.UI.incrementCommandNum();
-                case KeyEvent.VK_W -> gp.UI.decrementCommandNum();
-                case KeyEvent.VK_F -> gp.UI.selectOption();
+                case KeyEvent.VK_S -> gp.UI.incrementCommandNum(gp.UI.QUIT);
+                case KeyEvent.VK_W -> gp.UI.decrementCommandNum(gp.UI.START);
+                case KeyEvent.VK_F -> gp.UI.titleMenuOptions();
             }
         } else if (currentGameState == GamePanel.PLAY_STATE) {
             switch (code) {
@@ -71,6 +71,12 @@ public class KeyHandler implements KeyListener {
         } else if (currentGameState == GamePanel.EVENT_STATE) {
             if (code == KeyEvent.VK_F) {
                 gp.nextDialogue();
+            }
+        } else if (currentGameState == GamePanel.CHOICE_STATE) {
+            System.out.println("ACCESSIBLE");
+            switch (code) {
+                case KeyEvent.VK_W -> gp.UI.alternateCommandNum();
+                case KeyEvent.VK_S -> gp.UI.alternateCommandNum();
             }
         }
     }
