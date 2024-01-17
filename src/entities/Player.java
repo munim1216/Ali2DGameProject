@@ -1,5 +1,6 @@
 package entities;
 
+import events.EventHandler;
 import interactables.SuperInteractable;
 import main.GamePanel;
 import main.KeyHandler;
@@ -29,8 +30,12 @@ public class Player extends Entity {
     private int currentHealth;
     // UI
     private UI UI;
-    public Player(KeyHandler keyH) {
+    // EVENT HANDLING (so it can effect the player)
+    private EventHandler eventHandler;
+    public Player(KeyHandler keyH, EventHandler eventHandler) {
         super(8,16);
+
+        this.eventHandler = eventHandler;
 
         FULL_SHIELD = 2;
         HALF_SHIELD = 1;
@@ -103,31 +108,29 @@ public class Player extends Entity {
         if (GamePanel.gameState == GamePanel.PLAY_STATE) {
             if (keyH.isKeyPressed()) {
                 spriteCounter++;
+                interactCheck();
+                eventHandlerCollisionCheck();
             }
             if (keyH.isWKeyPressed()) {
                 direction = "up";
-                interactCheck();
                 if (collisionCheck()) {
                     worldY -= speed;
                 }
             }
             if (keyH.isSKeyPressed()) {
                 direction = "down";
-                interactCheck();
                 if (collisionCheck()) {
                     worldY += speed;
                 }
             }
             if (keyH.isDKeyPressed()) {
                 direction = "right";
-                interactCheck();
                 if (collisionCheck()) {
                     worldX += speed;
                 }
             }
             if (keyH.isAKeyPressed()) {
                 direction = "left";
-                interactCheck();
                 if (collisionCheck()) {
                     worldX -= speed;
                 }
@@ -137,9 +140,14 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
-
     }
-
+    public void loseHP(int amountLost) {
+        currentHealth -= amountLost;
+    }
+    public void playerForceMove(int x, int y) {
+        worldX += x;
+        worldY += y;
+    }
     public void draw(Graphics2D g2D) {
         BufferedImage image = null;
 
@@ -178,7 +186,6 @@ public class Player extends Entity {
     }
 
     private void interactCheck() { // rework into interact check?
-        boolean stop = false;
         for (int i = 0; SuperInteractable.getInScreen()[i] != null; i++) {
             if (SuperInteractable.getInScreen()[i].isCanInteract()) {
                 this.solidArea.x = this.solidArea.x + this.worldX;
@@ -188,46 +195,40 @@ public class Player extends Entity {
                 SuperInteractable.getInScreen()[i].getSolidArea().y = SuperInteractable.getInScreen()[i].getSolidArea().y + SuperInteractable.getInScreen()[i].getWorldY();
 
                 switch (direction) {
-                    case "up" -> {
-                        // moving up is closer to the 0 for y
-                        this.solidArea.y -= speed;
-                        if (SuperInteractable.getInScreen()[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, SuperInteractable.getInScreen()[i]);
-                            interact(SuperInteractable.getInScreen()[i]);
-                            stop = true;
-                        }
-                    }
-                    case "down" -> {
-                        this.solidArea.y += speed;
-                        if (SuperInteractable.getInScreen()[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, SuperInteractable.getInScreen()[i]);
-                            interact(SuperInteractable.getInScreen()[i]);
-                            stop = true;
-                        }
-                    }
-                    case "left" -> {
-                        this.solidArea.x -= speed;
-                        if (SuperInteractable.getInScreen()[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, SuperInteractable.getInScreen()[i]);
-                            interact(SuperInteractable.getInScreen()[i]);
-                            stop = true;
-                        }
-                    }
-                    case "right" -> {
-                        this.solidArea.x += speed;
-                        if (SuperInteractable.getInScreen()[i].getSolidArea().intersects(this.solidArea)) {
-                            reset(this, SuperInteractable.getInScreen()[i]);
-                            interact(SuperInteractable.getInScreen()[i]);
-                            stop = true;
-                        }
-
-                    }
+                    case "up" -> this.solidArea.y -= speed;
+                    case "down" -> this.solidArea.y += speed;
+                    case "left" -> this.solidArea.x -= speed;
+                    case "right" -> this.solidArea.x += speed;
+                }
+                if (SuperInteractable.getInScreen()[i].getSolidArea().intersects(this.solidArea)) {
+                    reset(this, SuperInteractable.getInScreen()[i]);
+                    interact(SuperInteractable.getInScreen()[i]);
                 }
                 reset(this, SuperInteractable.getInScreen()[i]);
             }
         }
     }
+    protected void eventHandlerCollisionCheck() {
+        // its actual x in the world, not the hitbox
+        this.solidArea.x = this.solidArea.x + this.worldX;
+        this.solidArea.y = this.solidArea.y + this.worldY;
 
+        // actual x in world, not hitbox
+        eventHandler.getSolidArea().x = eventHandler.getSolidArea().x + eventHandler.getWorldX();
+        eventHandler.getSolidArea().y = eventHandler.getSolidArea().y + eventHandler.getWorldY();
+
+        switch (direction) {
+            case "up" -> this.solidArea.y -= speed;
+            case "down" -> this.solidArea.y += speed;
+            case "left" -> this.solidArea.x -= speed;
+            case "right" -> this.solidArea.x += speed;
+        }
+        if (this.solidArea.intersects(eventHandler.getSolidArea())) {
+            reset(this, eventHandler);
+            eventHandler.tryForEvent();
+        }
+        reset(this, eventHandler);
+    }
     private void interact(SuperInteractable interactable) {
         switch (interactable.getName()) {
             case "Key", "WingedBoot" -> pickUp(interactable);
@@ -258,5 +259,12 @@ public class Player extends Entity {
 
         nextItem++;
         SuperInteractable.pickUp(item);
+    }
+
+    protected void reset(Entity entity, EventHandler eventHandler) {
+        entity.solidArea.x = entity.rectangleDefaultX;
+        entity.solidArea.y = entity.rectangleDefaultY;
+        eventHandler.getSolidArea().x = eventHandler.rectangleDefaultX;
+        eventHandler.getSolidArea().y = eventHandler.rectangleDefaultY;
     }
 }

@@ -1,5 +1,7 @@
 package events;
 
+import entities.Player;
+
 public class Spikes_Event extends Event {
     public Spikes_Event() {
         super();
@@ -14,13 +16,36 @@ public class Spikes_Event extends Event {
 
     @Override
     protected void processEvent(int choice) {
+        this.choice = choice;
         choiceTime = false;
+        nextDialogue = 0;
+
         if (choice == OPTION_1) {
             dialogue = new String[] {"The [enemy name] ended you."};
         } else if (choice == OPTION_2) {
-            dialogue = new String[] {"You were saved by a mysterious traveler on your fall down"};
+            dialogue = new String[] {"You were saved by a mysterious \ntraveler on your fall down"};
         } else {
             throw new RuntimeException("shouldn't be happening");
         }
+    }
+
+    @Override
+    public void results(Player player) {
+        if (choice == OPTION_1) {
+            player.loseHP(2);
+        } else if (choice != OPTION_2) {
+            throw new RuntimeException("uh oh cheerio");
+        }
+        player.playerForceMove(48,0);
+    }
+
+    protected void reset() {
+        choiceTime = false;
+        dialogue = new String[]
+                {"Say you were at the edge of a cliff,\nstuck between [enemy name] and a \ncliff",
+                        "Fighting the [enemy name] might \nlead to an untimely demise, however \nthen same can be said about the \ncliff",
+                        "What will you do?"};
+        choices = new  String[] {"Fight the [enemy name]", "Jump off the cliff"};
+        nextDialogue = 0;
     }
 }
