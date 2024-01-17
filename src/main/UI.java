@@ -100,12 +100,16 @@ public class UI {
         int x = textX;
         int y = textY;
         drawBox(g2D);
-        g2D.drawString(event.getDialogue(), x, y);
+        g2D.setFont(npcFont.deriveFont(30f));
+        for (String line : event.getDialogue().split("\n")) {
+            g2D.drawString(line, x, y);
+            y += 35;
+        }
         if (event.isChoiceTime()) {
-            y += GamePanel.TILE_SIZE * 2;
+            y += GamePanel.TILE_SIZE;
             for (String choice : event.getChoices()) {
                 g2D.drawString(choice, x, y);
-                y += GamePanel.TILE_SIZE;
+                y += GamePanel.TILE_SIZE  * 0.75;
             }
         }
     }
