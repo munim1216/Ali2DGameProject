@@ -4,7 +4,6 @@ import entities.Entity;
 import entities.Player;
 import entities.AssetSetter;
 import events.EventHandler;
-import events.Spikes_Event;
 import interactables.SuperInteractable;
 import events.Event;
 import javax.swing.*;
@@ -47,6 +46,8 @@ public class GamePanel extends JPanel implements Runnable {
     public static Sound SE = new Sound(1);
     // PLACING THINGS
     AssetSetter assetSetter;
+    // GAME EVENTS
+    EventHandler eventHandler;
 
     public GamePanel() {
         // setting up size of the window
@@ -68,6 +69,10 @@ public class GamePanel extends JPanel implements Runnable {
         // needed to render only things in frame
         SuperInteractable.setPlayer(player);
 
+        // handles all the events
+        eventHandler = new EventHandler();
+        Event.setGP(this);
+
         // the ui, needs player to access its hp
         UI = new UI(this, player);
 
@@ -83,11 +88,6 @@ public class GamePanel extends JPanel implements Runnable {
         // collision hell needs all of these.
         Entity.setNeededVariables(tileManager.getMapTileNum(), tileManager.getTiles(), player, assetSetter.getNPCs(), this);
 
-        // event needs access to game panel
-        Event.addGPandUI(this);
-
-        // testing code
-        new Spikes_Event();
 
         // the game can actually start if the thread is active
         startGameThread();
@@ -142,6 +142,7 @@ public class GamePanel extends JPanel implements Runnable {
             case DIAL0GUE_STATE -> dialogueState(g2D);
             case PAUSE_STATE -> pauseState(g2D);
             case TITLE_SCREEN -> titleScreenState(g2D);
+            case EVENT_STATE -> eventState(g2D);
             default -> throw new UnsupportedOperationException("HEY YOU'RE NOT SUPPOSED TO BE IN THIS STATE.");
         }
 
@@ -153,6 +154,9 @@ public class GamePanel extends JPanel implements Runnable {
         g2D.dispose();
     }
 
+    public void nextDialogue() {
+        eventHandler.getCurrentEvent().incrementDialogue();
+    }
     // game state things
     public int getGameState() {
         return gameState;
@@ -187,7 +191,11 @@ public class GamePanel extends JPanel implements Runnable {
         player.playerUpdate();
         SuperInteractable.interactablesInFrame();
         assetSetter.update();
-        EventHandler.update();
+
+        // test code
+        if (gameState != TITLE_SCREEN) {
+            eventHandler.tryForEvent();
+        }
     }
 
     private void setUpWindow() {
@@ -223,5 +231,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     private void titleScreenState(Graphics2D g2D) {
         UI.drawTitleScreen(g2D);
+    }
+    private void eventState(Graphics2D g2D) {
+        tileManager.draw(g2D);
+        SuperInteractable.draw(g2D);
+        assetSetter.draw(g2D);
+        UI.draw(g2D);
+        UI.drawEvent(g2D, eventHandler.getCurrentEvent());
+        player.draw(g2D);
     }
 }

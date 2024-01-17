@@ -42,14 +42,16 @@ public class KeyHandler implements KeyListener {
         // the code is an int that represents which key has been pressed
         int code = e.getKeyCode();
 
+        int currentGameState = gp.getGameState();
+
         // checks which kinda state the game is in
-        if (gp.getGameState() == GamePanel.TITLE_SCREEN) {
+        if (currentGameState == GamePanel.TITLE_SCREEN) {
             switch (code) {
                 case KeyEvent.VK_S -> gp.UI.incrementCommandNum();
                 case KeyEvent.VK_W -> gp.UI.decrementCommandNum();
                 case KeyEvent.VK_F -> gp.UI.selectOption();
             }
-        } else if (gp.getGameState() == GamePanel.PLAY_STATE) {
+        } else if (currentGameState == GamePanel.PLAY_STATE) {
             switch (code) {
                 case KeyEvent.VK_P -> gp.pause();
                 case KeyEvent.VK_W -> wKeyPressed = true;
@@ -58,13 +60,17 @@ public class KeyHandler implements KeyListener {
                 case KeyEvent.VK_D -> dKeyPressed = true;
                 case KeyEvent.VK_F -> fKeyPressed = true;
             }
-        } else if (gp.getGameState() == GamePanel.PAUSE_STATE) {
+        } else if (currentGameState == GamePanel.PAUSE_STATE) {
             if (code == KeyEvent.VK_P) {
                 gp.unpause();
             }
-        } else if (gp.getGameState() == GamePanel.DIAL0GUE_STATE) {
+        } else if (currentGameState == GamePanel.DIAL0GUE_STATE) {
             if (code == KeyEvent.VK_F) {
                 gp.unpause();
+            }
+        } else if (currentGameState == GamePanel.EVENT_STATE) {
+            if (code == KeyEvent.VK_F) {
+                gp.nextDialogue();
             }
         }
     }

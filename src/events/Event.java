@@ -4,42 +4,38 @@ import main.UI;
 
 public class Event {
     protected String[] dialogue;
+    protected String[] choices;
     protected int nextDialogue;
-    protected boolean drawable;
-    protected boolean happening;
+    protected boolean choiceTime;
     protected static GamePanel gp;
 
-    public Event(){
-        EventHandler.addEvent(this);
-    }
+    public Event(){}
 
-    public static void addGPandUI(GamePanel gp) {
+    public static void setGP(GamePanel gp) {
         Event.gp = gp;
     }
-    public boolean isHappening() {
-        return happening;
+
+    protected void startEvent() {
+        gp.startEvent();
     }
+
     public String getDialogue() {
         return dialogue[nextDialogue];
     }
+
     public void incrementDialogue() {
         nextDialogue++;
-    }
-    protected void startEvent() {
-
-    }
-
-    protected void endEvent() {
-        gp.endEvent();
-    }
-
-    protected void update() {
-        if (randNum() < 10) {
-            System.out.println("achieved");
+        if (nextDialogue >= dialogue.length) {
+            nextDialogue = dialogue.length - 1;
+            choiceTime = true;
         }
     }
 
-    private int randNum() {
-        return (int) (Math.random() * 10000);
+    public boolean isChoiceTime() {
+        return choiceTime;
+    }
+
+    public String[] getChoices() {
+        return choices;
     }
 }

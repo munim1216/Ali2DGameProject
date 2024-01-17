@@ -97,8 +97,17 @@ public class UI {
         g2D.drawString("PAUSED", GamePanel.SCREEN_WIDTH / 2 - 20, GamePanel.SCREEN_HEIGHT / 2);
     }
     public void drawEvent(Graphics2D g2D, Event event) {
+        int x = textX;
+        int y = textY;
         drawBox(g2D);
-        g2D.drawString(event.getDialogue(), textX, textY);
+        g2D.drawString(event.getDialogue(), x, y);
+        if (event.isChoiceTime()) {
+            y += GamePanel.TILE_SIZE * 2;
+            for (String choice : event.getChoices()) {
+                g2D.drawString(choice, x, y);
+                y += GamePanel.TILE_SIZE;
+            }
+        }
     }
 
 
