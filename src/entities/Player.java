@@ -1,5 +1,6 @@
 package entities;
 
+import events.EventHandler;
 import interactables.SuperInteractable;
 import main.GamePanel;
 import main.KeyHandler;
@@ -29,8 +30,12 @@ public class Player extends Entity {
     private int currentHealth;
     // UI
     private UI UI;
-    public Player(KeyHandler keyH) {
+    // EVENT HANDLING (so it can effect the player)
+    private EventHandler eventHandler;
+    public Player(KeyHandler keyH, EventHandler eventHandler) {
         super(8,16);
+
+        this.eventHandler = eventHandler;
 
         FULL_SHIELD = 2;
         HALF_SHIELD = 1;

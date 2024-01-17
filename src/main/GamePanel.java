@@ -65,15 +65,17 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
 
-        // our player
-        player = new Player(keyH);
-
-        // needed to render only things in frame
-        SuperInteractable.setPlayer(player);
 
         // handles all the events
         eventHandler = new EventHandler();
         Event.setGP(this);
+
+        // our player
+        player = new Player(keyH, eventHandler);
+
+        // needed to render only things in frame
+        SuperInteractable.setPlayer(player);
+
 
         // the ui, needs player to access its hp
         UI = new UI(this, player);
@@ -249,5 +251,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void processEvent() {
         eventHandler.processEvent(UI.getCommandNum());
+        gameState = RESULT_STATE;
     }
 }

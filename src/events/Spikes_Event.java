@@ -15,6 +15,8 @@ public class Spikes_Event extends Event {
     @Override
     protected void processEvent(int choice) {
         choiceTime = false;
+        nextDialogue = 0;
+
         if (choice == OPTION_1) {
             dialogue = new String[] {"The [enemy name] ended you."};
         } else if (choice == OPTION_2) {
