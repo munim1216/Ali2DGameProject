@@ -24,6 +24,10 @@ public class EventHandler {
         return currentEvent;
     }
 
+    public void processEvent(int choice) {
+        currentEvent.processEvent(choice);
+    }
+
     private Event pickEvent() {
         //int eventNum = (int) ((Math.random() * 2) + 1);
         return events[0];

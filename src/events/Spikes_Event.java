@@ -11,4 +11,16 @@ public class Spikes_Event extends Event {
         choices = new  String[] {"Fight the [enemy name]", "Jump off the cliff"};
         nextDialogue = 0;
     }
+
+    @Override
+    protected void processEvent(int choice) {
+        choiceTime = false;
+        if (choice == OPTION_1) {
+            dialogue = new String[] {"The [enemy name] ended you."};
+        } else if (choice == OPTION_2) {
+            dialogue = new String[] {"You were saved by a mysterious traveler on your fall down"};
+        } else {
+            throw new RuntimeException("shouldn't be happening");
+        }
+    }
 }

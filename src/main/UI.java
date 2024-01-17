@@ -23,7 +23,7 @@ public class UI {
     private Font npcFont;
     private int commandNum;
     public final int START = 0, CONTINUE = 1, QUIT = 2;
-    public final int OPTION_1 = 0, OPTION_2 = 2;
+    public final int OPTION_1 = 0, OPTION_2 = 1;
     private BufferedImage full_shield, half_shield, empty_shield;
     private Player player;
 
@@ -110,20 +110,19 @@ public class UI {
 
         if (event.isChoiceTime()) {
             boolean drawn = false;
+            boolean second = false;
 
             y += GamePanel.TILE_SIZE;
             for (String choice : event.getChoices()) {
                 g2D.drawString(choice, x, y);
                 if (!drawn && commandNum == OPTION_1) {
-                    g2D.drawString("<", x + stringScreenLength(choice, g2D), y);
+                    g2D.drawString("<", x + stringScreenLength(choice, g2D) + 10, y);
                     drawn = true;
+                } else if (second && commandNum == OPTION_2) {
+                    g2D.drawString("<", x + stringScreenLength(choice, g2D) + 10, y);
                 }
                 y += GamePanel.TILE_SIZE  * 0.75;
-                if (!drawn && commandNum == OPTION_2) {
-                    g2D.drawString("<", x + stringScreenLength(choice, g2D), y);
-                    System.out.println("accessible");
-                    drawn = true;
-                }
+                second = true;
             }
             gp.choiceTime();
         }
@@ -222,8 +221,6 @@ public class UI {
             commandNum = 1;
         } else if (commandNum == 1) {
             commandNum = 0;
-        } else {
-            commandNum = 0;
         }
     }
 
@@ -243,6 +240,7 @@ public class UI {
                 System.exit(0);
             }
         }
+        commandNum = 0;
     }
 
     private int getXForCenteredText(String text, Graphics2D g2D) {

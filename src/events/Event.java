@@ -8,6 +8,8 @@ public class Event {
     protected int nextDialogue;
     protected boolean choiceTime;
     protected static GamePanel gp;
+    protected final int OPTION_1 = 0, OPTION_2 = 1;
+
 
     public Event(){}
 
@@ -37,5 +39,8 @@ public class Event {
 
     public String[] getChoices() {
         return choices;
+    }
+    protected void processEvent(int choice) {
+
     }
 }
