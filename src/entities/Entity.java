@@ -233,6 +233,7 @@ public class Entity {
         invincible = true;
     }
     public void knockback(int knockbackAmt) {
+        // todo fix this method so it doesnt knock u inside of walls
         switch (direction) {
             case "up" -> worldY += knockbackAmt;
             case "down" -> worldY -= knockbackAmt;
