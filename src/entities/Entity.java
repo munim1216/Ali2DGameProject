@@ -47,12 +47,10 @@ public class Entity {
     protected final static int TYPE_NPC = 1; // value needed across all subclasses
     protected final static int TYPE_MOB = 2; // value needed across all sub
     protected final int TYPE;
-    protected boolean checking;
     public Entity(int rectangleDefaultX, int rectangleDefaultY, int TYPE){
         this.rectangleDefaultX = rectangleDefaultX;
         this.rectangleDefaultY = rectangleDefaultY;
         this.TYPE = TYPE;
-        checking = false;
     }
 
     public static void setNeededVariables(int[][] mapTileNum, Tile[] tiles, Player player, Entity[] NPCs, GamePanel gp, Entity[] Mobs) {
@@ -64,10 +62,10 @@ public class Entity {
         Entity.gp = gp;
         Entity.Mobs = Mobs;
     }
-    protected boolean collisionCheck(int movement) {
-        return mobCollisionCheck(movement) && tileCollisionCheck(movement) && interactableCollisionCheck(movement) && npcCollisionCheck(movement) && playerCollisionCheck(movement); // combination of all my collision checks
+    protected boolean collisionCheck() {
+        return mobCollisionCheck() && tileCollisionCheck() && interactableCollisionCheck() && npcCollisionCheck() && playerCollisionCheck(); // combination of all my collision checks
     }
-    protected boolean tileCollisionCheck(int movement) {
+    protected boolean tileCollisionCheck() {
         // creates variables used to determine which rows and col will be checked
         int leftWorldX = worldX + solidArea.x;
         int rightWorldX = worldX + solidArea.x + solidArea.width;
@@ -84,25 +82,25 @@ public class Entity {
         switch (direction) {
             case "up" -> {
                 // going up means top left and top right tiles only gotta check
-                topRow = (topWorldY - movement) / GamePanel.TILE_SIZE;
+                topRow = (topWorldY - speed) / GamePanel.TILE_SIZE;
                 tileCheck1 = mapTileNum[leftCol][topRow];
                 tileCheck2 = mapTileNum[rightCol][topRow];
             }
             case "down" -> {
                 // going down means bottom left and bottom right tiles only gotta check
-                bottomRow = (bottomWorldY + movement) / GamePanel.TILE_SIZE;
+                bottomRow = (bottomWorldY + speed) / GamePanel.TILE_SIZE;
                 tileCheck1 = mapTileNum[leftCol][bottomRow];
                 tileCheck2 = mapTileNum[rightCol][bottomRow];
             }
             case "right" -> {
                 // going right means the right tiles have to be checked
-                rightCol = (rightWorldX + movement) / GamePanel.TILE_SIZE;
+                rightCol = (rightWorldX + speed) / GamePanel.TILE_SIZE;
                 tileCheck1 = mapTileNum[rightCol][topRow];
                 tileCheck2 = mapTileNum[rightCol][bottomRow];
             }
             case "left" -> {
                 // going left means the left tiles have to be checked
-                leftCol = (leftWorldX - movement) / GamePanel.TILE_SIZE;
+                leftCol = (leftWorldX - speed) / GamePanel.TILE_SIZE;
                 tileCheck1 = mapTileNum[leftCol][topRow];
                 tileCheck2 = mapTileNum[leftCol][bottomRow];
             }
@@ -120,7 +118,7 @@ public class Entity {
         }
     }
 
-    protected boolean interactableCollisionCheck(int movement) {
+    protected boolean interactableCollisionCheck() {
         SuperInteractable[] inScreen = SuperInteractable.getInScreen();
         for (int i = 0; inScreen[i] != null; i++) {
             if (SuperInteractable.getInScreen()[i].isCollision()) {
@@ -137,10 +135,10 @@ public class Entity {
                 // after adjusting where the hit boxes of both the entity and interactable, it tests if the rectangles that represent their hit boxes
                 // would intersect after moving in the direction they're trying to move in. (thanks to the handy method intersect from rectangle class)
                 switch (direction) {
-                    case "up" -> this.solidArea.y -= movement;
-                    case "down" -> this.solidArea.y += movement;
-                    case "left" -> this.solidArea.x -= movement;
-                    case "right" -> this.solidArea.x += movement;
+                    case "up" -> this.solidArea.y -= speed;
+                    case "down" -> this.solidArea.y += speed;
+                    case "left" -> this.solidArea.x -= speed;
+                    case "right" -> this.solidArea.x += speed;
                 }
                 if (SuperInteractable.getInScreen()[i].getSolidArea().intersects(this.solidArea)) {
                     reset(this, inScreen[i]);
@@ -153,7 +151,7 @@ public class Entity {
         }
         return true;
     }
-    protected boolean npcCollisionCheck(int movement) {
+    protected boolean npcCollisionCheck() {
         for (int i = 0; NPCs[i] != null; i++) {
             if (NPCs[i] != this) {
 
@@ -168,10 +166,10 @@ public class Entity {
                 // after adjusting where the hit boxes of both the entity and other entity, it tests if the rectangles that represent their hit boxes
                 // would intersect after moving in the direction they're trying to move in. (thanks to the handy method intersect from rectangle class)
                 switch (direction) {
-                    case "up" -> this.solidArea.y -= movement;
-                    case "down" -> this.solidArea.y += movement;
-                    case "left" -> this.solidArea.x -= movement;
-                    case "right" -> this.solidArea.x += movement;
+                    case "up" -> this.solidArea.y -= speed;
+                    case "down" -> this.solidArea.y += speed;
+                    case "left" -> this.solidArea.x -= speed;
+                    case "right" -> this.solidArea.x += speed;
                 }
                 if (NPCs[i].solidArea.intersects(this.solidArea)) {
                     reset(this, NPCs[i]);
@@ -187,7 +185,7 @@ public class Entity {
         return true;
     }
 
-    protected boolean mobCollisionCheck(int movement) {
+    protected boolean mobCollisionCheck() {
         for (int i = 0; Mobs[i] != null; i++) {
             if (Mobs[i] != this) {
 
@@ -202,17 +200,15 @@ public class Entity {
                 // after adjusting where the hit boxes of both the entity and other entity, it tests if the rectangles that represent their hit boxes
                 // would intersect after moving in the direction they're trying to move in. (thanks to the handy method intersect from rectangle class)
                 switch (direction) {
-                    case "up" -> this.solidArea.y -= movement;
-                    case "down" -> this.solidArea.y += movement;
-                    case "left" -> this.solidArea.x -= movement;
-                    case "right" -> this.solidArea.x += movement;
+                    case "up" -> this.solidArea.y -= speed;
+                    case "down" -> this.solidArea.y += speed;
+                    case "left" -> this.solidArea.x -= speed;
+                    case "right" -> this.solidArea.x += speed;
                 }
                 if (Mobs[i].solidArea.intersects(this.solidArea)) {
                     reset(this, Mobs[i]);
-                    if (!checking && this.getType() != TYPE_MOB && notInvincible()) {
+                    if (this.getType() != TYPE_MOB && notInvincible()) {
                         this.loseHP(Mobs[i].getDamage());
-                        knockback(GamePanel.TILE_SIZE / 2, Mobs[i].getDirection());
-                        checking = true;
                     }
                     return false;
                 }
@@ -231,25 +227,11 @@ public class Entity {
     protected int getDamage() {
         return damage;
     }
-    protected String getDirection() {
-        return direction;
-    }
     public void loseHP(int amountLost) {
         health -= amountLost;
         invincible = true;
     }
-    public void knockback(int knockbackAmt, String knockbackDirection) {
-        // todo fix this method so it doesnt knock u inside of walls
-        if (collisionCheck(knockbackAmt)) {
-            switch (knockbackDirection) {
-                case "up" -> worldY += knockbackAmt;
-                case "down" -> worldY -= knockbackAmt;
-                case "left" -> worldX += knockbackAmt;
-                case "right" -> worldX -= knockbackAmt;
-            }
-        }
-    }
-    protected boolean playerCollisionCheck(int movement) {
+    protected boolean playerCollisionCheck() {
         if (this == player) {
             return true;
         }
@@ -263,21 +245,15 @@ public class Entity {
 
         // switch is only checked if collision is true
         switch (direction) {
-            case "up" -> this.solidArea.y -= movement;
-            case "down" -> this.solidArea.y += movement;
-            case "left" -> this.solidArea.x -= movement;
-            case "right" -> this.solidArea.x += movement;
+            case "up" -> this.solidArea.y -= speed;
+            case "down" -> this.solidArea.y += speed;
+            case "left" -> this.solidArea.x -= speed;
+            case "right" -> this.solidArea.x += speed;
         }
         if (player.solidArea.intersects(this.solidArea)) {
             reset(this, player);
             if (getType() == TYPE_MOB) {
-                if (!checking && player.notInvincible()) {
-                    player.loseHP(this.getDamage());
-                    player.knockback(GamePanel.TILE_SIZE / 2, this.getDirection());
-                    checking = true;
-                } else {
-                    checking = false;
-                }
+                player.loseHP(this.getDamage());
             }
             return false;
         }
@@ -399,7 +375,7 @@ public class Entity {
         setAction();
 
         // can only move if there isnt a collision
-        if (collisionCheck(speed)) {
+        if (collisionCheck()) {
             switch (direction) {
                 case "up" -> worldY -= speed;
                 case "down" -> worldY += speed;
