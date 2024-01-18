@@ -85,12 +85,13 @@ public class GamePanel extends JPanel implements Runnable {
         // to deal with npcs (and maybe enemies in the future too)
         assetSetter = new AssetSetter();
         assetSetter.setNPC();
+        assetSetter.createMobs();
 
         // to draw the tiles
         tileManager = new TileManager(this, player);
 
         // collision hell needs all of these.
-        Entity.setNeededVariables(tileManager.getMapTileNum(), tileManager.getTiles(), player, assetSetter.getNPCs(), this);
+        Entity.setNeededVariables(tileManager.getMapTileNum(), tileManager.getTiles(), player, assetSetter.getNPCs(), this, assetSetter.getMobs());
 
 
         // the game can actually start if the thread is active

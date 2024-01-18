@@ -12,8 +12,8 @@ public class Entity {
     // player, a method for collision requires a reference to the player so here it is
     private static Player player;
     // world map && possible tiles
-    protected static int[][] mapTileNum;
-    protected static Tile[] tiles;
+    private static int[][] mapTileNum;
+    private static Tile[] tiles;
     // position in overall world map
     protected int worldX;
     protected int worldY;
@@ -28,32 +28,40 @@ public class Entity {
     protected Rectangle solidArea; // hit boxes are actually not over ur player until they're checking for collison (every 1/60 of a second) i would've implemented differently, but i had no clue how to do it so i ended up doing it similarly to the guide
     protected int rectangleDefaultX;
     protected int rectangleDefaultY;
-    protected static Entity[] NPCs;
+    private static Entity[] NPCs;
+    private static Entity[] Mobs;
     // combat
     protected int health;
     protected int defense;
-    protected double multipler = 1.0;
+    protected int damage;
     // dialouge
     protected boolean hasDialogue; // not every entity gonna have dialogue (such as enemies)
     protected String[] dialogue; // their actual words
     protected static Entity lastTouchingPlayer; // to initiate dialogue
     protected int nextDialogue; // the next dialogue that's gonna be written
     protected static GamePanel gp; // needed to check the playstate
-    public Entity(int rectangleDefaultX, int rectangleDefaultY){
+    // to determine the type of entity
+    protected final static int TYPE_PLAYER = 0; // value needed across all subclasses
+    protected final static int TYPE_NPC = 1; // value needed across all subclasses
+    protected final static int TYPE_MOB = 2; // value needed across all sub
+    protected final int TYPE;
+    public Entity(int rectangleDefaultX, int rectangleDefaultY, int TYPE){
         this.rectangleDefaultX = rectangleDefaultX;
         this.rectangleDefaultY = rectangleDefaultY;
+        this.TYPE = TYPE;
     }
 
-    public static void setNeededVariables(int[][] mapTileNum, Tile[] tiles, Player player, Entity[] NPCs, GamePanel gp) {
+    public static void setNeededVariables(int[][] mapTileNum, Tile[] tiles, Player player, Entity[] NPCs, GamePanel gp, Entity[] Mobs) {
         // sets static variables needed
         Entity.mapTileNum = mapTileNum;
         Entity.tiles = tiles;
         Entity.player = player;
         Entity.NPCs = NPCs;
         Entity.gp = gp;
+        Entity.Mobs = Mobs;
     }
     protected boolean collisionCheck() {
-        return tileCollisionCheck() && interactableCollisionCheck() && entityCollisionCheck() && playerCollisionCheck(); // combination of all my collision checks
+        return mobCollisionCheck() && tileCollisionCheck() && interactableCollisionCheck() && npcCollisionCheck() && playerCollisionCheck(); // combination of all my collision checks
     }
     protected boolean tileCollisionCheck() {
         // creates variables used to determine which rows and col will be checked
@@ -141,7 +149,7 @@ public class Entity {
         }
         return true;
     }
-    protected boolean entityCollisionCheck() {
+    protected boolean npcCollisionCheck() {
         for (int i = 0; NPCs[i] != null; i++) {
             if (NPCs[i] != this) {
 
@@ -175,6 +183,57 @@ public class Entity {
         return true;
     }
 
+    protected boolean mobCollisionCheck() {
+        for (int i = 0; Mobs[i] != null; i++) {
+            if (Mobs[i] != this) {
+
+                // its actual x in the world, not the hitbox
+                this.solidArea.x = this.solidArea.x + this.worldX;
+                this.solidArea.y = this.solidArea.y + this.worldY;
+
+                // actual x in world, not hitbox
+                Mobs[i].solidArea.x = Mobs[i].solidArea.x + Mobs[i].worldX;
+                Mobs[i].solidArea.y = Mobs[i].solidArea.y + Mobs[i].worldY;
+
+                // after adjusting where the hit boxes of both the entity and other entity, it tests if the rectangles that represent their hit boxes
+                // would intersect after moving in the direction they're trying to move in. (thanks to the handy method intersect from rectangle class)
+                switch (direction) {
+                    case "up" -> this.solidArea.y -= speed;
+                    case "down" -> this.solidArea.y += speed;
+                    case "left" -> this.solidArea.x -= speed;
+                    case "right" -> this.solidArea.x += speed;
+                }
+                if (Mobs[i].solidArea.intersects(this.solidArea)) {
+                    reset(this, Mobs[i]);
+                    if (this.getType() != TYPE_MOB) {
+                        this.loseHP(Mobs[i].getDamage());
+                    }
+                    return false;
+                }
+
+                reset(this, Mobs[i]);
+            }
+        }
+        return true;
+    }
+    protected int getType() {
+        return TYPE;
+    }
+
+    protected int getDamage() {
+        return damage;
+    }
+    public void loseHP(int amountLost) {
+        health -= amountLost;
+    }
+    public void knockback(int knockbackAmt) {
+        switch (direction) {
+            case "up" -> worldY += knockbackAmt;
+            case "down" -> worldY -= knockbackAmt;
+            case "left" -> worldX += knockbackAmt;
+            case "right" -> worldX -= knockbackAmt;
+        }
+    }
     protected boolean playerCollisionCheck() {
         if (this == player) {
             return true;

@@ -27,13 +27,12 @@ public class Player extends Entity {
     private int numKeys;
     // PLAYER HEALTH
     public final int FULL_SHIELD, HALF_SHIELD, EMPTY_SHIELD;
-    private int currentHealth;
     // UI
     private UI UI;
     // EVENT HANDLING (so it can effect the player)
     private EventHandler eventHandler;
     public Player(KeyHandler keyH, EventHandler eventHandler) {
-        super(8,16);
+        super(8,16, TYPE_PLAYER);
 
         this.eventHandler = eventHandler;
 
@@ -41,7 +40,7 @@ public class Player extends Entity {
         HALF_SHIELD = 1;
         EMPTY_SHIELD = 0;
 
-        currentHealth = 6;
+        health = 6;
 
         worldX = 10 * GamePanel.TILE_SIZE;
         worldY = 4 * GamePanel.TILE_SIZE;
@@ -87,8 +86,8 @@ public class Player extends Entity {
         return numKeys;
     }
 
-    public int getCurrentHealth() {
-        return currentHealth;
+    public int getHealth() {
+        return health;
     }
 
     public SuperInteractable[] getItemList() {
@@ -96,7 +95,7 @@ public class Player extends Entity {
     }
 
     public void playerUpdate() {
-        if (keyH.isFKeyPressed() && !entityCollisionCheck()) {
+        if (keyH.isFKeyPressed() && !npcCollisionCheck()) {
             if (gp.getGameState() == GamePanel.PLAY_STATE) {
                 gp.startDialouge();
                 UI.setNextDialogue(lastTouchingPlayer.speak());
@@ -140,13 +139,6 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
-    }
-    public void loseHP(int amountLost) {
-        currentHealth -= amountLost;
-    }
-    public void playerForceMove(int x, int y) {
-        worldX += x;
-        worldY += y;
     }
     public void draw(Graphics2D g2D) {
         BufferedImage image = null;

@@ -76,7 +76,7 @@ public class UI {
     }
 
     public void draw(Graphics2D g2D) {
-        int hp = player.getCurrentHealth();
+        int hp = player.getHealth();
         int x = heartX;
         int y = heartY;
 
