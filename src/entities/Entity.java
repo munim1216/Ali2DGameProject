@@ -209,7 +209,6 @@ public class Entity {
                     reset(this, Mobs[i]);
                     if (this.getType() != TYPE_MOB && notInvincible()) {
                         this.loseHP(Mobs[i].getDamage());
-                        knockback(GamePanel.TILE_SIZE / 2);
                     }
                     return false;
                 }
@@ -231,15 +230,6 @@ public class Entity {
     public void loseHP(int amountLost) {
         health -= amountLost;
         invincible = true;
-    }
-    public void knockback(int knockbackAmt) {
-        // todo fix this method so it doesnt knock u inside of walls
-        switch (direction) {
-            case "up" -> worldY += knockbackAmt;
-            case "down" -> worldY -= knockbackAmt;
-            case "left" -> worldX += knockbackAmt;
-            case "right" -> worldX -= knockbackAmt;
-        }
     }
     protected boolean playerCollisionCheck() {
         if (this == player) {
@@ -264,7 +254,6 @@ public class Entity {
             reset(this, player);
             if (getType() == TYPE_MOB) {
                 player.loseHP(this.getDamage());
-                player.knockback(GamePanel.TILE_SIZE / 2);
             }
             return false;
         }

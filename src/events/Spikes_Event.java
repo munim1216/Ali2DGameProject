@@ -36,7 +36,6 @@ public class Spikes_Event extends Event {
         } else if (choice != OPTION_2) {
             throw new RuntimeException("uh oh cheerio");
         }
-        player.knockback(48);
     }
 
     protected void reset() {

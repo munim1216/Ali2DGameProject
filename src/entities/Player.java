@@ -32,6 +32,8 @@ public class Player extends Entity {
     // EVENT HANDLING (so it can effect the player)
     private EventHandler eventHandler;
     // player iframes
+    boolean flashing;
+
     public Player(KeyHandler keyH, EventHandler eventHandler) {
         super(8,16, TYPE_PLAYER);
 
@@ -40,6 +42,8 @@ public class Player extends Entity {
         FULL_SHIELD = 2;
         HALF_SHIELD = 1;
         EMPTY_SHIELD = 0;
+
+        flashing = false;
 
         health = 6;
 
@@ -186,7 +190,17 @@ public class Player extends Entity {
             }
         }
 
+        if (invincible && flashing) {
+            g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.1f));
+            flashing = false;
+        } else if (invincible) {
+            g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f));
+            flashing = true;
+        }
+
         g2D.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, null);
+        g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+
     }
 
     private void interactCheck() { // rework into interact check?
