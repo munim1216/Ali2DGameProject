@@ -99,7 +99,7 @@ public class Player extends Entity {
     }
 
     public void playerUpdate() {
-        if (keyH.isFKeyPressed() && !npcCollisionCheck()) {
+        if (keyH.isFKeyPressed() && !npcCollisionCheck(speed)) {
             if (gp.getGameState() == GamePanel.PLAY_STATE) {
                 gp.startDialouge();
                 UI.setNextDialogue(lastTouchingPlayer.speak());
@@ -116,25 +116,25 @@ public class Player extends Entity {
             }
             if (keyH.isWKeyPressed()) {
                 direction = "up";
-                if (collisionCheck()) {
+                if (collisionCheck(speed)) {
                     worldY -= speed;
                 }
             }
             if (keyH.isSKeyPressed()) {
                 direction = "down";
-                if (collisionCheck()) {
+                if (collisionCheck(speed)) {
                     worldY += speed;
                 }
             }
             if (keyH.isDKeyPressed()) {
                 direction = "right";
-                if (collisionCheck()) {
+                if (collisionCheck(speed)) {
                     worldX += speed;
                 }
             }
             if (keyH.isAKeyPressed()) {
                 direction = "left";
-                if (collisionCheck()) {
+                if (collisionCheck(speed)) {
                     worldX -= speed;
                 }
             }
