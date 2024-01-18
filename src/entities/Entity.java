@@ -34,6 +34,8 @@ public class Entity {
     protected int health;
     protected int defense;
     protected int damage;
+    protected int iframes;
+    protected boolean invincible;
     // dialouge
     protected boolean hasDialogue; // not every entity gonna have dialogue (such as enemies)
     protected String[] dialogue; // their actual words
@@ -205,8 +207,9 @@ public class Entity {
                 }
                 if (Mobs[i].solidArea.intersects(this.solidArea)) {
                     reset(this, Mobs[i]);
-                    if (this.getType() != TYPE_MOB) {
+                    if (this.getType() != TYPE_MOB && notInvincible()) {
                         this.loseHP(Mobs[i].getDamage());
+                        knockback(GamePanel.TILE_SIZE / 2);
                     }
                     return false;
                 }
@@ -219,12 +222,15 @@ public class Entity {
     protected int getType() {
         return TYPE;
     }
-
+    protected boolean notInvincible() {
+        return !invincible;
+    }
     protected int getDamage() {
         return damage;
     }
     public void loseHP(int amountLost) {
         health -= amountLost;
+        invincible = true;
     }
     public void knockback(int knockbackAmt) {
         switch (direction) {
@@ -255,6 +261,10 @@ public class Entity {
         }
         if (player.solidArea.intersects(this.solidArea)) {
             reset(this, player);
+            if (getType() == TYPE_MOB) {
+                player.loseHP(this.getDamage());
+                player.knockback(GamePanel.TILE_SIZE / 2);
+            }
             return false;
         }
         reset(this, player);
@@ -389,6 +399,12 @@ public class Entity {
         if (spriteCounter > 12) {
             alternateSprite();
             spriteCounter = 0;
+        }
+        if (invincible) {
+            iframes++;
+            if (iframes >= 60) {
+                invincible = false;
+            }
         }
     }
 

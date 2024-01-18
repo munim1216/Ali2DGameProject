@@ -31,6 +31,7 @@ public class Player extends Entity {
     private UI UI;
     // EVENT HANDLING (so it can effect the player)
     private EventHandler eventHandler;
+    // player iframes
     public Player(KeyHandler keyH, EventHandler eventHandler) {
         super(8,16, TYPE_PLAYER);
 
@@ -41,6 +42,9 @@ public class Player extends Entity {
         EMPTY_SHIELD = 0;
 
         health = 6;
+
+        iframes = 0;
+        invincible = false;
 
         worldX = 10 * GamePanel.TILE_SIZE;
         worldY = 4 * GamePanel.TILE_SIZE;
@@ -137,6 +141,14 @@ public class Player extends Entity {
             if (spriteCounter >= 10) {
                 alternateSprite();
                 spriteCounter = 0;
+            }
+        }
+
+        if (invincible) {
+            iframes++;
+            if (iframes >= 60) {
+                invincible = false;
+                iframes = 0;
             }
         }
     }
