@@ -22,6 +22,7 @@ public class SuperWeapon {
     protected final int height;
 
     // the actual sprites!!!!
+    protected String direction;
     protected BufferedImage swingUp1, swingUp2, swingUp3, swingUp4;
     protected BufferedImage swingDown1, swingDown2, swingDown3, swingDown4;
     protected BufferedImage swingLeft1, swingLeft2, swingLeft3, swingLeft4;
@@ -59,7 +60,15 @@ public class SuperWeapon {
         return null;
     }
 
+    public void update() {
+        this.direction = player.getDirection();
+        if (hitEntityCollisionCheck()) {
+
+        }
+    }
+
     protected boolean hitEntityCollisionCheck() {
+
         return true;
     }
 

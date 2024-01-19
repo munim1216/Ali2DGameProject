@@ -241,7 +241,9 @@ public class Player extends Entity {
         g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
     }
-
+    public String getDirection() {
+        return direction;
+    }
     private void interactCheck() { // rework into interact check?
         for (int i = 0; SuperInteractable.getInScreen()[i] != null; i++) {
             if (SuperInteractable.getInScreen()[i].isCanInteract()) {
