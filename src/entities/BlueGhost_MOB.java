@@ -14,6 +14,7 @@ public class BlueGhost_MOB extends Entity {
 
         direction = "down";
         speed = 2;
+        health = 10;
 
         this.worldX = worldX;
         this.worldY = worldY;

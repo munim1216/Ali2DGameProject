@@ -99,9 +99,6 @@ public class Player extends Entity {
         return numKeys;
     }
 
-    public int getHealth() {
-        return health;
-    }
     public SuperWeapon getWeapon() {
         return weapon;
     }

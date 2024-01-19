@@ -202,7 +202,7 @@ public class GamePanel extends JPanel implements Runnable {
     private void update() {
         // actually keeps the game runnning!
         player.playerUpdate();
-        if (player.isSwing()) {
+        if (player.isSwing() || player.getWeapon().isMidSwing()) {
             player.getWeapon().update();
         }
         SuperInteractable.interactablesInFrame();
@@ -224,7 +224,11 @@ public class GamePanel extends JPanel implements Runnable {
         SuperInteractable.draw(g2D);
         AssetSetter.draw(g2D);
         UI.draw(g2D);
+        if (player.isSwing() || player.getWeapon().isMidSwing()) {
+            player.getWeapon().draw(g2D);
+        }
         player.draw(g2D);
+
     }
 
     private void pauseState(Graphics2D g2D) {

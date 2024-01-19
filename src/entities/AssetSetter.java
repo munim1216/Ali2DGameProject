@@ -37,7 +37,11 @@ public class AssetSetter {
             NPCs[i].update();
         }
         for (int i = 0; Mobs[i] != null; i++) {
-            Mobs[i].update();
+            if (Mobs[i].getHealth() <= 0) {
+                Mobs[i] = null;
+            } else {
+                Mobs[i].update();
+            }
         }
     }
 

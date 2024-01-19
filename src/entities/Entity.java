@@ -63,6 +63,11 @@ public class Entity {
         Entity.gp = gp;
         Entity.Mobs = Mobs;
     }
+
+    public int getHealth() {
+        return health;
+    }
+
     protected boolean collisionCheck() {
         return mobCollisionCheck() && tileCollisionCheck() && interactableCollisionCheck() && npcCollisionCheck() && playerCollisionCheck(); // combination of all my collision checks
     }
@@ -258,7 +263,7 @@ public class Entity {
         }
         if (player.solidArea.intersects(this.solidArea)) {
             reset(this, player);
-            if (getType() == TYPE_MOB) {
+            if (player.notInvincible() && getType() == TYPE_MOB) {
                 player.loseHP(this.getDamage());
             }
             return false;
