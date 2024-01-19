@@ -94,13 +94,6 @@ public class Player extends Entity {
     public void addUI(UI ui) {
         this.UI = ui;
     }
-    public int getworldX() {
-        return worldX;
-    }
-
-    public int getworldY() {
-        return worldY;
-    }
 
     public int getNumKeys() {
         return numKeys;
@@ -109,7 +102,9 @@ public class Player extends Entity {
     public int getHealth() {
         return health;
     }
-
+    public SuperWeapon getWeapon() {
+        return weapon;
+    }
     public SuperInteractable[] getItemList() {
         return itemList;
     }

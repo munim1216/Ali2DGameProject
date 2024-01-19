@@ -99,8 +99,8 @@ public class TileManager {
             BufferedImage image = tiles[mapTileNum[worldCol][worldRow]].getImage();
             int worldX = worldCol * GamePanel.TILE_SIZE;
             int worldY = worldRow * GamePanel.TILE_SIZE;
-            int screenX = worldX - player.getworldX() + Player.PLAYER_SCREEN_X;
-            int screenY = worldY - player.getworldY() + Player.PLAYER_SCREEN_Y;
+            int screenX = worldX - player.getWorldX() + Player.PLAYER_SCREEN_X;
+            int screenY = worldY - player.getWorldY() + Player.PLAYER_SCREEN_Y;
 
             if (notOutOfBounds(worldX, worldY)) {
                 g2D.drawImage(image, screenX, screenY,null); // midst of editing
@@ -144,7 +144,7 @@ public class TileManager {
     }
 
     private boolean notOutOfBounds(int worldX, int worldY) {
-        return (worldX + GamePanel.TILE_SIZE > player.getworldX() - Player.PLAYER_SCREEN_X ) && (worldX - GamePanel.TILE_SIZE  < player.getworldX() + Player.PLAYER_SCREEN_X) &&
-                (worldY + GamePanel.TILE_SIZE  > player.getworldY() - Player.PLAYER_SCREEN_Y) && (worldY - GamePanel.TILE_SIZE  < player.getworldY() + Player.PLAYER_SCREEN_Y);
+        return (worldX + GamePanel.TILE_SIZE > player.getWorldX() - Player.PLAYER_SCREEN_X ) && (worldX - GamePanel.TILE_SIZE  < player.getWorldX() + Player.PLAYER_SCREEN_X) &&
+                (worldY + GamePanel.TILE_SIZE  > player.getWorldY() - Player.PLAYER_SCREEN_Y) && (worldY - GamePanel.TILE_SIZE  < player.getWorldY() + Player.PLAYER_SCREEN_Y);
     }
 }

@@ -68,9 +68,45 @@ public class SuperWeapon {
     }
 
     protected boolean hitEntityCollisionCheck() {
+        decideHitbox();
+        for (int i = 0; Mobs[i] != null; i++) {
 
+            // its actual x in the world, not the hitbox
+            this.solidArea.x = this.solidArea.x + player.getWorldX();
+            this.solidArea.y = this.solidArea.y + player.getWorldY();
+
+            switch (player.getDirection()) {
+                case "up" -> this.solidArea.y -= height;
+                case "down" -> this.solidArea.y += height;
+                case "left" -> this.solidArea.x -= width;
+                case "right" -> this.solidArea.x += width;
+            }
+
+            // actual x in world, not hitbox
+            Mobs[i].getSolidArea().x = Mobs[i].getSolidArea().x + Mobs[i].getWorldX();
+            Mobs[i].getSolidArea().y = Mobs[i].getSolidArea().y + Mobs[i].getWorldY();
+
+            // after adjusting where the hit boxes of both the entity and other entity, it tests if the rectangles that represent their hit boxes
+            // would intersect after moving in the direction they're trying to move in. (thanks to the handy method intersect from rectangle class)
+            if (Mobs[i].getSolidArea().intersects(this.solidArea)) {
+                Entity.reset(this, Mobs[i]);
+                Mobs[i].loseHP(this.damage);
+                System.out.println("OUCHIE");// test code
+            }
+
+            Entity.reset(this, Mobs[i]);
+        }
         return true;
     }
 
+    private void decideHitbox() {
+        switch (player.getDirection()) {
+            case "up" -> solidArea = new Rectangle(upDefaultX, upDefaultY, width, height);
+            case "down" -> solidArea = new Rectangle(downDefaultX,downDefaultY, width, height);
+            case "left" -> solidArea = new Rectangle(leftDefaultX, leftDefaultY, height, width);
+            case "right" -> solidArea = new Rectangle(rightDefaultX, rightDefaultY, height, width);
+
+        }
+    }
 
 }

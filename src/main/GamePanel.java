@@ -6,6 +6,8 @@ import entities.AssetSetter;
 import events.EventHandler;
 import interactables.SuperInteractable;
 import events.Event;
+import weapons.SuperWeapon;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -84,6 +86,9 @@ public class GamePanel extends JPanel implements Runnable {
         // to deal with npcs & mobs
         AssetSetter.setNPC();
         AssetSetter.createMobs();
+
+        // class that manages all weapons needs a few things to create its static variables
+        SuperWeapon.setPlayerAndArrays(player);
 
         // to draw the tiles
         tileManager = new TileManager(this, player);
@@ -197,6 +202,10 @@ public class GamePanel extends JPanel implements Runnable {
     private void update() {
         // actually keeps the game runnning!
         player.playerUpdate();
+        // test code
+        if (gameState == PLAY_STATE) {
+            player.getWeapon().update();
+        }
         SuperInteractable.interactablesInFrame();
         AssetSetter.update();
     }

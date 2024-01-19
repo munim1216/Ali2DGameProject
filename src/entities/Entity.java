@@ -4,6 +4,7 @@ import interactables.SuperInteractable;
 import main.GamePanel;
 import main.Tile;
 import main.Utility;
+import weapons.SuperWeapon;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -227,6 +228,11 @@ public class Entity {
     protected int getDamage() {
         return damage;
     }
+
+    public Rectangle getSolidArea() {
+        return solidArea;
+    }
+
     public void loseHP(int amountLost) {
         health -= amountLost;
         invincible = true;
@@ -274,7 +280,9 @@ public class Entity {
         target.solidArea.x = target.rectangleDefaultX;
         target.solidArea.y = target.rectangleDefaultY;
     }
+    public static void reset(SuperWeapon weapon, Entity target) {
 
+    }
 
     protected void draw(Graphics2D g2D) {
         // used to actually make the sprites appear on the screen
@@ -284,8 +292,8 @@ public class Entity {
         }
 
         // math to decide where on the screen entity is being drawn
-        int screenX = worldX - player.getworldX() + Player.PLAYER_SCREEN_X;
-        int screenY = worldY - player.getworldY() + Player.PLAYER_SCREEN_Y;
+        int screenX = worldX - player.getWorldX() + Player.PLAYER_SCREEN_X;
+        int screenY = worldY - player.getWorldY() + Player.PLAYER_SCREEN_Y;
 
         BufferedImage image = null;
 
