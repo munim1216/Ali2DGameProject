@@ -4,7 +4,25 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-    private boolean wKeyPressed, sKeyPressed, aKeyPressed, dKeyPressed, fKeyPressed;
+    private boolean wKeyPressed, sKeyPressed, aKeyPressed, dKeyPressed; // movement keys
+    private boolean fKeyPressed; // interact key
+    private boolean upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed; // attack keys
+
+    public boolean isUpKeyPressed() {
+        return upKeyPressed;
+    }
+
+    public boolean isDownKeyPressed() {
+        return downKeyPressed;
+    }
+
+    public boolean isLeftKeyPressed() {
+        return leftKeyPressed;
+    }
+
+    public boolean isRightKeyPressed() {
+        return rightKeyPressed;
+    }
 
     public boolean isWKeyPressed() {
         return wKeyPressed;
@@ -59,6 +77,10 @@ public class KeyHandler implements KeyListener {
                 case KeyEvent.VK_A -> aKeyPressed = true;
                 case KeyEvent.VK_D -> dKeyPressed = true;
                 case KeyEvent.VK_F -> fKeyPressed = true;
+                case KeyEvent.VK_UP -> upKeyPressed = true;
+                case KeyEvent.VK_DOWN -> downKeyPressed = true;
+                case KeyEvent.VK_LEFT -> leftKeyPressed = true;
+                case KeyEvent.VK_RIGHT -> rightKeyPressed = true;
             }
         } else if (currentGameState == GamePanel.PAUSE_STATE) {
             if (code == KeyEvent.VK_P) {
@@ -92,10 +114,17 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_S -> sKeyPressed = false;
             case KeyEvent.VK_A -> aKeyPressed = false;
             case KeyEvent.VK_D -> dKeyPressed = false;
+            case KeyEvent.VK_UP -> upKeyPressed = false;
+            case KeyEvent.VK_DOWN -> downKeyPressed = false;
+            case KeyEvent.VK_LEFT -> leftKeyPressed = false;
+            case KeyEvent.VK_RIGHT -> rightKeyPressed = false;
         }
     }
 
-    public boolean isKeyPressed() {
+    public boolean isAMovementKeyPressed() {
         return wKeyPressed || aKeyPressed || sKeyPressed || dKeyPressed;
+    }
+    public boolean isACombatKeyPressed() {
+        return upKeyPressed || downKeyPressed || leftKeyPressed || rightKeyPressed;
     }
 }

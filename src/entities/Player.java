@@ -6,6 +6,8 @@ import main.GamePanel;
 import main.KeyHandler;
 import main.UI;
 import main.Utility;
+import weapons.RedSword;
+import weapons.SuperWeapon;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -32,12 +34,22 @@ public class Player extends Entity {
     // EVENT HANDLING (so it can effect the player)
     private EventHandler eventHandler;
     // player iframes
-    boolean flashing;
+    private boolean flashing;
+    // player combat
+    private int cooldown;
+    private SuperWeapon weapon;
+    private boolean swing;
 
     public Player(KeyHandler keyH, EventHandler eventHandler) {
         super(8,16, TYPE_PLAYER);
 
         this.eventHandler = eventHandler;
+
+        swing = false;
+
+        cooldown = 0;
+
+        weapon = new RedSword();
 
         FULL_SHIELD = 2;
         HALF_SHIELD = 1;
@@ -113,7 +125,7 @@ public class Player extends Entity {
             }
         }
         if (GamePanel.gameState == GamePanel.PLAY_STATE) {
-            if (keyH.isKeyPressed()) {
+            if (keyH.isAMovementKeyPressed()) {
                 spriteCounter++;
                 interactCheck();
                 eventHandlerCollisionCheck();
@@ -146,7 +158,29 @@ public class Player extends Entity {
                 alternateSprite();
                 spriteCounter = 0;
             }
+
+            if (keyH.isACombatKeyPressed()) {
+                cooldown--;
+                if (cooldown <= 0) {
+                    swing = true;
+                    cooldown = 30;
+                }
+            }
+
+            if (keyH.isUpKeyPressed()) {
+                direction = "up";
+            }
+            if (keyH.isDownKeyPressed()) {
+                direction = "down";
+            }
+            if (keyH.isLeftKeyPressed()) {
+                direction = "left";
+            }
+            if (keyH.isRightKeyPressed()) {
+                direction = "right";
+            }
         }
+
 
         if (invincible) {
             iframes++;
@@ -156,6 +190,11 @@ public class Player extends Entity {
             }
         }
     }
+
+    public boolean isSwing() {
+        return swing;
+    }
+
     public void draw(Graphics2D g2D) {
         BufferedImage image = null;
 

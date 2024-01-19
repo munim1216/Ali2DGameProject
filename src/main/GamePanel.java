@@ -46,8 +46,6 @@ public class GamePanel extends JPanel implements Runnable {
     // SOUND
     public static Sound MUSIC = new Sound(0);
     public static Sound SE = new Sound(1);
-    // PLACING THINGS
-    AssetSetter assetSetter;
     // GAME EVENTS
     EventHandler eventHandler;
 
@@ -82,16 +80,16 @@ public class GamePanel extends JPanel implements Runnable {
 
         // player also needs access to UI
         player.addUI(UI);
-        // to deal with npcs (and maybe enemies in the future too)
-        assetSetter = new AssetSetter();
-        assetSetter.setNPC();
-        assetSetter.createMobs();
+
+        // to deal with npcs & mobs
+        AssetSetter.setNPC();
+        AssetSetter.createMobs();
 
         // to draw the tiles
         tileManager = new TileManager(this, player);
 
         // collision hell needs all of these.
-        Entity.setNeededVariables(tileManager.getMapTileNum(), tileManager.getTiles(), player, assetSetter.getNPCs(), this, assetSetter.getMobs());
+        Entity.setNeededVariables(tileManager.getMapTileNum(), tileManager.getTiles(), player, AssetSetter.getNPCs(), this, AssetSetter.getMobs());
 
 
         // the game can actually start if the thread is active
@@ -200,7 +198,7 @@ public class GamePanel extends JPanel implements Runnable {
         // actually keeps the game runnning!
         player.playerUpdate();
         SuperInteractable.interactablesInFrame();
-        assetSetter.update();
+        AssetSetter.update();
     }
 
     private void setUpWindow() {
@@ -216,7 +214,7 @@ public class GamePanel extends JPanel implements Runnable {
     private void playState(Graphics2D g2D) {
         tileManager.draw(g2D);
         SuperInteractable.draw(g2D);
-        assetSetter.draw(g2D);
+        AssetSetter.draw(g2D);
         UI.draw(g2D);
         player.draw(g2D);
     }
@@ -228,7 +226,7 @@ public class GamePanel extends JPanel implements Runnable {
     private void dialogueState(Graphics2D g2D) {
         tileManager.draw(g2D);
         SuperInteractable.draw(g2D);
-        assetSetter.draw(g2D);
+        AssetSetter.draw(g2D);
         UI.draw(g2D);
         UI.drawDialouge(g2D);
         player.draw(g2D);
@@ -240,7 +238,7 @@ public class GamePanel extends JPanel implements Runnable {
     private void eventState(Graphics2D g2D) {
         tileManager.draw(g2D);
         SuperInteractable.draw(g2D);
-        assetSetter.draw(g2D);
+        AssetSetter.draw(g2D);
         UI.draw(g2D);
         UI.drawEvent(g2D, eventHandler.getCurrentEvent());
         player.draw(g2D);
