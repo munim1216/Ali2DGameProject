@@ -202,8 +202,7 @@ public class GamePanel extends JPanel implements Runnable {
     private void update() {
         // actually keeps the game runnning!
         player.playerUpdate();
-        // test code
-        if (gameState == PLAY_STATE) {
+        if (player.isSwing()) {
             player.getWeapon().update();
         }
         SuperInteractable.interactablesInFrame();

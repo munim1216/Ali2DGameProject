@@ -99,7 +99,7 @@ public class SuperWeapon {
         return true;
     }
 
-    private void decideHitbox() {
+    public void decideHitbox() {
         switch (player.getDirection()) {
             case "up" -> solidArea = new Rectangle(upDefaultX, upDefaultY, width, height);
             case "down" -> solidArea = new Rectangle(downDefaultX,downDefaultY, width, height);

@@ -281,7 +281,9 @@ public class Entity {
         target.solidArea.y = target.rectangleDefaultY;
     }
     public static void reset(SuperWeapon weapon, Entity target) {
-
+        weapon.decideHitbox();
+        target.solidArea.x = target.rectangleDefaultX;
+        target.solidArea.y = target.rectangleDefaultY;
     }
 
     protected void draw(Graphics2D g2D) {

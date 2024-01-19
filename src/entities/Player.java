@@ -159,6 +159,8 @@ public class Player extends Entity {
                 if (cooldown <= 0) {
                     swing = true;
                     cooldown = 30;
+                } else {
+                    swing = false;
                 }
             }
 
