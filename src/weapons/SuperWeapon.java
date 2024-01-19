@@ -102,12 +102,15 @@ public class SuperWeapon {
             // would intersect after moving in the direction they're trying to move in. (thanks to the handy method intersect from rectangle class)
             if (Mobs[i].getSolidArea().intersects(this.solidArea)) {
                 Entity.reset(this, Mobs[i]);
+
+                // so you dont repeatedly hit the same enemy in the same swing!!!!!!
                 for (Entity entity : mobsHitInSwing) {
                     if (entity == Mobs[i]) {
                         hitInSwing = true;
                         break;
                     }
                 }
+
                 if (!hitInSwing) {
                     Mobs[i].loseHP(this.damage);
                     mobsHitInSwing[nextMob] = Mobs[i];

@@ -38,7 +38,10 @@ public class AssetSetter {
         }
         for (int i = 0; Mobs[i] != null; i++) {
             if (Mobs[i].getHealth() <= 0) {
-                Mobs[i] = null;
+                Mobs[i].death();
+                if (Mobs[i].isAnimationOver()) {
+                    Mobs[i] = null;
+                }
             } else {
                 Mobs[i].update();
             }

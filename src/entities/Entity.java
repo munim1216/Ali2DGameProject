@@ -33,10 +33,13 @@ public class Entity {
     private static Entity[] Mobs;
     // combat
     protected int health;
-    protected int defense;
     protected int damage;
     protected int iframes;
     protected boolean invincible;
+    // death animation
+    protected boolean death;
+    protected int deathCounter;
+    protected boolean animationOver;
     // dialouge
     protected boolean hasDialogue; // not every entity gonna have dialogue (such as enemies)
     protected String[] dialogue; // their actual words
@@ -52,6 +55,10 @@ public class Entity {
         this.rectangleDefaultX = rectangleDefaultX;
         this.rectangleDefaultY = rectangleDefaultY;
         this.TYPE = TYPE;
+
+        death = false;
+        deathCounter = 0;
+        animationOver = false;
     }
 
     public static void setNeededVariables(int[][] mapTileNum, Tile[] tiles, Player player, Entity[] NPCs, GamePanel gp, Entity[] Mobs) {
@@ -234,6 +241,10 @@ public class Entity {
         return damage;
     }
 
+    public boolean isAnimationOver() {
+        return animationOver;
+    }
+
     public Rectangle getSolidArea() {
         return solidArea;
     }
@@ -271,7 +282,13 @@ public class Entity {
         reset(this, player);
         return true;
     }
-
+    protected void death() {
+        death = true;
+        deathCounter++;
+        if (deathCounter > 30) {
+            animationOver = true;
+        }
+    }
     protected void reset(Entity entity, SuperInteractable interactable) {
         entity.solidArea.x = entity.rectangleDefaultX;
         entity.solidArea.y = entity.rectangleDefaultY;
@@ -336,6 +353,13 @@ public class Entity {
             }
         }
 
+        if (death) {
+            if (deathCounter % 2 == 1) {
+                g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
+            } else {
+                g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f));
+            }
+        }
         // the actual draw!
         g2D.drawImage(image, screenX, screenY, null);
     }
