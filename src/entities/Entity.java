@@ -51,6 +51,9 @@ public class Entity {
     protected final static int TYPE_NPC = 1; // value needed across all subclasses
     protected final static int TYPE_MOB = 2; // value needed across all sub
     protected final int TYPE;
+    // to draw hp bar
+    protected double hpDrawn;
+    protected double sizeOfOneHP;
     public Entity(int rectangleDefaultX, int rectangleDefaultY, int TYPE){
         this.rectangleDefaultX = rectangleDefaultX;
         this.rectangleDefaultY = rectangleDefaultY;
@@ -251,6 +254,9 @@ public class Entity {
 
     public void loseHP(int amountLost) {
         health -= amountLost;
+        if (TYPE == TYPE_MOB) {
+            hpDrawn = health * sizeOfOneHP;
+        }
         invincible = true;
     }
     protected boolean playerCollisionCheck() {
@@ -285,7 +291,7 @@ public class Entity {
     protected void death() {
         death = true;
         deathCounter++;
-        if (deathCounter > 30) {
+        if (deathCounter > 40) {
             animationOver = true;
         }
     }
@@ -319,6 +325,33 @@ public class Entity {
         int screenX = worldX - player.getWorldX() + Player.PLAYER_SCREEN_X;
         int screenY = worldY - player.getWorldY() + Player.PLAYER_SCREEN_Y;
 
+        BufferedImage image = getCurrentSprite();
+
+        if (death) {
+            if (deathCounter % 2 == 1) {
+                g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
+            } else {
+                g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f));
+            }
+        }
+
+
+        if (TYPE == TYPE_MOB && hpDrawn < GamePanel.TILE_SIZE && !(health <= 0)) {
+            g2D.setColor(Color.BLACK);
+            g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            g2D.fillRect(screenX - 1, screenY + GamePanel.TILE_SIZE, GamePanel.TILE_SIZE + 2, GamePanel.TILE_SIZE / 5);
+            g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+
+            g2D.setColor(Color.RED);
+            g2D.fillRect(screenX, screenY + GamePanel.TILE_SIZE, (int)hpDrawn, GamePanel.TILE_SIZE / 5);
+
+        }
+
+        // the actual draw!
+        g2D.drawImage(image, screenX, screenY, null);
+    }
+
+    private BufferedImage getCurrentSprite() {
         BufferedImage image = null;
 
         // switch to decide which sprite is being displayed
@@ -352,16 +385,7 @@ public class Entity {
                 }
             }
         }
-
-        if (death) {
-            if (deathCounter % 2 == 1) {
-                g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
-            } else {
-                g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f));
-            }
-        }
-        // the actual draw!
-        g2D.drawImage(image, screenX, screenY, null);
+        return image;
     }
 
     // made this a method so its easier to read

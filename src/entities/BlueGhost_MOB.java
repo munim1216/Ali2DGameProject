@@ -1,5 +1,7 @@
 package entities;
 
+import main.GamePanel;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
@@ -15,6 +17,9 @@ public class BlueGhost_MOB extends Entity {
         direction = "down";
         speed = 2;
         health = 10;
+
+        hpDrawn = GamePanel.TILE_SIZE;
+        sizeOfOneHP = hpDrawn / health;
 
         this.worldX = worldX;
         this.worldY = worldY;

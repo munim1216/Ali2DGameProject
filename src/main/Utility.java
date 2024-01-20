@@ -21,6 +21,7 @@ public class Utility {
     }
 
     public static BufferedImage scale(BufferedImage image) {
+        // instead of having to scale in the draw methods they are scaled to the correct size once
         BufferedImage scaledImage = new BufferedImage(GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, image.getType());
         Graphics2D g2D = scaledImage.createGraphics();
         g2D.drawImage(image, 0,0, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
@@ -28,6 +29,7 @@ public class Utility {
         return scaledImage;
     }
 
+    // so only things in frame are rendered and updated
     public static boolean notOutOfBounds(SuperInteractable interactable, Player player) {
         return (interactable.getWorldX() + GamePanel.TILE_SIZE > player.getWorldX() - Player.PLAYER_SCREEN_X ) && (interactable.getWorldX() - GamePanel.TILE_SIZE  < player.getWorldX() + Player.PLAYER_SCREEN_X) &&
                 (interactable.getWorldY() + GamePanel.TILE_SIZE  > player.getWorldY() - Player.PLAYER_SCREEN_Y) && (interactable.getWorldY() - GamePanel.TILE_SIZE  < player.getWorldY() + Player.PLAYER_SCREEN_Y);
