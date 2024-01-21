@@ -10,13 +10,14 @@ import java.io.IOException;
 public class UI {
     GamePanel gp;
     private final int boxX;
-    private final int width;
+    private final int boxWidth;
     private final int boxY;
-    private final int height;
+    private final int boxHeight;
     private final int textX;
     private final int textY;
     private final int heartX;
     private final int heartY;
+    private final int invX, invY, invWidth, invHeight;
     private Color opaqueBlack;
     private String nextDialogue;
     private Font titleFont;
@@ -61,14 +62,17 @@ public class UI {
 
         boxX = GamePanel.TILE_SIZE * 2;
         boxY = GamePanel.TILE_SIZE / 2;
-        width = GamePanel.TILE_SIZE * 12;
-        height = GamePanel.TILE_SIZE * 4;
+        boxWidth = GamePanel.TILE_SIZE * 12;
+        boxHeight = GamePanel.TILE_SIZE * 4;
         opaqueBlack = new Color(0,0,0,200);
 
         textX = boxX + GamePanel.TILE_SIZE / 2;
         textY = boxY + GamePanel.TILE_SIZE;
 
-
+        invX = GamePanel.TILE_SIZE * 2;
+        invY = GamePanel.TILE_SIZE;
+        invWidth = GamePanel.TILE_SIZE * 5;
+        invHeight = GamePanel.TILE_SIZE * 10;
     }
 
     public int getCommandNum() {
@@ -104,7 +108,7 @@ public class UI {
     public void drawEvent(Graphics2D g2D, Event event) {
         int x = textX;
         int y = textY;
-        drawBox(g2D);
+        drawBox(g2D, boxX, boxY, boxWidth, boxHeight);
         g2D.setFont(npcFont.deriveFont(30f));
 
         for (String line : event.getDialogue().split("\n")) {
@@ -134,7 +138,7 @@ public class UI {
 
 
     public void drawDialouge(Graphics2D g2D) {
-       drawBox(g2D);
+       drawBox(g2D,boxX, boxY, boxWidth, boxHeight);
 
         // words
         g2D.setFont(npcFont.deriveFont(24f));
@@ -247,20 +251,40 @@ public class UI {
         commandNum = 0;
     }
 
+    public void drawInventory(Graphics2D g2D) {
+        drawBox(g2D, invX, invY, invWidth, invHeight);
+        int textX = invX + 20;
+        int textY = invY + GamePanel.TILE_SIZE;
+        int lineHeight = 35;
+
+        g2D.setFont(npcFont);
+        g2D.drawString("Level:", textX, textY);
+        textY += lineHeight;
+        g2D.drawString("Health:", textX, textY);
+
+        textY = invY + GamePanel.TILE_SIZE;
+        String text = "1"; // placeholder value bc levels havent been implemented
+        g2D.drawString(text, invWidth - stringScreenLength(text, g2D), textY);
+        textY += lineHeight;
+        text = "" + player.getHealth();
+        g2D.drawString(text, invWidth - stringScreenLength(text, g2D), textY);
+
+
+    }
     private int getXForCenteredText(String text, Graphics2D g2D) {
         int length = (int) g2D.getFontMetrics().getStringBounds(text, g2D).getWidth();
         return GamePanel.SCREEN_WIDTH / 2 - length / 2;
     }
 
-    private void drawBox(Graphics2D g2D) {
+    private void drawBox(Graphics2D g2D, int x, int y, int width, int height) {
         // actual rectangle
         g2D.setColor(opaqueBlack);
-        g2D.fillRoundRect(boxX, boxY, width, height, 35, 35) ;
+        g2D.fillRoundRect(x, y, width, height, 35, 35) ;
 
         // outline
         g2D.setStroke(new BasicStroke(5));
         g2D.setColor(Color.WHITE);
-        g2D.drawRoundRect(boxX + 5, boxY + 5, width - 10, height - 10, 25, 25) ;
+        g2D.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25) ;
     }
 
     private int stringScreenLength(String text, Graphics2D g2D) {

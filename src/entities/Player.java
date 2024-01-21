@@ -238,7 +238,7 @@ public class Player extends Entity {
     public String getDirection() {
         return direction;
     }
-    private void interactCheck() { // rework into interact check?
+    private void interactCheck() {
         for (int i = 0; SuperInteractable.getInScreen()[i] != null; i++) {
             if (SuperInteractable.getInScreen()[i].isCanInteract()) {
                 this.solidArea.x = this.solidArea.x + this.worldX;

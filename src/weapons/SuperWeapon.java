@@ -2,6 +2,7 @@ package weapons;
 import entities.AssetSetter;
 import entities.Entity;
 import entities.Player;
+import main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -28,6 +29,7 @@ public class SuperWeapon {
     protected BufferedImage swingLeft1, swingLeft2, swingLeft3, swingLeft4;
     protected BufferedImage swingRight1, swingRight2, swingRight3, swingRight4;
     protected int spriteNum;
+    protected static GamePanel gp;
     // weapon damage self-explanatory
     protected int damage;
     // needs access to determine collision
@@ -56,10 +58,11 @@ public class SuperWeapon {
         nextMob = 0;
         mobsHitInSwing = new Entity[3];
     }
-    public static void setPlayerAndArrays(Player player) {
+    public static void setNeededStaticVariables(Player player, GamePanel gp) {
         SuperWeapon.player = player;
         SuperWeapon.NPCs = AssetSetter.getNPCs();
         SuperWeapon.Mobs = AssetSetter.getMobs();
+        SuperWeapon.gp = gp;
     }
     public int getDamage() {
         return damage;
@@ -134,7 +137,9 @@ public class SuperWeapon {
     }
 
     public void draw(Graphics2D g2D) {
-        spriteCounter++;
+        if (gp.getGameState() == GamePanel.PLAY_STATE) {
+            spriteCounter++;
+        }
         if (spriteCounter > 2) {
             spriteNum++;
             spriteCounter = 0;

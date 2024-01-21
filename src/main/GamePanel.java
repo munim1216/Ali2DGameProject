@@ -28,6 +28,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int FPS = 60;
     // CURRENT STATE OF GAME
     public static int gameState;
+    public static final int STATS_STATE = 7;
     public static final int RESULT_STATE = 6;
     public static final int CHOICE_STATE = 5;
     public static final int EVENT_STATE = 4;
@@ -88,7 +89,7 @@ public class GamePanel extends JPanel implements Runnable {
         AssetSetter.createMobs();
 
         // class that manages all weapons needs a few things to create its static variables
-        SuperWeapon.setPlayerAndArrays(player);
+        SuperWeapon.setNeededStaticVariables(player, this);
 
         // to draw the tiles
         tileManager = new TileManager(this, player);
@@ -151,6 +152,7 @@ public class GamePanel extends JPanel implements Runnable {
             case PAUSE_STATE -> pauseState(g2D);
             case TITLE_SCREEN -> titleScreenState(g2D);
             case EVENT_STATE, CHOICE_STATE, RESULT_STATE -> eventState(g2D);
+            case STATS_STATE -> statsState(g2D);
 
             default -> throw new UnsupportedOperationException("HEY YOU'RE NOT SUPPOSED TO BE IN THIS STATE.");
         }
@@ -190,6 +192,9 @@ public class GamePanel extends JPanel implements Runnable {
         gameState = PLAY_STATE;
         eventHandler.resetEvent();
     }
+    public void lookAtStats() {
+        gameState = STATS_STATE;
+    }
     // beginning the game after clicking start
     public void startGame() {
         gameState = PLAY_STATE;
@@ -202,7 +207,7 @@ public class GamePanel extends JPanel implements Runnable {
     private void update() {
         // actually keeps the game runnning!
         player.playerUpdate();
-        if (player.isSwing() || player.getWeapon().isMidSwing()) {
+        if (player.isSwing() || player.getWeapon().isMidSwing() && gameState == PLAY_STATE) {
             player.getWeapon().update();
         }
         SuperInteractable.interactablesInFrame();
@@ -230,7 +235,17 @@ public class GamePanel extends JPanel implements Runnable {
         player.draw(g2D);
 
     }
-
+    private void statsState(Graphics2D g2D) {
+        tileManager.draw(g2D);
+        SuperInteractable.draw(g2D);
+        AssetSetter.draw(g2D);
+        UI.draw(g2D);
+        UI.drawInventory(g2D);
+        if (player.isSwing() || player.getWeapon().isMidSwing()) {
+            player.getWeapon().draw(g2D);
+        }
+        player.draw(g2D);
+    }
     private void pauseState(Graphics2D g2D) {
         UI.drawPauseMenu(g2D);
     }

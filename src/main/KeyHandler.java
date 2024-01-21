@@ -81,6 +81,7 @@ public class KeyHandler implements KeyListener {
                 case KeyEvent.VK_DOWN -> downKeyPressed = true;
                 case KeyEvent.VK_LEFT -> leftKeyPressed = true;
                 case KeyEvent.VK_RIGHT -> rightKeyPressed = true;
+                case KeyEvent.VK_E -> gp.lookAtStats();
             }
         } else if (currentGameState == GamePanel.PAUSE_STATE) {
             if (code == KeyEvent.VK_P) {
@@ -103,6 +104,10 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_F) {
                 gp.endEvent();
             }
+        } else if (currentGameState == GamePanel.STATS_STATE) {
+            if (code == KeyEvent.VK_E) {
+                gp.unpause();
+            }
         }
     }
 
@@ -118,6 +123,7 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_DOWN -> downKeyPressed = false;
             case KeyEvent.VK_LEFT -> leftKeyPressed = false;
             case KeyEvent.VK_RIGHT -> rightKeyPressed = false;
+            case KeyEvent.VK_F -> fKeyPressed = false;
         }
     }
 

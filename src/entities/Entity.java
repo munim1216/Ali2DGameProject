@@ -349,6 +349,10 @@ public class Entity {
 
         // the actual draw!
         g2D.drawImage(image, screenX, screenY, null);
+
+        if (death) {
+            g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        }
     }
 
     private BufferedImage getCurrentSprite() {
