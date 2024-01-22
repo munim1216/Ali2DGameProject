@@ -215,15 +215,13 @@ public class Entity {
         SuperInteractable[] inScreen = SuperInteractable.getInScreen();
         for (int i = 0; inScreen[i] != null; i++) {
             if (SuperInteractable.getInScreen()[i].isCollision()) {
-            // its actual x in the world, not the hitbox
-            this.solidArea.x = this.solidArea.x + this.worldX;
-            this.solidArea.y = this.solidArea.y + this.worldY;
+                // its actual x in the world, not the hitbox
+                this.solidArea.x = this.solidArea.x + this.worldX;
+                this.solidArea.y = this.solidArea.y + this.worldY;
 
-            // actual x in world, not hitbox
-            inScreen[i].getSolidArea().x = inScreen[i].getSolidArea().x + inScreen[i].getWorldX();
-            inScreen[i].getSolidArea().y = inScreen[i].getSolidArea().y + inScreen[i].getWorldY();
-
-            // switch is only checked if collision is true
+                // actual x in world, not hitbox
+                inScreen[i].getSolidArea().x = inScreen[i].getSolidArea().x + inScreen[i].getWorldX();
+                inScreen[i].getSolidArea().y = inScreen[i].getSolidArea().y + inScreen[i].getWorldY();
 
                 // after adjusting where the hit boxes of both the entity and interactable, it tests if the rectangles that represent their hit boxes
                 // would intersect after moving in the direction they're trying to move in. (thanks to the handy method intersect from rectangle class)
