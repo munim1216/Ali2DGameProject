@@ -78,9 +78,86 @@ public class Entity {
         return health;
     }
 
+    public boolean isAnimationOver() {
+        return animationOver;
+    }
+
+    public Rectangle getSolidArea() {
+        return solidArea;
+    }
+
+    public void loseHP(int amountLost) {
+        // method utilized to lower health
+        health -= amountLost;
+        if (TYPE == TYPE_MOB) {
+            hpDrawn = health * sizeOfOneHP;
+        }
+        invincible = true;
+    }
+    public static void reset(SuperWeapon weapon, Entity target) {
+        // the method utilized to reset the hitboxes when checking if a weapon and an entity's hitboxes intersect
+        weapon.decideHitbox();
+        target.solidArea.x = target.rectangleDefaultX;
+        target.solidArea.y = target.rectangleDefaultY;
+    }
+    // the method that is called every 1/60 of a second so that all the entities are always updated
+    public void update() {
+        // if you aren't playing everything else should be paused
+        if (gp.getGameState() != GamePanel.PLAY_STATE) {
+            return;
+        }
+        // don't really need to update something outside of frame
+        if (!Utility.notOutOfBounds(this, player)) {
+            return;
+        }
+
+        // the method to decide a npc/mob's action
+        setAction();
+
+        // can only move if there isnt a collision
+        if (collisionCheck()) {
+            switch (direction) {
+                case "up" -> worldY -= speed;
+                case "down" -> worldY += speed;
+                case "right" -> worldX += speed;
+                case "left" -> worldX -= speed;
+            }
+        }
+
+        // so the sprites don't rapidly change
+        spriteCounter++;
+        if (spriteCounter > 12) {
+            alternateSprite();
+            spriteCounter = 0;
+        }
+        if (invincible) {
+            iframes++;
+            if (iframes >= 60) {
+                invincible = false;
+            }
+        }
+    }
+
+    public int getWorldX() {
+        return worldX;
+    }
+    public int getWorldY() {
+        return worldY;
+    }
+    protected int getType() {
+        return TYPE;
+    }
+    protected boolean notInvincible() {
+        return !invincible;
+    }
+    protected int getDamage() {
+        return damage;
+    }
+
     protected boolean collisionCheck() {
         return mobCollisionCheck() && tileCollisionCheck() && interactableCollisionCheck() && npcCollisionCheck() && playerCollisionCheck(); // combination of all my collision checks
     }
+
     protected boolean tileCollisionCheck() {
         // creates variables used to determine which rows and col will be checked
         int leftWorldX = worldX + solidArea.x;
@@ -167,6 +244,7 @@ public class Entity {
         }
         return true;
     }
+
     protected boolean npcCollisionCheck() {
         for (int i = 0; NPCs[i] != null; i++) {
             if (NPCs[i] != this) {
@@ -234,31 +312,7 @@ public class Entity {
         }
         return true;
     }
-    protected int getType() {
-        return TYPE;
-    }
-    protected boolean notInvincible() {
-        return !invincible;
-    }
-    protected int getDamage() {
-        return damage;
-    }
 
-    public boolean isAnimationOver() {
-        return animationOver;
-    }
-
-    public Rectangle getSolidArea() {
-        return solidArea;
-    }
-
-    public void loseHP(int amountLost) {
-        health -= amountLost;
-        if (TYPE == TYPE_MOB) {
-            hpDrawn = health * sizeOfOneHP;
-        }
-        invincible = true;
-    }
     protected boolean playerCollisionCheck() {
         if (this == player) {
             return true;
@@ -288,14 +342,18 @@ public class Entity {
         reset(this, player);
         return true;
     }
+
     protected void death() {
+        // method to determine when to start and end death animation
         death = true;
         deathCounter++;
         if (deathCounter > 40) {
             animationOver = true;
         }
     }
+
     protected void reset(Entity entity, SuperInteractable interactable) {
+        // method to reset hitboxes to their default state when checking if an entity and an interactable would collide
         entity.solidArea.x = entity.rectangleDefaultX;
         entity.solidArea.y = entity.rectangleDefaultY;
         interactable.getSolidArea().x = interactable.DEFAULT_RECTANGLE_X;
@@ -303,13 +361,9 @@ public class Entity {
     }
 
     protected void reset(Entity entity, Entity target) {
+        // method to reset hitboxes to their default state when checking if an entity and another entity would collide
         entity.solidArea.x = entity.rectangleDefaultX;
         entity.solidArea.y = entity.rectangleDefaultY;
-        target.solidArea.x = target.rectangleDefaultX;
-        target.solidArea.y = target.rectangleDefaultY;
-    }
-    public static void reset(SuperWeapon weapon, Entity target) {
-        weapon.decideHitbox();
         target.solidArea.x = target.rectangleDefaultX;
         target.solidArea.y = target.rectangleDefaultY;
     }
@@ -327,6 +381,7 @@ public class Entity {
 
         BufferedImage image = getCurrentSprite();
 
+        // the code to create the death effect
         if (death) {
             if (deathCounter % 2 == 1) {
                 g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
@@ -335,7 +390,7 @@ public class Entity {
             }
         }
 
-
+        // code to create the healthbar
         if (TYPE == TYPE_MOB && hpDrawn < GamePanel.TILE_SIZE && !(health <= 0)) {
             g2D.setColor(Color.BLACK);
             g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
@@ -355,6 +410,41 @@ public class Entity {
         }
     }
 
+
+    // made this a method so its easier to read
+    protected void alternateSprite() {
+        if (currentSprite == 1) {
+            currentSprite = 2;
+        } else {
+            currentSprite = 1;
+        }
+    }
+
+    // for npcs and mobs, their default behavior, there will be more advanced ones in the future (hopefully)
+    protected void setAction() {
+        actionLockCounter++;
+        if (actionLockCounter >= 120) {
+            switch ((int) (Math.random() * 4) + 1) {
+                case 1 -> direction = "up";
+                case 2 -> direction = "down";
+                case 3 -> direction = "right";
+                case 4 -> direction = "left";
+            }
+            actionLockCounter = 0;
+        }
+    }
+
+    // method to return the string that is needed to be drawn on the screen when you're in dialogue
+    protected String speak() {
+        String speechBox;
+        if (nextDialogue >= dialogue.length) {
+            nextDialogue = 0;
+        }
+        speechBox = dialogue[nextDialogue];
+        nextDialogue++;
+
+        return speechBox;
+    }
     private BufferedImage getCurrentSprite() {
         BufferedImage image = null;
 
@@ -392,84 +482,4 @@ public class Entity {
         return image;
     }
 
-    // made this a method so its easier to read
-    protected void alternateSprite() {
-        if (currentSprite == 1) {
-            currentSprite = 2;
-        } else {
-            currentSprite = 1;
-        }
-    }
-
-    // for npcs and mobs, their default behavior, there will be more advanced ones in the future (hopefully)
-    protected void setAction() {
-        actionLockCounter++;
-        if (actionLockCounter >= 120) {
-            switch ((int) (Math.random() * 4) + 1) {
-                case 1 -> direction = "up";
-                case 2 -> direction = "down";
-                case 3 -> direction = "right";
-                case 4 -> direction = "left";
-            }
-            actionLockCounter = 0;
-        }
-    }
-
-    // method to return the string that is needed to be drawn on the screen when you're in dialogue
-    protected String speak() {
-        String speechBox;
-        if (nextDialogue >= dialogue.length) {
-            nextDialogue = 0;
-        }
-        speechBox = dialogue[nextDialogue];
-        nextDialogue++;
-
-        return speechBox;
-    }
-
-    // the method that is called every 1/60 of a second so that all the entities are always updated
-    public void update() {
-        // if you aren't playing everything else should be paused
-        if (gp.getGameState() != GamePanel.PLAY_STATE) {
-            return;
-        }
-        // don't really need to update something outside of frame
-        if (!Utility.notOutOfBounds(this, player)) {
-            return;
-        }
-
-        // the method to decide a npc/mob's action
-        setAction();
-
-        // can only move if there isnt a collision
-        if (collisionCheck()) {
-            switch (direction) {
-                case "up" -> worldY -= speed;
-                case "down" -> worldY += speed;
-                case "right" -> worldX += speed;
-                case "left" -> worldX -= speed;
-            }
-        }
-
-        // so the sprites don't rapidly change
-        spriteCounter++;
-        if (spriteCounter > 12) {
-            alternateSprite();
-            spriteCounter = 0;
-        }
-        if (invincible) {
-            iframes++;
-            if (iframes >= 60) {
-                invincible = false;
-            }
-        }
-    }
-
-    public int getWorldX() {
-        return worldX;
-    }
-
-    public int getWorldY() {
-        return worldY;
-    }
 }

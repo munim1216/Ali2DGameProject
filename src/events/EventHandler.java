@@ -28,6 +28,7 @@ public class EventHandler {
         events = new Event[] {new Spikes_Event()};
     }
 
+    // to ensure the events arent always happening, just a chance of happening
     public void tryForEvent() {
         if (!eventHappening && ((Math.random() * 11) + 1)  <  3) {
             currentEvent = pickEvent();
@@ -52,6 +53,7 @@ public class EventHandler {
         return worldY;
     }
 
+    // so when u get the same event again it isnt already done
     public void resetEvent() {
         currentEvent.reset();
         currentEvent = null;
@@ -63,6 +65,7 @@ public class EventHandler {
 
     private Event pickEvent() {
         //int eventNum = (int) ((Math.random() * 2) + 1);
+        // currently always returns events[0] bc only one event has been implemented
         return events[0];
     }
 }

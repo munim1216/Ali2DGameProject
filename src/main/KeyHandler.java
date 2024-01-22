@@ -64,12 +64,14 @@ public class KeyHandler implements KeyListener {
 
         // checks which kinda state the game is in
         if (currentGameState == GamePanel.TITLE_SCREEN) {
+            // decides what to do when the keys s w and f are clicked in the title screen
             switch (code) {
                 case KeyEvent.VK_S -> gp.UI.incrementCommandNum(gp.UI.QUIT);
                 case KeyEvent.VK_W -> gp.UI.decrementCommandNum(gp.UI.START);
                 case KeyEvent.VK_F -> gp.UI.titleMenuOptions();
             }
         } else if (currentGameState == GamePanel.PLAY_STATE) {
+            // decides what to do when any of the below keys are pressed in the play state
             switch (code) {
                 case KeyEvent.VK_P -> gp.pause();
                 case KeyEvent.VK_W -> wKeyPressed = true;
@@ -84,27 +86,33 @@ public class KeyHandler implements KeyListener {
                 case KeyEvent.VK_E -> gp.lookAtStats();
             }
         } else if (currentGameState == GamePanel.PAUSE_STATE) {
+            // unpauses the program
             if (code == KeyEvent.VK_P) {
                 gp.unpause();
             }
         } else if (currentGameState == GamePanel.DIAL0GUE_STATE) {
+            // unpauses the program after dialogue
             if (code == KeyEvent.VK_F) {
                 gp.unpause();
             }
         } else if (currentGameState == GamePanel.EVENT_STATE) {
+            // an event will keep going till its over, so it'll only bring u to the next dialogue
             if (code == KeyEvent.VK_F) {
                 gp.nextDialogue();
             }
         } else if (currentGameState == GamePanel.CHOICE_STATE) {
+            // f is the key to choose ur choice, and because there will only be 2 w and s will do the same thing pretty much
             switch (code) {
                 case KeyEvent.VK_W, KeyEvent.VK_S -> gp.UI.alternateCommandNum();
                 case KeyEvent.VK_F -> gp.processEvent();
             }
         } else if (currentGameState == GamePanel.RESULT_STATE) {
+            // to let the player click f to unpause the game
             if (code == KeyEvent.VK_F) {
                 gp.endEvent();
             }
         } else if (currentGameState == GamePanel.STATS_STATE) {
+            // to let the player out of their stats
             if (code == KeyEvent.VK_E) {
                 gp.unpause();
             }

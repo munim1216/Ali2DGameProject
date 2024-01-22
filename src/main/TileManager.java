@@ -24,6 +24,7 @@ public class TileManager {
         mapTileNum = new int[GamePanel.MAX_WORLD_COL][GamePanel.MAX_WORLD_ROW];
 
         try {
+            // tiles 0-9 are null because it makes the txt file MUCH easier to read when they're all the same num of digits
             BufferedImage image = ImageIO.read(new File("resources/sprites/Tiles/cave_1.png"));
             tiles[10] = new Tile(Utility.scale(image), false);
             image = ImageIO.read(new File("resources/sprites/Tiles/dark_gray_brick_1.png"));
@@ -103,7 +104,7 @@ public class TileManager {
             int screenY = worldY - player.getWorldY() + Player.PLAYER_SCREEN_Y;
 
             if (notOutOfBounds(worldX, worldY)) {
-                g2D.drawImage(image, screenX, screenY,null); // midst of editing
+                g2D.drawImage(image, screenX, screenY,null);
             }
             worldCol++;
 
@@ -116,7 +117,8 @@ public class TileManager {
 
     private void loadMap() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(new File("resources/txt_files/maps/map2.txt")));
+            // buffered reader created so that we can use the readLine() method and fill the mapTileNum 2d array with what tile goes where
+            BufferedReader br = new BufferedReader(new FileReader("resources/txt_files/maps/map2.txt"));
 
             int col = 0;
             int row = 0;
@@ -143,6 +145,7 @@ public class TileManager {
         }
     }
 
+    // method ensuring only things within the player's sight are drawn
     private boolean notOutOfBounds(int worldX, int worldY) {
         return (worldX + GamePanel.TILE_SIZE > player.getWorldX() - Player.PLAYER_SCREEN_X ) && (worldX - GamePanel.TILE_SIZE  < player.getWorldX() + Player.PLAYER_SCREEN_X) &&
                 (worldY + GamePanel.TILE_SIZE  > player.getWorldY() - Player.PLAYER_SCREEN_Y) && (worldY - GamePanel.TILE_SIZE  < player.getWorldY() + Player.PLAYER_SCREEN_Y);

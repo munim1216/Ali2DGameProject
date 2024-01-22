@@ -10,6 +10,7 @@ public class Sound {
     private File[] sounds = new File[10];
 
     public Sound(int type) {
+        // there exists 2 types of sound objects so when u pause one type of sound the other doens't pause, ex: playing the key pickup noise which causes the bg music to stop
         if (type == 0) {
             sounds[0] = new File("resources/audio/BackgroundMusic_1.wav");
             sounds[1] = new File("resources/audio/green.wav");

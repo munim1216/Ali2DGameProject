@@ -110,11 +110,7 @@ public class GamePanel extends JPanel implements Runnable {
         MUSIC.loop();
     }
 
-    private void startGameThread() {
-        // makes sure the game only updates and redraws every 1/60 of a second
-        gameThread = new Thread(this);
-        gameThread.start();
-    }
+
 
     public void run() { // stupid code won't let me override it and reduce visibility
         // variables needed to ensure its locked at 60 fps and below
@@ -203,7 +199,11 @@ public class GamePanel extends JPanel implements Runnable {
         MUSIC.play();
         MUSIC.loop();
     }
-
+    public void processEvent() {
+        eventHandler.processEvent(UI.getCommandNum());
+        eventHandler.getCurrentEvent().results(player);
+        gameState = RESULT_STATE;
+    }
     private void update() {
         // actually keeps the game runnning!
         player.playerUpdate();
@@ -223,12 +223,17 @@ public class GamePanel extends JPanel implements Runnable {
         window.pack();
         window.setVisible(true);
     }
-
+    private void startGameThread() {
+        // makes sure the game only updates and redraws every 1/60 of a second
+        gameThread = new Thread(this);
+        gameThread.start();
+    }
+    // methods below this all are to deal with what to draw on the screen in a certain state
     private void playState(Graphics2D g2D) {
         tileManager.draw(g2D);
         SuperInteractable.draw(g2D);
         AssetSetter.draw(g2D);
-        UI.draw(g2D);
+        UI.drawHealth(g2D);
         if (player.isSwing() || player.getWeapon().isMidSwing()) {
             player.getWeapon().draw(g2D);
         }
@@ -239,7 +244,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileManager.draw(g2D);
         SuperInteractable.draw(g2D);
         AssetSetter.draw(g2D);
-        UI.draw(g2D);
+        UI.drawHealth(g2D);
         UI.drawInventory(g2D);
         if (player.isSwing() || player.getWeapon().isMidSwing()) {
             player.getWeapon().draw(g2D);
@@ -249,16 +254,14 @@ public class GamePanel extends JPanel implements Runnable {
     private void pauseState(Graphics2D g2D) {
         UI.drawPauseMenu(g2D);
     }
-
     private void dialogueState(Graphics2D g2D) {
         tileManager.draw(g2D);
         SuperInteractable.draw(g2D);
         AssetSetter.draw(g2D);
-        UI.draw(g2D);
+        UI.drawHealth(g2D);
         UI.drawDialouge(g2D);
         player.draw(g2D);
     }
-
     private void titleScreenState(Graphics2D g2D) {
         UI.drawTitleScreen(g2D);
     }
@@ -266,14 +269,8 @@ public class GamePanel extends JPanel implements Runnable {
         tileManager.draw(g2D);
         SuperInteractable.draw(g2D);
         AssetSetter.draw(g2D);
-        UI.draw(g2D);
+        UI.drawHealth(g2D);
         UI.drawEvent(g2D, eventHandler.getCurrentEvent());
         player.draw(g2D);
-    }
-
-    public void processEvent() {
-        eventHandler.processEvent(UI.getCommandNum());
-        eventHandler.getCurrentEvent().results(player);
-        gameState = RESULT_STATE;
     }
 }

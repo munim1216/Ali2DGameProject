@@ -55,7 +55,6 @@ public class UI {
             e.printStackTrace();
         }
 
-        // TITLE SCREEN
         commandNum = START;
 
         nextDialogue = "";
@@ -79,11 +78,13 @@ public class UI {
         return commandNum;
     }
 
-    public void draw(Graphics2D g2D) {
+    public void drawHealth(Graphics2D g2D) {
+        // used to display the player's hp
         int hp = player.getHealth();
         int x = heartX;
         int y = heartY;
 
+        // 4 would be replaced with a variable representing the max num of current hearts if i had implemented a way of increasing ur max life
         for (int i = 1; i < 4; i++) {
             if (hp - 2 >= 0) {
                 g2D.drawImage(full_shield, x, y, null);
@@ -111,6 +112,7 @@ public class UI {
         drawBox(g2D, boxX, boxY, boxWidth, boxHeight);
         g2D.setFont(npcFont.deriveFont(30f));
 
+        // the regex ensures the text can be drawn on multiple lines instead of one big one
         for (String line : event.getDialogue().split("\n")) {
             g2D.drawString(line, x, y);
             y += 35;
@@ -271,11 +273,15 @@ public class UI {
 
 
     }
+
+    // mainly used for title screen centered text
     private int getXForCenteredText(String text, Graphics2D g2D) {
         int length = (int) g2D.getFontMetrics().getStringBounds(text, g2D).getWidth();
         return GamePanel.SCREEN_WIDTH / 2 - length / 2;
     }
 
+
+    // method that helps drawing any boxes
     private void drawBox(Graphics2D g2D, int x, int y, int width, int height) {
         // actual rectangle
         g2D.setColor(opaqueBlack);
@@ -287,6 +293,7 @@ public class UI {
         g2D.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25) ;
     }
 
+    // to get the length of a string if it was printed in a specific font
     private int stringScreenLength(String text, Graphics2D g2D) {
         return (int) g2D.getFontMetrics().getStringBounds(text, g2D).getWidth();
     }

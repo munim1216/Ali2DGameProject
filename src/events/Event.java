@@ -1,7 +1,6 @@
 package events;
 import entities.Player;
 import main.GamePanel;
-import main.UI;
 
 public class Event {
     protected String[] dialogue;
@@ -28,6 +27,7 @@ public class Event {
     }
 
     public void incrementDialogue() {
+        // to ensure an array out of bounds error doesnt happen
         nextDialogue++;
         if (nextDialogue >= dialogue.length) {
             nextDialogue = dialogue.length - 1;
@@ -42,6 +42,8 @@ public class Event {
     public String[] getChoices() {
         return choices;
     }
+
+    // empty methods created so subclasses can override it
     protected void processEvent(int choice) {
 
     }

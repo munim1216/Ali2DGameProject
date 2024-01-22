@@ -25,8 +25,6 @@ public class Player extends Entity {
     // PLAYER INVENTORY
     private SuperInteractable[] itemList;
     private int nextItem;
-    private SuperInteractable addToItemList;
-    private int numKeys;
     // PLAYER HEALTH
     public final int FULL_SHIELD, HALF_SHIELD, EMPTY_SHIELD;
     // UI
@@ -75,7 +73,6 @@ public class Player extends Entity {
         this.keyH = keyH;
 
         itemList = new SuperInteractable[100];
-        numKeys = 0;
 
         try {
             up1 = ImageIO.read(new File("resources/sprites/ReneeSprite/reneeUp1.png")); // credit: poke
@@ -95,10 +92,6 @@ public class Player extends Entity {
         this.UI = ui;
     }
 
-    public int getNumKeys() {
-        return numKeys;
-    }
-
     public SuperWeapon getWeapon() {
         return weapon;
     }
@@ -107,6 +100,7 @@ public class Player extends Entity {
     }
 
     public void playerUpdate() {
+        // if statement on whether to start dialogue or not
         if (keyH.isFKeyPressed() && !npcCollisionCheck()) {
             if (gp.getGameState() == GamePanel.PLAY_STATE) {
                 gp.startDialouge();
@@ -116,6 +110,8 @@ public class Player extends Entity {
                 gp.unpause();
             }
         }
+
+        // if statement to handle player movement
         if (GamePanel.gameState == GamePanel.PLAY_STATE) {
             if (keyH.isAMovementKeyPressed()) {
                 spriteCounter++;
@@ -151,6 +147,7 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
 
+            // to check if they're trying to fight or not
             if (keyH.isACombatKeyPressed()) {
                 cooldown--;
                 if (cooldown <= 0) {
@@ -175,7 +172,7 @@ public class Player extends Entity {
             }
         }
 
-
+        // player i frames
         if (invincible) {
             iframes++;
             if (iframes >= 60) {
@@ -238,30 +235,7 @@ public class Player extends Entity {
     public String getDirection() {
         return direction;
     }
-    private void interactCheck() {
-        for (int i = 0; SuperInteractable.getInScreen()[i] != null; i++) {
-            if (SuperInteractable.getInScreen()[i].isCanInteract()) {
-                this.solidArea.x = this.solidArea.x + this.worldX;
-                this.solidArea.y = this.solidArea.y + this.worldY;
-
-                SuperInteractable.getInScreen()[i].getSolidArea().x = SuperInteractable.getInScreen()[i].getSolidArea().x + SuperInteractable.getInScreen()[i].getWorldX();
-                SuperInteractable.getInScreen()[i].getSolidArea().y = SuperInteractable.getInScreen()[i].getSolidArea().y + SuperInteractable.getInScreen()[i].getWorldY();
-
-                switch (direction) {
-                    case "up" -> this.solidArea.y -= speed;
-                    case "down" -> this.solidArea.y += speed;
-                    case "left" -> this.solidArea.x -= speed;
-                    case "right" -> this.solidArea.x += speed;
-                }
-                if (SuperInteractable.getInScreen()[i].getSolidArea().intersects(this.solidArea)) {
-                    reset(this, SuperInteractable.getInScreen()[i]);
-                    interact(SuperInteractable.getInScreen()[i]);
-                }
-                reset(this, SuperInteractable.getInScreen()[i]);
-            }
-        }
-    }
-    protected void eventHandlerCollisionCheck() {
+    private void eventHandlerCollisionCheck() {
         // its actual x in the world, not the hitbox
         this.solidArea.x = this.solidArea.x + this.worldX;
         this.solidArea.y = this.solidArea.y + this.worldY;
@@ -282,12 +256,38 @@ public class Player extends Entity {
         }
         reset(this, eventHandler);
     }
+    private void interactCheck() {
+        // player only can interact with interactables
+        for (int i = 0; SuperInteractable.getInScreen()[i] != null; i++) {
+            if (SuperInteractable.getInScreen()[i].isCanInteract()) {
+                this.solidArea.x = this.solidArea.x + this.worldX;
+                this.solidArea.y = this.solidArea.y + this.worldY;
+
+                // chain of methods to modify the x and y of the interactable's hitboxes so it can check if the player would intersect them or nto
+                SuperInteractable.getInScreen()[i].getSolidArea().x = SuperInteractable.getInScreen()[i].getSolidArea().x + SuperInteractable.getInScreen()[i].getWorldX();
+                SuperInteractable.getInScreen()[i].getSolidArea().y = SuperInteractable.getInScreen()[i].getSolidArea().y + SuperInteractable.getInScreen()[i].getWorldY();
+
+                switch (direction) {
+                    case "up" -> this.solidArea.y -= speed;
+                    case "down" -> this.solidArea.y += speed;
+                    case "left" -> this.solidArea.x -= speed;
+                    case "right" -> this.solidArea.x += speed;
+                }
+                if (SuperInteractable.getInScreen()[i].getSolidArea().intersects(this.solidArea)) {
+                    reset(this, SuperInteractable.getInScreen()[i]);
+                    interact(SuperInteractable.getInScreen()[i]);
+                }
+                reset(this, SuperInteractable.getInScreen()[i]);
+            }
+        }
+    }
+
     private void interact(SuperInteractable interactable) {
+        // switch to decide what happens when picking up an interactable
         switch (interactable.getName()) {
             case "Key", "WingedBoot" -> pickUp(interactable);
             case "Chest", "Door" -> {
                 if (SuperInteractable.useItem(this, interactable)) {
-                    numKeys--;
                     Utility.reorderArr(itemList);
                     int newNextNum = 0;
                     while(itemList[newNextNum] != null) {
@@ -302,19 +302,18 @@ public class Player extends Entity {
 
 
     private void pickUp(SuperInteractable item) {
+        // adding the interactable to the player's inventory
         if (item == null || !item.isCanPickUp()) {
             return;
         }
         itemList[nextItem] = item;
-        if (item.getName().equals("Key")) {
-            numKeys++;
-        }
 
         nextItem++;
         SuperInteractable.pickUp(item);
     }
 
-    protected void reset(Entity entity, EventHandler eventHandler) {
+    private void reset(Entity entity, EventHandler eventHandler) {
+        // special reset method needed to ensure the player and event handler's hitboxes dont just infintely grow
         entity.solidArea.x = entity.rectangleDefaultX;
         entity.solidArea.y = entity.rectangleDefaultY;
         eventHandler.getSolidArea().x = eventHandler.rectangleDefaultX;

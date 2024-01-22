@@ -101,8 +101,6 @@ public class SuperWeapon {
             Mobs[i].getSolidArea().x = Mobs[i].getSolidArea().x + Mobs[i].getWorldX();
             Mobs[i].getSolidArea().y = Mobs[i].getSolidArea().y + Mobs[i].getWorldY();
 
-            // after adjusting where the hit boxes of both the entity and other entity, it tests if the rectangles that represent their hit boxes
-            // would intersect after moving in the direction they're trying to move in. (thanks to the handy method intersect from rectangle class)
             if (Mobs[i].getSolidArea().intersects(this.solidArea)) {
                 Entity.reset(this, Mobs[i]);
 
@@ -117,7 +115,6 @@ public class SuperWeapon {
                 if (!hitInSwing) {
                     Mobs[i].loseHP(this.damage);
                     mobsHitInSwing[nextMob] = Mobs[i];
-                    System.out.println("OUCHIE");// test code
                 }
             }
 
@@ -152,6 +149,7 @@ public class SuperWeapon {
         }
     }
 
+    // 4 sprite animations below to draw the correct sprite in order in the right direction, might've been smarter to do it by direction but no time to fix that now
     private void drawSpriteOne(Graphics2D g2D) {
         BufferedImage image = null;
         int x = Player.PLAYER_SCREEN_X;
